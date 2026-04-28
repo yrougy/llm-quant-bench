@@ -1,0 +1,146 @@
+[
+  {
+    "model": "Qwen3.5-9B",
+    "quant": "IQ4_NL",
+    "arc_chat": 0.94198,
+    "arc_chat_stderr": 0.006832,
+    "humaneval_plus_pass@1": 0.560976,
+    "humaneval_plus_pass@1_stderr": 0.038871
+  },
+  {
+    "model": "Qwen3.5-9B",
+    "quant": "IQ4_XS",
+    "arc_chat": 0.94198,
+    "arc_chat_stderr": 0.006832,
+    "humaneval_plus_pass@1": 0.573171,
+    "humaneval_plus_pass@1_stderr": 0.038741
+  },
+  {
+    "model": "Qwen3.5-9B",
+    "quant": "Q3_K_M",
+    "arc_chat": 0.933447,
+    "arc_chat_stderr": 0.007284,
+    "humaneval_plus_pass@1": 0.634146,
+    "humaneval_plus_pass@1_stderr": 0.037727
+  },
+  {
+    "model": "Qwen3.5-9B",
+    "quant": "Q3_K_S",
+    "arc_chat": 0.922355,
+    "arc_chat_stderr": 0.00782,
+    "humaneval_plus_pass@1": 0.573171,
+    "humaneval_plus_pass@1_stderr": 0.038741
+  },
+  {
+    "model": "Qwen3.5-9B",
+    "quant": "Q4_0",
+    "arc_chat": 0.937713,
+    "arc_chat_stderr": 0.007062,
+    "humaneval_plus_pass@1": 0.567073,
+    "humaneval_plus_pass@1_stderr": 0.038809
+  },
+  {
+    "model": "Qwen3.5-9B",
+    "quant": "Q4_1",
+    "arc_chat": 0.943686,
+    "arc_chat_stderr": 0.006737,
+    "humaneval_plus_pass@1": 0.597561,
+    "humaneval_plus_pass@1_stderr": 0.03841
+  },
+  {
+    "model": "Qwen3.5-9B",
+    "quant": "Q4_K_M",
+    "arc_chat": 0.945392,
+    "arc_chat_stderr": 0.00664,
+    "humaneval_plus_pass@1": 0.573171,
+    "humaneval_plus_pass@1_stderr": 0.038741
+  },
+  {
+    "model": "Qwen3.5-9B",
+    "quant": "Q4_K_S",
+    "arc_chat": 0.94198,
+    "arc_chat_stderr": 0.006832,
+    "humaneval_plus_pass@1": 0.573171,
+    "humaneval_plus_pass@1_stderr": 0.038741
+  },
+  {
+    "model": "Qwen3.5-9B",
+    "quant": "Q5_K_M",
+    "arc_chat": 0.936007,
+    "arc_chat_stderr": 0.007152,
+    "humaneval_plus_pass@1": 0.597561,
+    "humaneval_plus_pass@1_stderr": 0.03841
+  },
+  {
+    "model": "Qwen3.5-9B",
+    "quant": "Q5_K_S",
+    "arc_chat": 0.93942,
+    "arc_chat_stderr": 0.006971,
+    "humaneval_plus_pass@1": 0.597561,
+    "humaneval_plus_pass@1_stderr": 0.03841
+  },
+  {
+    "model": "Qwen3.5-9B",
+    "quant": "Q6_K",
+    "arc_chat": 0.940273,
+    "arc_chat_stderr": 0.006925,
+    "humaneval_plus_pass@1": 0.628049,
+    "humaneval_plus_pass@1_stderr": 0.037857
+  },
+  {
+    "model": "Qwen3.5-9B",
+    "quant": "UD-IQ2_M",
+    "arc_chat": 0.90785,
+    "arc_chat_stderr": 0.008452,
+    "humaneval_plus_pass@1": 0.463415,
+    "humaneval_plus_pass@1_stderr": 0.039058
+  },
+  {
+    "model": "Qwen3.5-9B",
+    "quant": "UD-IQ2_XXS",
+    "arc_chat": 0.862628,
+    "arc_chat_stderr": 0.01006,
+    "humaneval_plus_pass@1": 0.22561,
+    "humaneval_plus_pass@1_stderr": 0.032739
+  },
+  {
+    "model": "Qwen3.5-9B",
+    "quant": "UD-IQ3_XXS",
+    "arc_chat": 0.930887,
+    "arc_chat_stderr": 0.007412,
+    "humaneval_plus_pass@1": 0.542683,
+    "humaneval_plus_pass@1_stderr": 0.03902
+  },
+  {
+    "model": "Qwen3.5-9B",
+    "quant": "UD-Q2_K_XL",
+    "arc_chat": 0.924061,
+    "arc_chat_stderr": 0.007741,
+    "humaneval_plus_pass@1": 0.396341,
+    "humaneval_plus_pass@1_stderr": 0.038312
+  },
+  {
+    "model": "Qwen3.5-9B",
+    "quant": "UD-Q3_K_XL",
+    "arc_chat": 0.938567,
+    "arc_chat_stderr": 0.007017,
+    "humaneval_plus_pass@1": 0.591463,
+    "humaneval_plus_pass@1_stderr": 0.038502
+  },
+  {
+    "model": "Qwen3.5-9B",
+    "quant": "UD-Q4_K_XL",
+    "arc_chat": 0.938567,
+    "arc_chat_stderr": 0.007017,
+    "humaneval_plus_pass@1": 0.615854,
+    "humaneval_plus_pass@1_stderr": 0.038097
+  },
+  {
+    "model": "Qwen3.5-9B",
+    "quant": "UD-Q5_K_XL",
+    "arc_chat": 0.941126,
+    "arc_chat_stderr": 0.006879,
+    "humaneval_plus_pass@1": 0.603659,
+    "humaneval_plus_pass@1_stderr": 0.038312
+  }
+]

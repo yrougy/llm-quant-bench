@@ -1,0 +1,170 @@
+[
+  {
+    "model": "Qwen3.5-4B",
+    "quant": "IQ4_NL",
+    "arc_chat": 0.912116,
+    "arc_chat_stderr": 0.008274,
+    "humaneval_plus_pass@1": 0.554878,
+    "humaneval_plus_pass@1_stderr": 0.038926
+  },
+  {
+    "model": "Qwen3.5-4B",
+    "quant": "IQ4_XS",
+    "arc_chat": 0.911263,
+    "arc_chat_stderr": 0.00831,
+    "humaneval_plus_pass@1": 0.530488,
+    "humaneval_plus_pass@1_stderr": 0.03909
+  },
+  {
+    "model": "Qwen3.5-4B",
+    "quant": "Q3_K_M",
+    "arc_chat": 0.918089,
+    "arc_chat_stderr": 0.008014,
+    "humaneval_plus_pass@1": 0.5,
+    "humaneval_plus_pass@1_stderr": 0.039163
+  },
+  {
+    "model": "Qwen3.5-4B",
+    "quant": "Q3_K_S",
+    "arc_chat": 0.906997,
+    "arc_chat_stderr": 0.008487,
+    "humaneval_plus_pass@1": 0.445122,
+    "humaneval_plus_pass@1_stderr": 0.038926
+  },
+  {
+    "model": "Qwen3.5-4B",
+    "quant": "Q4_0",
+    "arc_chat": 0.914676,
+    "arc_chat_stderr": 0.008164,
+    "humaneval_plus_pass@1": 0.506098,
+    "humaneval_plus_pass@1_stderr": 0.03916
+  },
+  {
+    "model": "Qwen3.5-4B",
+    "quant": "Q4_1",
+    "arc_chat": 0.914676,
+    "arc_chat_stderr": 0.008164,
+    "humaneval_plus_pass@1": 0.536585,
+    "humaneval_plus_pass@1_stderr": 0.039058
+  },
+  {
+    "model": "Qwen3.5-4B",
+    "quant": "Q4_K_M",
+    "arc_chat": 0.918089,
+    "arc_chat_stderr": 0.008014,
+    "humaneval_plus_pass@1": 0.54878,
+    "humaneval_plus_pass@1_stderr": 0.038976
+  },
+  {
+    "model": "Qwen3.5-4B",
+    "quant": "Q4_K_S",
+    "arc_chat": 0.917235,
+    "arc_chat_stderr": 0.008052,
+    "humaneval_plus_pass@1": 0.506098,
+    "humaneval_plus_pass@1_stderr": 0.03916
+  },
+  {
+    "model": "Qwen3.5-4B",
+    "quant": "Q5_K_M",
+    "arc_chat": 0.923208,
+    "arc_chat_stderr": 0.007781,
+    "humaneval_plus_pass@1": 0.536585,
+    "humaneval_plus_pass@1_stderr": 0.039058
+  },
+  {
+    "model": "Qwen3.5-4B",
+    "quant": "Q5_K_S",
+    "arc_chat": 0.924061,
+    "arc_chat_stderr": 0.007741,
+    "humaneval_plus_pass@1": 0.52439,
+    "humaneval_plus_pass@1_stderr": 0.039116
+  },
+  {
+    "model": "Qwen3.5-4B",
+    "quant": "Q6_K",
+    "arc_chat": 0.922355,
+    "arc_chat_stderr": 0.00782,
+    "humaneval_plus_pass@1": 0.52439,
+    "humaneval_plus_pass@1_stderr": 0.039116
+  },
+  {
+    "model": "Qwen3.5-4B",
+    "quant": "Q8_0",
+    "arc_chat": 0.922355,
+    "arc_chat_stderr": 0.00782,
+    "humaneval_plus_pass@1": 0.530488,
+    "humaneval_plus_pass@1_stderr": 0.03909
+  },
+  {
+    "model": "Qwen3.5-4B",
+    "quant": "UD-IQ2_M",
+    "arc_chat": 0.827645,
+    "arc_chat_stderr": 0.011037,
+    "humaneval_plus_pass@1": 0.323171,
+    "humaneval_plus_pass@1_stderr": 0.036632
+  },
+  {
+    "model": "Qwen3.5-4B",
+    "quant": "UD-IQ2_XXS",
+    "arc_chat": 0.33959,
+    "arc_chat_stderr": 0.013839,
+    "humaneval_plus_pass@1": 0.158537,
+    "humaneval_plus_pass@1_stderr": 0.028608
+  },
+  {
+    "model": "Qwen3.5-4B",
+    "quant": "UD-IQ3_XXS",
+    "arc_chat": 0.903584,
+    "arc_chat_stderr": 0.008625,
+    "humaneval_plus_pass@1": 0.445122,
+    "humaneval_plus_pass@1_stderr": 0.038926
+  },
+  {
+    "model": "Qwen3.5-4B",
+    "quant": "UD-Q2_K_XL",
+    "arc_chat": 0.860922,
+    "arc_chat_stderr": 0.010112,
+    "humaneval_plus_pass@1": 0.329268,
+    "humaneval_plus_pass@1_stderr": 0.036809
+  },
+  {
+    "model": "Qwen3.5-4B",
+    "quant": "UD-Q3_K_XL",
+    "arc_chat": 0.912969,
+    "arc_chat_stderr": 0.008237,
+    "humaneval_plus_pass@1": 0.52439,
+    "humaneval_plus_pass@1_stderr": 0.039116
+  },
+  {
+    "model": "Qwen3.5-4B",
+    "quant": "UD-Q4_K_XL",
+    "arc_chat": 0.921502,
+    "arc_chat_stderr": 0.00786,
+    "humaneval_plus_pass@1": 0.554878,
+    "humaneval_plus_pass@1_stderr": 0.038926
+  },
+  {
+    "model": "Qwen3.5-4B",
+    "quant": "UD-Q5_K_XL",
+    "arc_chat": 0.925768,
+    "arc_chat_stderr": 0.007661,
+    "humaneval_plus_pass@1": 0.52439,
+    "humaneval_plus_pass@1_stderr": 0.039116
+  },
+  {
+    "model": "Qwen3.5-4B",
+    "quant": "UD-Q6_K_XL",
+    "arc_chat": 0.924915,
+    "arc_chat_stderr": 0.007701,
+    "humaneval_plus_pass@1": 0.518293,
+    "humaneval_plus_pass@1_stderr": 0.039137
+  },
+  {
+    "model": "Qwen3.5-4B",
+    "quant": "UD-Q8_K_XL",
+    "arc_chat": 0.923208,
+    "arc_chat_stderr": 0.007781,
+    "humaneval_plus_pass@1": 0.5,
+    "humaneval_plus_pass@1_stderr": 0.039163
+  }
+]
