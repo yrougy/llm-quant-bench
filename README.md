@@ -237,7 +237,7 @@ All benchmarks were run on a single consumer GPU setup:
 
 - **GPU:** Consumer Nvidia (RTX-3060 12 GiB and GTX 1070-8GiB for smallest models)
 - **Inference engine:** llama.cpp (llama-server)
-- **Evaluation:** lm-evaluation-harness v0.4.12
+- **Evaluation:** lm-evaluation-harness 
 - **KV cache:** q4_0 for both K and V
 - **Context:** 16384–65536 tokens depending on model
 
