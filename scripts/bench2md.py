@@ -9,6 +9,7 @@ Structure attendue :
 """
 
 import json
+import re
 import sys
 from pathlib import Path
 from collections import defaultdict
@@ -34,6 +35,18 @@ TASK_LABELS = {
 
 # Ordre des colonnes dans le tableau (toujours affichées, même sans données)
 COLUMN_ORDER = ["GSM8K", "IFEval", "ARC-Chat", "HumanEval", "HumanEval+"]
+
+
+_SIZE_ORDER = {"XXS": 0, "XS": 1, "S": 2, "M": 3, "L": 4, "XL": 5}
+
+
+def _quant_sort_key(model_name: str) -> tuple:
+    q_match = re.search(r'Q(\d+)', model_name)
+    q_num = int(q_match.group(1)) if q_match else 99
+    # Match size variant at end of quant spec (order matters: XXS before XL/XS before L/S)
+    size_match = re.search(r'Q\d+(?:_\w+)*_(XXS|XL|XS|[LMS])(?:[^a-zA-Z]|$)', model_name)
+    size_order = _SIZE_ORDER.get(size_match.group(1).upper() if size_match else "", 3)
+    return (q_num, size_order, model_name)
 
 
 def extract_score(data: dict) -> tuple[str, float] | tuple[None, None]:
@@ -100,11 +113,12 @@ def main(root: Path):
     cols += [l for l in bench_labels_seen if l not in cols]
 
     # Pré-calculer toutes les valeurs pour connaître les largeurs
-    sorted_models = sorted(table.keys())
+    sorted_models = sorted(table.keys(), key=_quant_sort_key)
     def cell(model, col):
         return f"{table[model][col]:.1f}%" if col in table[model] else "—"
 
-    model_w = max(len("Modèle"), max(len(m) for m in sorted_models))
+    col_header = "Quantization"
+    model_w = max(len(col_header), max(len(m) for m in sorted_models))
     col_w   = {col: max(len(col), max(len(cell(m, col)) for m in sorted_models)) for col in cols}
 
     def row(model_cell, cells, *, left_align_model=True):
@@ -113,7 +127,7 @@ def main(root: Path):
             v.rjust(col_w[col]) for col, v in zip(cols, cells)
         ) + " |"
 
-    header = row("Modèle", cols)
+    header = row(col_header, cols)
     sep    = "| " + "-" * model_w + " | " + " | ".join("-" * (col_w[c] - 1) + ":" for c in cols) + " |"
     lines  = [header, sep]
 
