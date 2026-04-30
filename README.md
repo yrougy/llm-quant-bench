@@ -218,6 +218,7 @@ No full results for this one for now. I plan to redo it fully. I hope to find a 
 │   │   └── raw/
 │   └── .../
 ├── scripts/
+│   ├── bench2md.py        # Markdown Array generator
 │   ├── extract_summary.py # Generates summary.json & CSV from raw results
 │   ├── run.sh             # Evaluation launcher called by autotest.sh
 │   ├── autotest.sh        # Model iteration wrapper
