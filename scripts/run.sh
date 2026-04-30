@@ -82,8 +82,8 @@ lm_eval --model local-chat-completions\
 }
 
 gsm8k_test() {
-lm_eval --model local-completions\
-      --model_args "model=${MODEL},base_url=http://localhost:8050/v1/completions,api_key=EMPTY,tokenizer=${MODEL}"\
+lm_eval --model local-chat-completions\
+      --model_args "model=${MODEL},base_url=http://localhost:8050/v1/chat/completions,api_key=EMPTY,tokenizer=${MODEL}"\
      --tasks "gsm8k"\
      --num_fewshot 8\
      --batch_size 1\
