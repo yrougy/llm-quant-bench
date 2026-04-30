@@ -144,11 +144,11 @@ All evaluations run through [lm-evaluation-harness](https://github.com/EleutherA
 
 ### Qwen 3.5 9B — Unsloth UD quants
 
-> GSM8K  not done yet
+> GSM8K  currently processing
 
 | Modèle                | GSM8K | IFEval | ARC-Chat | HumanEval | HumanEval+ |
 | --------------------- | ----: | -----: | -------: | --------: | ---------: |
-| Qwen3.5-9B-IQ4_NL     |     — |  84.3% |    94.2% |     65.9% |      56.1% |
+| Qwen3.5-9B-IQ4_NL     |   86% |  84.3% |    94.2% |     65.9% |      56.1% |
 | Qwen3.5-9B-IQ4_XS     |     — |  83.0% |    94.2% |     67.1% |      57.3% |
 | Qwen3.5-9B-Q3_K_M     |     — |  83.0% |    93.3% |     70.1% |      63.4% |
 | Qwen3.5-9B-Q3_K_S     |     — |  83.0% |    92.2% |     63.4% |      57.3% |
@@ -161,7 +161,7 @@ All evaluations run through [lm-evaluation-harness](https://github.com/EleutherA
 | Qwen3.5-9B-Q6_K       |     — |  83.5% |    94.0% |     69.5% |      62.8% |
 | Qwen3.5-9B-Q8_0       |     — |  82.4% |        — |         — |          — |
 | Qwen3.5-9B-UD-IQ2_M   |     — |  75.6% |    90.8% |     53.7% |      46.3% |
-| Qwen3.5-9B-UD-IQ2_XXS |     — |  64.5% |    86.3% |     25.0% |      22.6% |
+| Qwen3.5-9B-UD-IQ2_XXS |   62% |  64.5% |    86.3% |     25.0% |      22.6% |
 | Qwen3.5-9B-UD-IQ3_XXS |     — |  80.4% |    93.1% |     60.4% |      54.3% |
 | Qwen3.5-9B-UD-Q2_K_XL |     — |  77.8% |    92.4% |     46.3% |      39.6% |
 | Qwen3.5-9B-UD-Q3_K_XL |     — |  81.0% |    93.9% |     67.1% |      59.1% |
