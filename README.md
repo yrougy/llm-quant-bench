@@ -166,9 +166,9 @@ All evaluations run through [lm-evaluation-harness](https://github.com/EleutherA
 | Qwen3.5-9B-Q5_K_M     | 85.1% |  83.2% |    93.6% |     66.5% |      59.8% |
 | Qwen3.5-9B-UD-Q5_K_XL | 85.3% |  83.7% |    94.1% |     68.3% |      60.4% |
 | Qwen3.5-9B-Q6_K       | 85.0% |  83.5% |    94.0% |     69.5% |      62.8% |
-| Qwen3.5-9B-UD-Q6_K_XL | 85.7% |  83.4% |        — |         — |          — |
-| Qwen3.5-9B-Q8_0       | 84.9% |  82.4% |        — |         — |          — |
-| Qwen3.5-9B-UD-Q8_K_XL | 85.0% |  83.2% |        — |         — |          — |
+| Qwen3.5-9B-UD-Q6_K_XL | 85.7% |  83.4% |    94.0% |     70.1% |      64.0% |
+| Qwen3.5-9B-Q8_0       | 84.9% |  82.4% |    94.3% |     72.6% |      65.2% |
+| Qwen3.5-9B-UD-Q8_K_XL | 85.0% |  83.2% |    94.5% |     68.3% |      62.2% |
 
 
 **Takeaway**: The 9B handles low-bit quantization significantly better than the 4B. `IQ2_XXS` still damages coding ability severely (HumanEval drops to 25%), but ARC holds at 86.3% — no total collapse like the 4B. `IQ2_M` is a more defensible floor (53.7% HumanEval, 90.8% ARC), though `Q2_K_XL` underperforms it despite similar size. From IQ3_XXS upward, ARC stabilizes around 93–94.5% and HumanEval settles in the 60–70% range, with `Q6_K` and `Q3_K_M` at the top (within noise of each other). Unlike the 4B, higher quants do show a slight but consistent upward trend on HumanEval+. The sweet spot is `Q4_K_M` or `Q4_1`: reliable ARC (~94.4–94.5%), solid HumanEval, and meaningfully smaller than `Q6_K`.
