@@ -146,29 +146,29 @@ All evaluations run through [lm-evaluation-harness](https://github.com/EleutherA
 
 > GSM8K  currently processing
 
-| Modèle                | GSM8K | IFEval | ARC-Chat | HumanEval | HumanEval+ |
+| Quantization          | GSM8K | IFEval | ARC-Chat | HumanEval | HumanEval+ |
 | --------------------- | ----: | -----: | -------: | --------: | ---------: |
-| Qwen3.5-9B-IQ4_NL     |   86% |  84.3% |    94.2% |     65.9% |      56.1% |
-| Qwen3.5-9B-IQ4_XS     |     — |  83.0% |    94.2% |     67.1% |      57.3% |
-| Qwen3.5-9B-Q3_K_M     |     — |  83.0% |    93.3% |     70.1% |      63.4% |
-| Qwen3.5-9B-Q3_K_S     |     — |  83.0% |    92.2% |     63.4% |      57.3% |
-| Qwen3.5-9B-Q4_0       |     — |  83.4% |    93.8% |     64.0% |      56.7% |
-| Qwen3.5-9B-Q4_1       |     — |  84.3% |    94.4% |     68.9% |      59.8% |
-| Qwen3.5-9B-Q4_K_M     |     — |  82.8% |    94.5% |     65.9% |      57.3% |
-| Qwen3.5-9B-Q4_K_S     |     — |  84.7% |    94.2% |     63.4% |      57.3% |
-| Qwen3.5-9B-Q5_K_M     |     — |  83.2% |    93.6% |     66.5% |      59.8% |
-| Qwen3.5-9B-Q5_K_S     |     — |  83.4% |    93.9% |     67.1% |      59.8% |
-| Qwen3.5-9B-Q6_K       |     — |  83.5% |    94.0% |     69.5% |      62.8% |
-| Qwen3.5-9B-Q8_0       |     — |  82.4% |        — |         — |          — |
-| Qwen3.5-9B-UD-IQ2_M   |     — |  75.6% |    90.8% |     53.7% |      46.3% |
-| Qwen3.5-9B-UD-IQ2_XXS |   62% |  64.5% |    86.3% |     25.0% |      22.6% |
-| Qwen3.5-9B-UD-IQ3_XXS |     — |  80.4% |    93.1% |     60.4% |      54.3% |
-| Qwen3.5-9B-UD-Q2_K_XL |     — |  77.8% |    92.4% |     46.3% |      39.6% |
-| Qwen3.5-9B-UD-Q3_K_XL |     — |  81.0% |    93.9% |     67.1% |      59.1% |
-| Qwen3.5-9B-UD-Q4_K_XL |     — |  81.9% |    93.9% |     67.7% |      61.6% |
-| Qwen3.5-9B-UD-Q5_K_XL |     — |  83.7% |    94.1% |     68.3% |      60.4% |
-| Qwen3.5-9B-UD-Q6_K_XL |     — |  83.4% |        — |         — |          — |
-| Qwen3.5-9B-UD-Q8_K_XL |     — |  83.2% |        — |         — |          — |
+| Qwen3.5-9B-UD-IQ2_XXS | 62.3% |  64.5% |    86.3% |     25.0% |      22.6% |
+| Qwen3.5-9B-UD-IQ2_M   | 82.8% |  75.6% |    90.8% |     53.7% |      46.3% |
+| Qwen3.5-9B-UD-Q2_K_XL | 82.6% |  77.8% |    92.4% |     46.3% |      39.6% |
+| Qwen3.5-9B-UD-IQ3_XXS | 86.7% |  80.4% |    93.1% |     60.4% |      54.3% |
+| Qwen3.5-9B-Q3_K_S     | 81.6% |  83.0% |    92.2% |     63.4% |      57.3% |
+| Qwen3.5-9B-Q3_K_M     | 87.7% |  83.0% |    93.3% |     70.1% |      63.4% |
+| Qwen3.5-9B-UD-Q3_K_XL | 86.7% |  81.0% |    93.9% |     67.1% |      59.1% |
+| Qwen3.5-9B-IQ4_XS     | 84.9% |  83.0% |    94.2% |     67.1% |      57.3% |
+| Qwen3.5-9B-Q4_K_S     | 85.9% |  84.7% |    94.2% |     63.4% |      57.3% |
+| Qwen3.5-9B-IQ4_NL     | 86.7% |  84.3% |    94.2% |     65.9% |      56.1% |
+| Qwen3.5-9B-Q4_0       | 83.5% |  83.4% |    93.8% |     64.0% |      56.7% |
+| Qwen3.5-9B-Q4_1       | 85.4% |  84.3% |    94.4% |     68.9% |      59.8% |
+| Qwen3.5-9B-Q4_K_M     | 87.1% |  82.8% |    94.5% |     65.9% |      57.3% |
+| Qwen3.5-9B-UD-Q4_K_XL | 84.5% |  81.9% |    93.9% |     67.7% |      61.6% |
+| Qwen3.5-9B-Q5_K_S     | 84.7% |  83.4% |    93.9% |     67.1% |      59.8% |
+| Qwen3.5-9B-Q5_K_M     | 85.1% |  83.2% |    93.6% |     66.5% |      59.8% |
+| Qwen3.5-9B-UD-Q5_K_XL | 85.3% |  83.7% |    94.1% |     68.3% |      60.4% |
+| Qwen3.5-9B-Q6_K       | 85.0% |  83.5% |    94.0% |     69.5% |      62.8% |
+| Qwen3.5-9B-UD-Q6_K_XL | 85.7% |  83.4% |        — |         — |          — |
+| Qwen3.5-9B-Q8_0       | 84.9% |  82.4% |        — |         — |          — |
+| Qwen3.5-9B-UD-Q8_K_XL | 85.0% |  83.2% |        — |         — |          — |
 
 
 **Takeaway**: The 9B handles low-bit quantization significantly better than the 4B. `IQ2_XXS` still damages coding ability severely (HumanEval drops to 25%), but ARC holds at 86.3% — no total collapse like the 4B. `IQ2_M` is a more defensible floor (53.7% HumanEval, 90.8% ARC), though `Q2_K_XL` underperforms it despite similar size. From IQ3_XXS upward, ARC stabilizes around 93–94.5% and HumanEval settles in the 60–70% range, with `Q6_K` and `Q3_K_M` at the top (within noise of each other). Unlike the 4B, higher quants do show a slight but consistent upward trend on HumanEval+. The sweet spot is `Q4_K_M` or `Q4_1`: reliable ARC (~94.4–94.5%), solid HumanEval, and meaningfully smaller than `Q6_K`.
