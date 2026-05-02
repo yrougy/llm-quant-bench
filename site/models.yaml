@@ -1,0 +1,159 @@
+# ═══════════════════════════════════════════════════════════════
+#  models.yaml — Editorial metadata for the site generator
+#
+#  - Benchmark DATA is read automatically from results/*/summary.json
+#  - This file controls WHAT appears on the site and HOW it's presented
+#  - "results_dir" must match the folder name under results/
+# ═══════════════════════════════════════════════════════════════
+
+# Which benchmarks to show, and in what order
+benchmarks:
+  arc_chat:
+    label: "ARC-Challenge (Chat)"
+    color: "#4fc3f7"
+    color_bg: "rgba(79,195,247,0.15)"
+  ifeval_prompt_strict:
+    label: "IFEval (strict)"
+    color: "#ab47bc"
+    color_bg: "rgba(171,71,188,0.15)"
+  gsm8k:
+    label: "GSM8K"
+    color: "#ffa726"
+    color_bg: "rgba(255,167,38,0.15)"
+  humaneval_pass_at_1:
+    label: "HumanEval"
+    color: "#66bb6a"
+    color_bg: "rgba(102,187,106,0.15)"
+  humaneval_plus_pass_at_1:
+    label: "HumanEval+"
+    color: "#26a69a"
+    color_bg: "rgba(38,166,154,0.15)"
+
+# Quantization ordering (low → high quality)
+# The build script will sort quants in this order
+quant_order:
+  - IQ1_M
+  - IQ2_XXS
+  - IQ2_M
+  - Q2_K_XL
+  - IQ3_XXS
+  - IQ3_S
+  - Q3_K_S
+  - Q3_K_M
+  - Q3_K_XL
+  - IQ4_XS
+  - IQ4_NL
+  - Q4_0
+  - Q4_1
+  - Q4_K_S
+  - Q4_K_M
+  - Q4_K_XL
+  - IQ4_NL_XL
+  - MXFP4
+  - Q5_K_S
+  - Q5_K_M
+  - Q5_K_XL
+  - Q6_K
+  - Q6_K_XL
+  - Q8_0
+  - Q8_K_XL
+
+# ─── Models ───────────────────────────────────────────────────
+models:
+  qwen36_27b:
+    name: "Qwen 3.6 27B Dense"
+    results_dir: "Qwen3.6-27B"
+    provider: "Unsloth"
+    arch: "Dense"
+    hf_repo: "unsloth/Qwen3.6-27B-GGUF"
+    compare_color: "#ffa726"
+    compare_style: "solid"
+    takeaway: >
+      ARC-Chat and IFEval remain remarkably stable across the entire
+      quantization range — even IQ2_XXS loses less than 4 points on
+      either benchmark. HumanEval is where quantization bites: IQ2_XXS
+      scores 25 points below Q4_K_S (59.8% vs 84.8%). If coding ability
+      matters, <strong>IQ2_M is the floor</strong>. The sweet spot is
+      <strong>Q4_K_S</strong>: it matches or exceeds all higher quants
+      on every benchmark at a significantly smaller file size.
+
+  qwen36_35b:
+    name: "Qwen 3.6 A35B A3B (MoE)"
+    results_dir: "Qwen3.6-35B-A3B"
+    provider: "Unsloth"
+    arch: "MoE"
+    hf_repo: "unsloth/Qwen3.6-35B-A3B-GGUF"
+    compare_color: "#ab47bc"
+    compare_style: "solid"
+    takeaway: >
+      The MoE architecture makes this model <strong>exceptionally
+      resilient</strong>. ARC-Chat barely moves across the entire range
+      (95–96%), and IFEval strict stays within 3 points from IQ1_M to
+      Q4_K_XL. Even <strong>IQ1_M — the most aggressive quant tested —
+      produces usable results</strong>. HumanEval is noisier due to both
+      small dataset variance (±3.8%) and MoE weight distribution.
+
+  qwen35_9b:
+    name: "Qwen 3.5 9B Dense"
+    results_dir: "Qwen3.5-9B"
+    provider: "Unsloth"
+    arch: "Dense"
+    hf_repo: "unsloth/Qwen3.5-9B-GGUF"
+    compare_color: "#ffcc80"
+    compare_style: "dashed"
+    takeaway: >
+      The 9B handles low-bit quantization significantly better than the
+      4B. IQ2_XXS still damages coding ability severely (HumanEval drops
+      to 25%), but <strong>ARC holds at 86.3%</strong> — no total
+      collapse. <strong>IQ2_M is the defensible floor</strong>. The sweet
+      spot is <strong>Q4_K_M or Q4_1</strong>.
+
+  qwen35_4b:
+    name: "Qwen 3.5 4B Dense"
+    results_dir: "Qwen3.5-4B"
+    provider: "Unsloth"
+    arch: "Dense"
+    hf_repo: "unsloth/Qwen3.5-4B-GGUF"
+    compare_color: "#ef5350"
+    compare_style: "solid"
+    takeaway: >
+      This 4B model has a <strong>hard cliff at 2-bit quantization</strong>.
+      IQ2_XXS causes near-total collapse (34% ARC, 17.7% HumanEval —
+      worse than random on code). Above IQ3_XXS, ARC stabilizes around
+      91–92%. The <strong>UD-Q4_K_XL is the best performer overall</strong>.
+
+  gemma4:
+    name: "Gemma 4 27B A4B (MoE)"
+    results_dir: "gemma-4-26B-A4B-it"
+    provider: "Unsloth"
+    arch: "MoE"
+    hf_repo: "unsloth/gemma-4-27b-a4b-it-GGUF"
+    compare_color: "#ce93d8"
+    compare_style: "dashed"
+    takeaway: >
+      IQ2_XXS takes a noticeable hit on ARC (<strong>-13 points</strong>),
+      but GSM8K and IFEval remain surprisingly stable across quants. From
+      Q3_K_S onward, all benchmarks plateau. The sweet spot is around
+      <strong>Q4_K_S</strong>.
+
+# Comparison chart takeaways (section 3)
+compare_takeaways:
+  arc_chat: >
+    <strong>ARC-Challenge</strong> is the most resilient benchmark. MoE
+    models barely move across the entire quantization range. Dense models
+    show a clear cliff below Q3, especially smaller ones.
+  ifeval_prompt_strict: >
+    <strong>IFEval</strong> (instruction following) holds well across
+    architectures. Good news for agentic use cases: Q3 and above are
+    reliable across the board.
+  gsm8k: >
+    <strong>GSM8K</strong> (reasoning) data is still being collected.
+    Available data shows the Q3 floor pattern seen on other benchmarks.
+  humaneval_pass_at_1: >
+    <strong>HumanEval</strong> (code generation) is the first benchmark
+    to collapse under quantization. If you need code,
+    <strong>Q4 is the minimum</strong>.
+  humaneval_plus_pass_at_1: >
+    <strong>HumanEval+</strong> (80× more tests) amplifies the same
+    pattern. Scores are systematically lower than HumanEval, confirming
+    that some code passes by luck at higher quants.
