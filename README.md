@@ -144,7 +144,6 @@ All evaluations run through [lm-evaluation-harness](https://github.com/EleutherA
 
 ### Qwen 3.5 9B — Unsloth UD quants
 
-> GSM8K  currently processing
 
 | Quantization          | GSM8K | IFEval | ARC-Chat | HumanEval | HumanEval+ |
 | --------------------- | ----: | -----: | -------: | --------: | ---------: |
