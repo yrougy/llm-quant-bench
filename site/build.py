@@ -41,8 +41,12 @@ FIELD_MAP = {
     "ifeval_inst_loose":      "ifeval_inst_loose",
     "gsm8k":                  "gsm8k",
     "gsm8k_acc":              "gsm8k",
+    "gsm8k_strict":           "gsm8k",
+    "gsm8k_flexible":         "gsm8k",        # preferred — overwrites strict if both present
     "gsm8k_stderr":           "gsm8k_stderr",
     "gsm8k_acc_stderr":       "gsm8k_stderr",
+    "gsm8k_strict_stderr":    "gsm8k_stderr",
+    "gsm8k_flexible_stderr":  "gsm8k_stderr", # preferred stderr
     "humaneval_pass@1":       "humaneval_pass_at_1",
     "humaneval_pass@1_stderr":"humaneval_pass_at_1_stderr",
     "humaneval_plus_pass@1":  "humaneval_plus_pass_at_1",

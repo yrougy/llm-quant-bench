@@ -48,7 +48,7 @@ METRIC_EXTRACTION = {
         ("inst_level_loose_acc,none",     "ifeval_inst_loose"),
     ],
     "humaneval": [
-        ("pass@1,none", "humaneval_pass1"),
+        ("pass@1,create_test", "humaneval_pass@1"),
     ],
     # Ajoute d'autres benchmarks ici au besoin
     "mmlu": [
