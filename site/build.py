@@ -19,6 +19,8 @@ import argparse
 import json
 import re
 import sys
+import urllib.request
+import urllib.error
 from pathlib import Path
 
 import yaml
@@ -52,6 +54,66 @@ FIELD_MAP = {
     "humaneval_plus_pass@1":  "humaneval_plus_pass_at_1",
     "humaneval_plus_pass@1_stderr": "humaneval_plus_pass_at_1_stderr",
 }
+
+
+def fetch_hf_files(repo: str) -> dict:
+    """Fetch {FILENAME_UPPER: size_gb} for all .gguf files in a HuggingFace repo."""
+    url = f"https://huggingface.co/api/models/{repo}/tree/main"
+    try:
+        req = urllib.request.Request(url, headers={"User-Agent": "llm-quant-bench/1.0"})
+        with urllib.request.urlopen(req, timeout=20) as resp:
+            files = json.loads(resp.read().decode())
+        return {
+            f["path"].upper(): f["size"] / (1024 ** 3)
+            for f in files
+            if f.get("path", "").endswith(".gguf") and "size" in f
+        }
+    except Exception as e:
+        print(f"  ⚠ HF fetch failed for {repo}: {e}")
+        return {}
+
+
+def match_quant_size(quant: str, hf_files: dict) -> float | None:
+    """Match a quant name to its cumulative file size (GB) from a HF file listing."""
+    q_clean = re.sub(r"^UD-", "", quant).upper()
+    q_pat = re.sub(r"[_-]", "[_-]?", q_clean)
+    patterns = [
+        re.compile(r"[._\-]" + q_pat + r"[.\-]"),
+        re.compile(r"[._\-]UD[._\-]" + q_pat + r"[.\-]"),
+    ]
+    total = sum(
+        size for fname, size in hf_files.items()
+        if any(p.search(fname) for p in patterns)
+    )
+    return round(total, 3) if total > 0 else None
+
+
+def fetch_model_sizes(model_meta: dict, quants: list) -> dict:
+    """Return {quant: size_gb} for a model by querying its HuggingFace repo."""
+    hf_repo = model_meta.get("hf_repo")
+    if not hf_repo:
+        return {}
+    print(f"  → Fetching sizes: {hf_repo}")
+    hf_files = fetch_hf_files(hf_repo)
+    if not hf_files:
+        return {}
+    sizes = {q: s for q in quants if (s := match_quant_size(q, hf_files)) is not None}
+    print(f"    {len(sizes)}/{len(quants)} quants matched")
+    return sizes
+
+
+def build_sizes_js(config: dict, results_dir: Path) -> str:
+    """Fetch file sizes from HuggingFace for all models and return a JSON object."""
+    all_sizes = {}
+    for model_id, model_meta in config["models"].items():
+        summary_path = results_dir / model_meta["results_dir"] / "summary.json"
+        if not summary_path.exists():
+            all_sizes[model_id] = {}
+            continue
+        summary = load_summary(summary_path)
+        quants = [e.get("quant", "").strip() for e in summary if e.get("quant")]
+        all_sizes[model_id] = fetch_model_sizes(model_meta, quants)
+    return json.dumps(all_sizes, indent=2)
 
 
 def normalize_quant_name(raw_quant: str) -> str:
@@ -269,11 +331,20 @@ def build(args):
     models_loaded = models_js.count('"name"')
     print(f"  → {models_loaded} models loaded")
 
+    # Fetch file sizes from HuggingFace
+    if args.skip_sizes:
+        print("Skipping HuggingFace size fetch (--skip-sizes)")
+        sizes_js = json.dumps({m: {} for m in config["models"]})
+    else:
+        print("Fetching file sizes from HuggingFace...")
+        sizes_js = build_sizes_js(config, results_dir)
+
     # Replace placeholders
     html = template
     html = html.replace("{{MODELS_DATA}}", models_js)
     html = html.replace("{{BENCH_CONFIG}}", bench_config_js)
     html = html.replace("{{COMPARE_TAKEAWAYS}}", compare_takeaways_js)
+    html = html.replace("{{SIZES_DATA}}", sizes_js)
     html = html.replace("{{MODEL_TABS}}", model_tabs_html)
     html = html.replace("{{COMPARE_BENCH_TABS}}", compare_tabs_html)
 
@@ -303,6 +374,10 @@ if __name__ == "__main__":
     parser.add_argument(
         "--output", default="docs/index.html",
         help="Output HTML file path (default: docs/index.html)"
+    )
+    parser.add_argument(
+        "--skip-sizes", action="store_true",
+        help="Skip HuggingFace file size fetch (faster local builds)"
     )
     args = parser.parse_args()
     build(args)

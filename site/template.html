@@ -140,6 +140,12 @@ footer a { color: var(--text-dim); text-decoration: none; transition: color 0.2s
 footer a:hover { color: var(--accent-1); }
 footer .links { display: flex; justify-content: center; gap: 2rem; margin-bottom: 1rem; }
 
+#size-chart-container { margin-top: -0.5rem; opacity: 0; transition: opacity 0.4s; }
+#size-chart-container canvas { max-height: 140px; }
+.vram-legend { display: flex; gap: 1.2rem; flex-wrap: wrap; margin-top: 0.8rem; }
+.vram-legend-item { display: flex; align-items: center; gap: 0.4rem; font-family: var(--font-mono); font-size: 0.72rem; color: var(--text-muted); }
+.vram-dot { width: 8px; height: 8px; border-radius: 2px; flex-shrink: 0; }
+
 @media (max-width: 768px) {
   .hero { padding: 7rem 1.5rem 3rem; }
   section { padding: 3rem 1.5rem; }
@@ -235,6 +241,12 @@ footer .links { display: flex; justify-content: center; gap: 2rem; margin-bottom
     <h3 id="chart-title"></h3>
     <canvas id="mainChart"></canvas>
   </div>
+  <div class="chart-container" id="size-chart-container">
+    <h3 id="size-chart-title">File size · sorted small → large · fetching from HuggingFace…</h3>
+    <canvas id="sizeChart"></canvas>
+    <div class="vram-legend" id="vram-legend"></div>
+  </div>
+
   <div class="takeaway" id="takeaway-box">
     <h4>↳ Takeaway</h4>
     <p id="takeaway-text"></p>
@@ -333,6 +345,7 @@ footer .links { display: flex; justify-content: center; gap: 2rem; margin-bottom
 const MODELS = {{MODELS_DATA}};
 const BENCH_CONFIG = {{BENCH_CONFIG}};
 const COMPARE_TAKEAWAYS = {{COMPARE_TAKEAWAYS}};
+const FILE_SIZES = {{SIZES_DATA}};
 
 // ── Derived from config ──
 const BENCH_KEYS = Object.keys(BENCH_CONFIG);
@@ -343,9 +356,121 @@ for (const [key, cfg] of Object.entries(BENCH_CONFIG)) {
   BENCH_COLORS[key] = { border: cfg.color, bg: cfg.color_bg };
 }
 
+// ── VRAM tier definitions ──
+const VRAM_TIERS = [
+  { max: 6,  label: '≤ 8 GB GPU',  bg: 'rgba(102,187,106,0.09)', labelColor: 'rgba(102,187,106,0.55)', bar: '#66bb6a' },
+  { max: 10, label: '≤ 12 GB GPU', bg: 'rgba(79,195,247,0.09)',  labelColor: 'rgba(79,195,247,0.55)',  bar: '#4fc3f7' },
+  { max: 14, label: '≤ 16 GB GPU', bg: 'rgba(255,167,38,0.09)',  labelColor: 'rgba(255,167,38,0.55)',  bar: '#ffa726' },
+  { max: 20, label: '≤ 24 GB GPU', bg: 'rgba(171,71,188,0.09)',  labelColor: 'rgba(171,71,188,0.55)',  bar: '#ab47bc' },
+  { max: 32, label: '≤ 32 GB GPU', bg: 'rgba(239,83,80,0.09)',   labelColor: 'rgba(239,83,80,0.55)',   bar: '#ef5350' },
+];
+
+function getTier(gb) { return VRAM_TIERS.find(t => gb <= t.max) || null; }
+
+function sortBySize(model, sizes) {
+  const idxs = model.quants.map((_, i) => i);
+  idxs.sort((a, b) => {
+    const sa = sizes[model.quants[a]], sb = sizes[model.quants[b]];
+    if (sa == null && sb == null) return a - b;
+    if (sa == null) return 1;
+    if (sb == null) return -1;
+    return sa - sb;
+  });
+  const sorted = { ...model, quants: idxs.map(i => model.quants[i]) };
+  for (const b of BENCH_KEYS) {
+    if (model[b]) sorted[b] = idxs.map(i => model[b][i]);
+  }
+  sorted._sizes = idxs.map(i => sizes[model.quants[i]] ?? null);
+  return sorted;
+}
+
+function computeBands(sortedQuants, sizes) {
+  const bands = [];
+  let curTier = undefined, start = 0;
+  for (let i = 0; i <= sortedQuants.length; i++) {
+    const tier = i < sortedQuants.length && sizes[sortedQuants[i]] != null
+      ? getTier(sizes[sortedQuants[i]]) : null;
+    if (tier !== curTier) {
+      if (curTier != null) bands.push({ tier: curTier, startIdx: start, endIdx: i - 1 });
+      curTier = tier; start = i;
+    }
+  }
+  return bands;
+}
+
+// ── VRAM bands Chart.js plugin ──
+const vramBandsPlugin = {
+  id: 'vramBands',
+  beforeDatasetsDraw(chart, args, options) {
+    if (!options || !options.bands || !options.bands.length) return;
+    const { ctx, chartArea } = chart;
+    const n = chart.data.labels.length;
+    if (!n || !chartArea) return;
+    const step = chartArea.width / n;
+    ctx.save();
+    ctx.beginPath();
+    ctx.rect(chartArea.left, chartArea.top, chartArea.width, chartArea.height);
+    ctx.clip();
+    for (const band of options.bands) {
+      const x1 = chartArea.left + band.startIdx * step;
+      const x2 = chartArea.left + (band.endIdx + 1) * step;
+      ctx.fillStyle = band.tier.bg;
+      ctx.fillRect(x1, chartArea.top, x2 - x1, chartArea.height);
+      if (x2 - x1 > 24) {
+        ctx.fillStyle = band.tier.labelColor;
+        ctx.font = "500 9px 'JetBrains Mono'";
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'top';
+        ctx.fillText(band.tier.label, (x1 + x2) / 2, chartArea.top + 5);
+      }
+    }
+    ctx.restore();
+  }
+};
+
 // ── Chart setup ──
 const ctx = document.getElementById('mainChart').getContext('2d');
 let mainChart;
+const ctxSize = document.getElementById('sizeChart').getContext('2d');
+let sizeChart;
+
+function renderSizeChart(quants, sizeValues) {
+  if (sizeChart) sizeChart.destroy();
+  const max = Math.max(...sizeValues.filter(v => v != null), 0);
+  const colors = quants.map((_, i) => {
+    const tier = sizeValues[i] != null ? getTier(sizeValues[i]) : null;
+    return tier ? tier.bar : 'rgba(90,99,120,0.5)';
+  });
+  sizeChart = new Chart(ctxSize, {
+    type: 'bar',
+    data: {
+      labels: quants,
+      datasets: [{ data: sizeValues.map(v => v != null ? +v.toFixed(2) : null), backgroundColor: colors, borderWidth: 0, borderRadius: 3 }]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: true,
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          backgroundColor: '#1a1e28', borderColor: '#2a3040', borderWidth: 1,
+          titleFont: { family: "'JetBrains Mono'", size: 12 }, bodyFont: { family: "'DM Sans'", size: 12 },
+          titleColor: '#e0e4ec', bodyColor: '#8892a4', padding: 12,
+          callbacks: { label: c => c.parsed.y != null ? c.parsed.y.toFixed(2) + ' GB' : '—' }
+        }
+      },
+      scales: {
+        x: { ticks: { color: '#5a6378', font: { family: "'JetBrains Mono'", size: 10 }, maxRotation: 45, minRotation: 45 }, grid: { color: 'rgba(30,35,48,0.6)' } },
+        y: { min: 0, max: Math.ceil(max) + 1, ticks: { color: '#5a6378', font: { family: "'JetBrains Mono'", size: 11 }, callback: v => v + ' GB' }, grid: { color: 'rgba(30,35,48,0.6)' } }
+      }
+    }
+  });
+  document.getElementById('vram-legend').innerHTML = VRAM_TIERS
+    .filter(t => sizeValues.some(s => s != null && getTier(s) === t))
+    .map(t => `<span class="vram-legend-item"><span class="vram-dot" style="background:${t.bar}"></span>${t.label}</span>`)
+    .join('');
+  document.getElementById('size-chart-title').textContent = 'File size · sorted small → large';
+  document.getElementById('size-chart-container').style.opacity = '1';
+}
 
 function buildDatasets(model) {
   const datasets = [];
@@ -390,36 +515,43 @@ function renderChart(modelKey) {
   if (mainChart) mainChart.destroy();
   currentModelKey = modelKey;
 
+  const sizes = FILE_SIZES[modelKey] || {};
+  const hasSizes = Object.keys(sizes).length > 0;
+  const dm = hasSizes ? sortBySize(model, sizes) : model;
+
   const provCls = 'provider-' + (model.provider || 'other').toLowerCase();
   document.getElementById('chart-title').innerHTML =
     model.name + ' — Accuracy by quantization level' +
     ' <span class="provider-badge ' + provCls + '">' + model.provider + '</span>';
   document.getElementById('takeaway-text').innerHTML = model.takeaway;
 
+  const bands = hasSizes ? computeBands(dm.quants, sizes) : [];
   const opts = JSON.parse(JSON.stringify(CHART_OPTIONS_BASE));
+  opts.plugins.vramBands = { bands };
   opts.plugins.tooltip.callbacks = {
     afterTitle: (items) => {
       if (!items.length) return '';
-      const q = items[0].label;
-      const sizes = fileSizes[currentModelKey];
-      if (sizes && sizes[q]) return 'File size: ' + sizes[q].toFixed(1) + ' GB';
-      return '';
+      const s = sizes[items[0].label];
+      return s ? 'File size: ' + s.toFixed(2) + ' GB' : '';
     },
     label: (c) => c.dataset.label + ': ' + (c.parsed.y !== null ? c.parsed.y + '%' : '—')
   };
 
   mainChart = new Chart(ctx, {
     type: 'line',
-    data: { labels: model.quants, datasets: buildDatasets(model) },
+    plugins: [vramBandsPlugin],
+    data: { labels: dm.quants, datasets: buildDatasets(dm) },
     options: opts
   });
-  renderTable(model, modelKey);
+  renderTable(dm, modelKey);
+  if (hasSizes) renderSizeChart(dm.quants, dm._sizes);
+  else document.getElementById('size-chart-container').style.opacity = '0';
 }
 
 function renderTable(model, modelKey) {
   const available = BENCH_KEYS.filter(b => model[b] && model[b].length > 0 && !model[b].every(v => v === null));
   const provCls = 'provider-' + (model.provider || 'other').toLowerCase();
-  const sizes = fileSizes[modelKey] || {};
+  const sizes = FILE_SIZES[modelKey] || {};
 
   let html = '<p style="margin-bottom:1rem; font-size:0.85rem; color: var(--text-dim);">Provider: <span class="provider-badge ' + provCls + '">' + model.provider + '</span> · Architecture: <span class="provider-badge provider-other">' + model.arch + '</span></p>';
   html += '<table class="data-table"><thead><tr><th>Quantization</th><th>Size</th>';
@@ -444,47 +576,12 @@ function renderTable(model, modelKey) {
   document.getElementById('table-container').innerHTML = html;
 }
 
-// ── HuggingFace file size fetching ──
-const fileSizes = {};
-
-async function fetchHFSizes(modelKey) {
-  if (fileSizes[modelKey]) return;
-  const model = MODELS[modelKey];
-  if (!model.hf_repos || model.hf_repos.length === 0) return;
-  fileSizes[modelKey] = {};
-
-  for (const repo of model.hf_repos) {
-    try {
-      const resp = await fetch('https://huggingface.co/api/models/' + repo + '/tree/main');
-      if (!resp.ok) continue;
-      const files = await resp.json();
-      for (const file of files) {
-        if (!file.path || !file.path.endsWith('.gguf')) continue;
-        const fname = file.path.toUpperCase();
-        const sizeGb = file.size / (1024 * 1024 * 1024);
-        for (const q of model.quants) {
-          const qClean = q.toUpperCase().replace('UD-', '');
-          const patterns = [
-            new RegExp('[._-]' + qClean.replace(/[_-]/g, '[_-]?') + '[\\.\\-]'),
-            new RegExp('[._-]UD[._-]' + qClean.replace(/[_-]/g, '[_-]?') + '[\\.\\-]')
-          ];
-          if (patterns.some(p => p.test(fname))) {
-            fileSizes[modelKey][q] = (fileSizes[modelKey][q] || 0) + sizeGb;
-          }
-        }
-      }
-    } catch (e) { console.warn('HF fetch failed for ' + repo + ':', e); }
-  }
-  if (currentModelKey === modelKey) renderTable(MODELS[modelKey], modelKey);
-}
-
 // ── Tab switching (section 2) ──
 document.querySelectorAll('#model-tabs .model-tab').forEach(tab => {
   tab.addEventListener('click', () => {
     document.querySelectorAll('#model-tabs .model-tab').forEach(t => t.classList.remove('active'));
     tab.classList.add('active');
     renderChart(tab.dataset.model);
-    fetchHFSizes(tab.dataset.model);
   });
 });
 
@@ -553,7 +650,6 @@ document.querySelectorAll('#compare-bench-tabs .model-tab').forEach(tab => {
 
 // ── Initial render ──
 renderChart(Object.keys(MODELS)[0]);
-fetchHFSizes(Object.keys(MODELS)[0]);
 renderCompareChart(BENCH_KEYS[0]);
 </script>
 </body>
