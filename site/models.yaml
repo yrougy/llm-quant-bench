@@ -88,10 +88,12 @@ models:
     takeaway: >
       The MoE architecture makes this model <strong>exceptionally
       resilient</strong>. ARC-Chat barely moves across the entire range
-      (95–96%), and IFEval strict stays within 3 points from IQ1_M to
+      (95–96%), and IFEval strict stays within 4 points from IQ1_M to
       Q4_K_XL. Even <strong>IQ1_M — the most aggressive quant tested —
-      produces usable results</strong>. HumanEval is noisier due to both
-      small dataset variance (±3.8%) and MoE weight distribution.
+      produces usable results for chat and agentic use cases</strong>;
+      code generation (56.7% HumanEval) degrades significantly even at
+      this level. HumanEval is noisier due to both small dataset variance
+      (±3.8%) and MoE weight distribution.
 
   qwen35_9b:
     name: "Qwen 3.5 9B Dense"
@@ -119,8 +121,9 @@ models:
     takeaway: >
       This 4B model has a <strong>hard cliff at 2-bit quantization</strong>.
       IQ2_XXS causes near-total collapse (34% ARC, 17.7% HumanEval —
-      worse than random on code). Above IQ3_XXS, ARC stabilizes around
-      91–92%. The <strong>UD-Q4_K_XL is the best performer overall</strong>.
+      near-zero on code, essentially non-functional). Above IQ3_XXS, ARC
+      stabilizes around 91–92%. The <strong>UD-Q4_K_XL is the best
+      performer overall</strong>.
 
   gemma4:
     name: "Gemma 4 27B A4B (MoE)"
@@ -151,8 +154,10 @@ compare_takeaways:
     Available data shows the Q3 floor pattern seen on other benchmarks.
   humaneval_pass_at_1: >
     <strong>HumanEval</strong> (code generation) is the first benchmark
-    to collapse under quantization. If you need code,
-    <strong>Q4 is the minimum</strong>.
+    to collapse under quantization. The floor varies by model size —
+    larger models can go as low as IQ2_M, smaller ones may not reach
+    65% even at Q4. <strong>Q4 is a safe starting point</strong>; check
+    the per-model takeaway for the actual floor.
   humaneval_plus_pass_at_1: >
     <strong>HumanEval+</strong> (80× more tests) amplifies the same
     pattern. Scores are systematically lower than HumanEval, confirming

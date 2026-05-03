@@ -113,6 +113,11 @@ section > .intro { color: var(--text-dim); font-size: 1.05rem; max-width: 720px;
 .provider-bartowski { color: #ffa726; background: rgba(255,167,38,0.12); }
 .provider-other { color: var(--text-dim); background: rgba(255,255,255,0.06); }
 .size-loading { display: inline-block; width: 40px; height: 8px; background: linear-gradient(90deg, var(--border) 25%, var(--border-accent) 50%, var(--border) 75%); background-size: 200% 100%; animation: shimmer 1.5s infinite; border-radius: 4px; }
+
+.bench-tag { display: inline-block; font-family: var(--font-mono); font-size: 0.68rem; padding: 0.18rem 0.55rem; border-radius: 4px; font-weight: 500; white-space: nowrap; }
+.bench-primary { color: var(--accent-1); background: rgba(79,195,247,0.12); }
+.bench-secondary { color: var(--text-dim); background: rgba(255,255,255,0.06); }
+.bench-cond { color: var(--accent-3); background: rgba(255,167,38,0.08); }
 @keyframes shimmer { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
 
 details { background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; margin-bottom: 1rem; }
@@ -179,7 +184,7 @@ footer .links { display: flex; justify-content: center; gap: 2rem; margin-bottom
   </p>
   <div class="hw-badge">
     <span class="dot"></span>
-    RTX 3060 12 GB · llama.cpp · lm-evaluation-harness
+    2× RTX 3060 12 GB · GTX 1070 8 GB · llama.cpp · lm-evaluation-harness
   </div>
 </div>
 
@@ -211,18 +216,56 @@ footer .links { display: flex; justify-content: center; gap: 2rem; margin-bottom
     <div class="usecase-card">
       <span class="tag">HumanEval</span>
       <h3>Code Generation</h3>
-      <p>Python pass@1. Tests whether generated code actually runs. First benchmark to collapse under quantization.</p>
+      <p>Python pass@1. Tests whether generated code actually runs. First benchmark to collapse under quantization. Practical floor: <strong>≥ 65%</strong> — below that, structurally broken code becomes too frequent to be useful.</p>
       <div class="resilience">Quantization resilience<div class="bar"><div class="bar-fill" style="width:45%; background: var(--accent-4);"></div></div></div>
     </div>
     <div class="usecase-card">
       <span class="tag">HumanEval+</span>
       <h3>Code Robustness</h3>
-      <p>Same problems, 80× more test cases. Catches false positives from HumanEval where code passes by luck.</p>
+      <p>Same problems, 80× more test cases. Catches false positives where code passes by luck. Practical floor: <strong>≥ 60%</strong>. Watch the gap with HumanEval — a large spread means the model handles basics but collapses on edge cases.</p>
       <div class="resilience">Quantization resilience<div class="bar"><div class="bar-fill" style="width:40%; background: var(--accent-5);"></div></div></div>
     </div>
   </div>
   <div class="callout">
-    <strong>Key insight:</strong> If your use case is running an agent (Hermes Agent, Picoclaw…), you need IFEval and ARC to hold — and they do, even at Q3. You don't need HumanEval at 80%. The right quant depends on <em>what you're doing</em>, not on a single leaderboard score.
+    <strong>Key insight:</strong> If your use case is running an agent (Hermes Agent, Picoclaw…), you need IFEval and ARC to hold — and they do, even at Q3. For code, aim for ≥ 65% HumanEval+ as a practical floor; below that, edge cases break too often. The right quant depends on <em>what you're doing</em>, not on a single leaderboard score.
+  </div>
+
+  <h3 style="font-family: var(--font-serif); font-size: 1.2rem; font-weight: 600; margin: 2.5rem 0 1rem; letter-spacing: -0.01em;">Which benchmarks to watch, by use case</h3>
+  <div class="table-wrap">
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>Use case</th>
+          <th>ARC-Challenge</th>
+          <th>IFEval</th>
+          <th>GSM8K</th>
+          <th>HumanEval / HumanEval+</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="quant-name">Agentic</td>
+          <td><span class="bench-tag bench-primary">primary</span></td>
+          <td><span class="bench-tag bench-primary">primary</span></td>
+          <td><span class="bench-tag bench-cond">if reasoning chains</span></td>
+          <td class="na">—</td>
+        </tr>
+        <tr>
+          <td class="quant-name">Chatbot</td>
+          <td><span class="bench-tag bench-primary">primary</span></td>
+          <td><span class="bench-tag bench-secondary">secondary</span></td>
+          <td class="na">—</td>
+          <td class="na">—</td>
+        </tr>
+        <tr>
+          <td class="quant-name">Code assistance</td>
+          <td class="na">—</td>
+          <td><span class="bench-tag bench-primary">primary</span></td>
+          <td class="na">—</td>
+          <td><span class="bench-tag bench-primary">primary</span></td>
+        </tr>
+      </tbody>
+    </table>
   </div>
 </section>
 
@@ -286,7 +329,7 @@ footer .links { display: flex; justify-content: center; gap: 2rem; margin-bottom
     <div class="compare-card arch-dense">
       <h4>Dense Models</h4>
       <span class="arch-tag">Dense</span>
-      <p>Dense models show a clear <strong>cliff below Q3</strong>. The 4B collapses to 34% ARC at IQ2_XXS (worse than random). The 27B holds better — bigger models tolerate more noise. But all dense models show the same pattern: <strong>Q3 is the real floor</strong>.</p>
+      <p>Smaller dense models show a clear <strong>cliff below Q3</strong>. The 4B collapses to 34% ARC at IQ2_XXS — near-total failure. The 27B barely moves even at IQ2_XXS; at that scale, quantization noise barely registers on ARC. For the 4B and 9B, <strong>Q3 is the real floor</strong>.</p>
     </div>
   </div>
 </section>
@@ -318,7 +361,7 @@ footer .links { display: flex; justify-content: center; gap: 2rem; margin-bottom
     </div>
     <div class="method-item">
       <h4>Hardware</h4>
-      <p><strong>RTX 3060 12 GB</strong> for most models, GTX 1070 8 GB for smallest. Single consumer GPU — no cloud, no H100. Context: 16k–65k tokens.</p>
+      <p>Personal hardware — two consumer machines: one with <strong>2× RTX 3060 12 GB</strong> (larger models, multi-GPU split), one with a <strong>GTX 1070 8 GB</strong> (smallest quants). The same kind of setup you're likely running. Context: 16k–65k tokens.</p>
     </div>
   </div>
   <div class="callout" style="margin-top: 2rem;">
