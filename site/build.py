@@ -251,26 +251,54 @@ def build_compare_takeaways_js(config: dict) -> str:
     return json.dumps(cleaned, indent=2, ensure_ascii=False)
 
 
+def build_jsonld(config: dict) -> str:
+    """Build a JSON-LD Dataset schema block for the <head>."""
+    models = config.get("models", {})
+    benchmarks = config.get("benchmarks", {})
+    model_names = [m.get("name", k) for k, m in models.items()]
+    bench_labels = [b.get("label", k) for k, b in benchmarks.items()]
+    data = {
+        "@context": "https://schema.org",
+        "@type": "Dataset",
+        "name": "LLM Quant Bench — GGUF Quantization Benchmark",
+        "description": (
+            "Independent benchmark measuring the real accuracy cost of GGUF quantization "
+            "across popular LLMs. Models evaluated: " + ", ".join(model_names) + "."
+        ),
+        "url": "https://gguf-bench.com/",
+        "creator": {"@type": "Person", "name": "Yves Rougy", "url": "https://rougy.net"},
+        "license": "https://creativecommons.org/licenses/by/4.0/",
+        "keywords": ["LLM", "quantization", "GGUF", "llama.cpp", "benchmark"] + list(benchmarks.keys()),
+        "measurementTechnique": "lm-evaluation-harness via llama.cpp",
+        "variableMeasured": bench_labels,
+        "distribution": {
+            "@type": "DataDownload",
+            "contentUrl": "https://github.com/yrougy/llm-quant-bench",
+            "encodingFormat": "application/json",
+        },
+    }
+    return '<script type="application/ld+json">\n' + json.dumps(data, indent=2, ensure_ascii=False) + '\n</script>'
+
+
 def build_model_tabs_html(config: dict, results_dir: Path) -> str:
     """Build the HTML for model selector tabs."""
     models = config["models"]
     tabs = []
     first = True
     for model_id, model_meta in models.items():
-        # Check if results exist
         summary_path = results_dir / model_meta["results_dir"] / "summary.json"
         if not summary_path.exists():
             continue
-
-        active = " active" if first else ""
+        active_cls = " active" if first else ""
+        aria_selected = "true" if first else "false"
         arch_provider = f'{model_meta["arch"]} · {model_meta["provider"]}'
         tab = (
-            f'    <button class="model-tab{active}" data-model="{model_id}">'
+            f'    <button class="model-tab{active_cls}" role="tab" aria-selected="{aria_selected}" '
+            f'data-model="{model_id}">'
             f'{model_meta["name"]} <span class="size">{arch_provider}</span></button>'
         )
         tabs.append(tab)
         first = False
-
     return "\n".join(tabs)
 
 
@@ -280,9 +308,10 @@ def build_compare_tabs_html(config: dict) -> str:
     tabs = []
     first = True
     for bench_key, bench_meta in benchmarks.items():
-        active = " active" if first else ""
+        active_cls = " active" if first else ""
+        aria_selected = "true" if first else "false"
         tab = (
-            f'    <button class="model-tab{active}" '
+            f'    <button class="model-tab{active_cls}" role="tab" aria-selected="{aria_selected}" '
             f'data-bench="{bench_key}">{bench_meta["label"]}</button>'
         )
         tabs.append(tab)
@@ -327,6 +356,7 @@ def build(args):
     compare_takeaways_js = build_compare_takeaways_js(config)
     model_tabs_html = build_model_tabs_html(config, results_dir)
     compare_tabs_html = build_compare_tabs_html(config)
+    jsonld_html = build_jsonld(config)
 
     # Count models loaded
     models_loaded = models_js.count('"name"')
@@ -348,6 +378,7 @@ def build(args):
     html = html.replace("{{SIZES_DATA}}", sizes_js)
     html = html.replace("{{MODEL_TABS}}", model_tabs_html)
     html = html.replace("{{COMPARE_BENCH_TABS}}", compare_tabs_html)
+    html = html.replace("{{JSONLD}}", jsonld_html)
 
     # Check for unreplaced placeholders
     remaining = re.findall(r'\{\{[A-Z_]+\}\}', html)
