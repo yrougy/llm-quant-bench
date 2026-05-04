@@ -1,4 +1,4 @@
-REPO="unsloth/Qwen3.6-27B-GGUF"
+REPO="unsloth/gemma-4-26B-A4B-it-GGUF"
 CTX="16384"
 CHAT_TPLT='{"enable_thinking":false}'
 
@@ -14,10 +14,9 @@ start_ls()
 	        --cache-type-v q4_0 \
 	        --port 8050 \
 	        --host 0.0.0.0 \
-	        --temp 0.6 \
+	        --temp 1.0 \
 	        --top-p 0.95 \
-	        --top-k 20 \
-	        --min-p 0.00 \
+	        --top-k 64 \
 	        --chat-template-kwargs "${CHAT_TPLT}" > ./llama-server.log 2>&1 &
 	        #--cache-type-k q4_0 \
 	       # --cache-type-v q4_0 \
@@ -29,12 +28,13 @@ for i in $MODELS
 do
 	HTTP_DL="https://huggingface.co/${REPO}/resolve/main/$i"
 	# we test if it's already been benched before downloading
-	if ls /data/benchs/${i}-*
+	if ls /data/benches/${i}-*
 	then
 		echo "$i already benched"
 		continue
 	fi
 	echo Downloading $i
+	mkdir -p "${REPO}"
 	wget -c "${HTTP_DL}" -O "${REPO}"/"$i"
 	start_ls "$REPO"/"$i"
 	sleep 10
