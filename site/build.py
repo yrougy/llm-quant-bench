@@ -392,9 +392,26 @@ def build(args):
 
     print(f"\n✓ Generated {output_path} ({len(html):,} bytes)")
 
-    # Copy static pages (faq.html, legal.html) alongside the generated index
+    # Generate sitemap.xml
+    base = "https://gguf-bench.com"
+    pages = [
+        (f"{base}/",            "weekly",  "1.0"),
+        (f"{base}/faq.html",    "monthly", "0.7"),
+        (f"{base}/legal.html",  "yearly",  "0.3"),
+    ]
+    sitemap = '<?xml version="1.0" encoding="UTF-8"?>\n'
+    sitemap += '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
+    for loc, freq, pri in pages:
+        sitemap += f"  <url>\n    <loc>{loc}</loc>\n    <changefreq>{freq}</changefreq>\n    <priority>{pri}</priority>\n  </url>\n"
+    sitemap += "</urlset>\n"
+    sitemap_path = output_path.parent / "sitemap.xml"
+    with open(sitemap_path, "w") as f:
+        f.write(sitemap)
+    print(f"✓ Generated {sitemap_path}")
+
+    # Copy static files alongside the generated index
     out_dir = output_path.parent
-    for page in ("faq.html", "legal.html", "og.png"):
+    for page in ("faq.html", "legal.html", "og.png", "robots.txt"):
         src = site_dir / page
         if src.exists():
             shutil.copy2(src, out_dir / page)
