@@ -381,6 +381,8 @@ footer .links { display: flex; justify-content: center; gap: 2rem; margin-bottom
     <a href="https://github.com/yrougy/llm-quant-bench" target="_blank">GitHub</a>
     <a href="https://rougy.net" target="_blank">rougy.net</a>
     <a href="https://www.linkedin.com/in/yrougy/" target="_blank">LinkedIn</a>
+    <a href="faq.html">FAQ</a>
+    <a href="legal.html">Legal notice</a>
   </div>
   <p>CC BY 4.0 — Yves Rougy, 2025–2026</p>
 </footer>
@@ -549,7 +551,7 @@ const MODELS = {
       "UD-Q4_K_XL",
       "UD-IQ4_NL_XL"
     ],
-    "takeaway": "The MoE architecture makes this model <strong>exceptionally resilient</strong>. ARC-Chat barely moves across the entire range (95–96%), and IFEval strict stays within 4 points from IQ1_M to Q4_K_XL. Even <strong>IQ1_M — the most aggressive quant tested — produces usable results for chat and agentic use cases</strong>; code generation (56.7% HumanEval) degrades significantly even at this level. HumanEval is noisier due to both small dataset variance (±3.8%) and MoE weight distribution.",
+    "takeaway": "The MoE architecture makes this model <strong>exceptionally resilient</strong>. ARC-Chat barely moves across the entire range (95–96%), and IFEval strict stays within 4 points from IQ1_M to Q4_K_XL. Even <strong>IQ1_M — the most aggressive quant tested — produces usable results for chat and agentic use cases</strong>; code generation (56.7% HumanEval) degrades significantly even at this level. HumanEval is noisier due to both small dataset variance (±3.8%) and MoE weight distribution. GSM8K shows <strong>negligible variation across quantization levels</strong> — IQ1_M and IQ4_NL both score 89–90% (±1%), so intermediate quants were not measured: the benchmark does not discriminate for this model.",
     "compare_color": "#ab47bc",
     "compare_style": "solid",
     "arc_chat": [
@@ -589,6 +591,10 @@ const MODELS = {
       81.5
     ],
     "gsm8k": [
+      89.3,
+      89.3,
+      90.5,
+      90.8,
       null,
       null,
       null,
@@ -596,11 +602,7 @@ const MODELS = {
       null,
       null,
       null,
-      null,
-      null,
-      null,
-      null,
-      null,
+      90.3,
       null,
       null,
       null,
@@ -849,50 +851,50 @@ const MODELS = {
       92.3
     ],
     "ifeval_prompt_strict": [
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null
+      36.8,
+      64.9,
+      70.6,
+      76.2,
+      77.3,
+      78.4,
+      81.1,
+      78.9,
+      78.2,
+      79.3,
+      79.1,
+      80.0,
+      80.8,
+      82.6,
+      81.5,
+      80.8,
+      80.6,
+      80.6,
+      83.7,
+      81.9,
+      81.7
     ],
     "gsm8k": [
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null
+      26.5,
+      70.8,
+      73.6,
+      80.0,
+      77.9,
+      82.7,
+      81.1,
+      82.8,
+      83.1,
+      81.4,
+      81.8,
+      80.8,
+      80.5,
+      81.7,
+      82.5,
+      82.2,
+      81.7,
+      82.6,
+      81.3,
+      82.3,
+      81.2
     ],
     "humaneval_pass_at_1": [
       17.7,
@@ -972,7 +974,7 @@ const BENCH_CONFIG = {
 const COMPARE_TAKEAWAYS = {
   "arc_chat": "<strong>ARC-Challenge</strong> is the most resilient benchmark. MoE models barely move across the entire quantization range. Dense models show a clear cliff below Q3, especially smaller ones.",
   "ifeval_prompt_strict": "<strong>IFEval</strong> (instruction following) holds well across architectures. Good news for agentic use cases: Q3 and above are reliable across the board.",
-  "gsm8k": "<strong>GSM8K</strong> (reasoning) data is still being collected. Available data shows the Q3 floor pattern seen on other benchmarks.",
+  "gsm8k": "<strong>GSM8K</strong> (reasoning) is flat for the Qwen 3.6 A35B: 89–90% from IQ1_M to IQ4_NL (±1%), so only boundary quants were measured — quantization barely affects reasoning on this MoE architecture. Dense models show the expected Q3 floor pattern.",
   "humaneval_pass_at_1": "<strong>HumanEval</strong> (code generation) is the first benchmark to collapse under quantization. The floor varies by model size — larger models can go as low as IQ2_M, smaller ones may not reach 65% even at Q4. <strong>Q4 is a safe starting point</strong>; check the per-model takeaway for the actual floor.",
   "humaneval_plus_pass_at_1": "<strong>HumanEval+</strong> (80× more tests) amplifies the same pattern. Scores are systematically lower than HumanEval, confirming that some code passes by luck at higher quants."
 };

@@ -18,6 +18,7 @@ Usage:
 import argparse
 import json
 import re
+import shutil
 import sys
 import urllib.request
 import urllib.error
@@ -359,6 +360,14 @@ def build(args):
         f.write(html)
 
     print(f"\n✓ Generated {output_path} ({len(html):,} bytes)")
+
+    # Copy static pages (faq.html, legal.html) alongside the generated index
+    out_dir = output_path.parent
+    for page in ("faq.html", "legal.html"):
+        src = site_dir / page
+        if src.exists():
+            shutil.copy2(src, out_dir / page)
+            print(f"✓ Copied {src} → {out_dir / page}")
 
 
 if __name__ == "__main__":

@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FAQ — LLM Quant Bench</title>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Source+Serif+4:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0c0e12;
+  --bg-card: #13161c;
+  --border: #1e2330;
+  --border-accent: #2a3040;
+  --text: #e0e4ec;
+  --text-dim: #8892a4;
+  --text-muted: #5a6378;
+  --accent-1: #4fc3f7;
+  --font-mono: 'JetBrains Mono', monospace;
+  --font-serif: 'Source Serif 4', Georgia, serif;
+  --font-sans: 'DM Sans', -apple-system, sans-serif;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { background: var(--bg); color: var(--text); font-family: var(--font-sans); line-height: 1.7; font-size: 16px; -webkit-font-smoothing: antialiased; }
+::selection { background: var(--accent-1); color: var(--bg); }
+
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  background: rgba(12, 14, 18, 0.85); backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border); padding: 0 2rem;
+  height: 56px; display: flex; align-items: center; justify-content: space-between;
+}
+nav .logo { font-family: var(--font-mono); font-weight: 700; font-size: 0.95rem; color: var(--accent-1); letter-spacing: -0.02em; text-decoration: none; }
+nav .logo span { color: var(--text-dim); font-weight: 400; }
+nav ul { list-style: none; display: flex; gap: 1.5rem; }
+nav ul a { color: var(--text-dim); text-decoration: none; font-size: 0.85rem; font-weight: 500; transition: color 0.2s; }
+nav ul a:hover { color: var(--text); }
+
+.page-content { max-width: 780px; margin: 0 auto; padding: 6rem 2rem 4rem; }
+.page-content h1 { font-family: var(--font-serif); font-size: clamp(1.8rem, 4vw, 2.8rem); font-weight: 700; letter-spacing: -0.03em; margin-bottom: 0.5rem; }
+.lead { color: var(--text-dim); font-size: 1.05rem; margin-bottom: 3rem; line-height: 1.8; }
+
+.section-label { font-family: var(--font-mono); font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--accent-1); margin: 2.5rem 0 1rem; }
+
+details { background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; margin-bottom: 0.6rem; transition: border-color 0.2s; }
+details:hover { border-color: var(--border-accent); }
+details[open] { border-color: var(--border-accent); }
+details summary { padding: 1.1rem 1.5rem; cursor: pointer; font-weight: 600; font-size: 0.95rem; color: var(--text); list-style: none; display: flex; justify-content: space-between; align-items: center; user-select: none; }
+details summary::-webkit-details-marker { display: none; }
+details summary::after { content: '+'; font-family: var(--font-mono); font-size: 1.1rem; color: var(--text-muted); transition: color 0.2s; flex-shrink: 0; margin-left: 1rem; }
+details[open] summary::after { content: '−'; color: var(--accent-1); }
+details[open] summary { border-bottom: 1px solid var(--border); color: var(--accent-1); }
+details .inner { padding: 1.25rem 1.5rem; color: var(--text-dim); font-size: 0.93rem; line-height: 1.85; }
+details .inner p + p { margin-top: 0.8rem; }
+details .inner code { font-family: var(--font-mono); font-size: 0.82rem; background: rgba(79,195,247,0.08); padding: 0.15rem 0.4rem; border-radius: 3px; color: var(--accent-1); }
+details .inner a { color: var(--accent-1); }
+details .inner strong { color: var(--text); }
+
+footer { border-top: 1px solid var(--border); padding: 3rem 2rem; text-align: center; color: var(--text-muted); font-size: 0.85rem; }
+footer a { color: var(--text-dim); text-decoration: none; transition: color 0.2s; }
+footer a:hover { color: var(--accent-1); }
+footer .links { display: flex; justify-content: center; gap: 2rem; margin-bottom: 1rem; flex-wrap: wrap; }
+
+@media (max-width: 768px) { .page-content { padding: 5rem 1.5rem 3rem; } nav ul { display: none; } }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="logo">gguf-bench<span>.com</span></a>
+  <ul>
+    <li><a href="index.html#usecases">Use cases</a></li>
+    <li><a href="index.html#results">Results</a></li>
+    <li><a href="index.html#methodology">Methodology</a></li>
+    <li><a href="https://github.com/yrougy/llm-quant-bench" target="_blank">GitHub ↗</a></li>
+  </ul>
+</nav>
+
+<div class="page-content">
+  <h1>Frequently asked questions</h1>
+  <p class="lead">Everything you wanted to know about quantization, benchmarks, and how to read the results.</p>
+
+  <p class="section-label">Quantization &amp; GGUF</p>
+
+  <details>
+    <summary>What is quantization?</summary>
+    <div class="inner">
+      <p>Quantization reduces the numerical precision of a language model's weights. A <code>FP16</code> model uses 2 bytes per weight; a <code>Q4</code> model uses roughly 0.5 — a 4× reduction in memory footprint.</p>
+      <p>The trade-off is rounding error that slightly degrades model quality. This site measures exactly that cost across several academic benchmarks.</p>
+    </div>
+  </details>
+
+  <details>
+    <summary>What is the GGUF format?</summary>
+    <div class="inner">
+      <p><strong>GGUF</strong> (GPT-Generated Unified Format) is the file format used by <a href="https://github.com/ggerganov/llama.cpp" target="_blank">llama.cpp</a>. It bundles quantized weights, tokenizer config, and model metadata into a single file.</p>
+      <p>It is now the de facto standard for running quantized LLMs locally, on consumer CPUs and GPUs.</p>
+    </div>
+  </details>
+
+  <details>
+    <summary>What is the difference between IQ and Q quantization levels?</summary>
+    <div class="inner">
+      <p><strong>Q</strong> levels (e.g. <code>Q4_K_M</code>) use uniform block quantization developed by the llama.cpp team.</p>
+      <p><strong>IQ</strong> levels (e.g. <code>IQ2_M</code>) or <strong>UD-IQ</strong> use importance-aware (or "Unsloth Dynamic") quantization: layers that matter most to model quality are quantized less aggressively, preserving accuracy at the same file size.</p>
+      <p>As a rule of thumb, IQ formats outperform classic Q formats at the same file size — especially at very low bit depths (1–2 bits).</p>
+    </div>
+  </details>
+
+  <details>
+    <summary>What is the difference between Dense and MoE architectures?</summary>
+    <div class="inner">
+      <p>A <strong>Dense</strong> model activates all its parameters at every inference step. A <strong>MoE</strong> (Mixture of Experts) model only activates a subset of its parameters (the "experts") per token.</p>
+      <p>In practice, a 35B MoE model may activate only 3B parameters per token — offering inference speed close to a 3B Dense model while retaining quality closer to a 35B.</p>
+      <p>The <a href="index.html#dense-vs-moe">Dense vs MoE section</a> on the main site compares these architectures head-to-head across all benchmarks.</p>
+    </div>
+  </details>
+
+  <p class="section-label">Benchmarks &amp; results</p>
+
+  <details>
+    <summary>Why these specific benchmarks?</summary>
+    <div class="inner">
+      <p>The benchmarks were chosen to cover complementary skills:</p>
+      <p>
+        <strong>ARC-Challenge</strong> — science multiple-choice reasoning, resistant to benchmark artefacts.<br>
+        <strong>IFEval</strong> — ability to follow precise instructions (format, style, constraints).<br>
+        <strong>GSM8K</strong> — elementary arithmetic and multi-step math problem solving.<br>
+        <strong>HumanEval</strong> — Python code generation evaluated by unit tests.
+      </p>
+      <p>These are standard, reproducible academic benchmarks with low training-data contamination risk.</p>
+    </div>
+  </details>
+
+  <details>
+    <summary>How do I read the charts?</summary>
+    <div class="inner">
+      <p>The horizontal axis represents the quantization level, from most compressed (left) to least compressed (right). The vertical axis shows the benchmark score as a percentage.</p>
+      <p>A steep drop towards the left means the model handles aggressive quantization poorly. A flat line indicates strong resilience.</p>
+      <p>The table below each chart shows exact scores and the GGUF file size fetched from Hugging Face at build time.</p>
+    </div>
+  </details>
+
+  <details>
+    <summary>What hardware was used?</summary>
+    <div class="inner">
+      <p>Benchmarks are run with <a href="https://github.com/EleutherAI/lm-evaluation-harness" target="_blank">lm-evaluation-harness</a> by EleutherAI, using <code>llama.cpp</code> as the inference backend.</p>
+      <p>See the <a href="index.html#methodology">Methodology</a> section on the main site for hardware details and evaluation parameters.</p>
+    </div>
+  </details>
+
+  <details>
+    <summary>Are the results reproducible?</summary>
+    <div class="inner">
+      <p>Yes. All raw result files are available in the <a href="https://github.com/yrougy/llm-quant-bench" target="_blank">yrougy/llm-quant-bench</a> GitHub repository. The exact commands used for each evaluation are documented in the README.</p>
+      <p>Minor variations may occur depending on the <code>llama.cpp</code> version and sampling parameters used.</p>
+    </div>
+  </details>
+
+  <p class="section-label">Contributing &amp; updates</p>
+
+  <details>
+    <summary>How can I contribute?</summary>
+    <div class="inner">
+      <p>Contributions are welcome via the GitHub repository: <a href="https://github.com/yrougy/llm-quant-bench" target="_blank">yrougy/llm-quant-bench</a>.</p>
+      <p>You can propose new models to benchmark, result corrections, methodology improvements, or contributions to the site generator code.</p>
+    </div>
+  </details>
+
+  <details>
+    <summary>How often are results updated?</summary>
+    <div class="inner">
+      <p>Results are added manually as evaluations are completed. There is no fixed schedule — updates happen when notable new models or quantization variants are released.</p>
+      <p>The date of the latest update is visible in the <a href="https://github.com/yrougy/llm-quant-bench/commits/main" target="_blank">GitHub commit history</a>.</p>
+    </div>
+  </details>
+</div>
+
+<footer>
+  <div class="links">
+    <a href="index.html">← Back to site</a>
+    <a href="https://github.com/yrougy/llm-quant-bench" target="_blank">GitHub</a>
+    <a href="https://rougy.net" target="_blank">rougy.net</a>
+    <a href="legal.html">Legal notice</a>
+  </div>
+  <p>CC BY 4.0 — Yves Rougy, 2025–2026</p>
+</footer>
+</body>
+</html>

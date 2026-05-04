@@ -16,3 +16,6 @@ env/
 .vscode/
 .idea/
 *.swp
+
+# tmp
+tmp/
