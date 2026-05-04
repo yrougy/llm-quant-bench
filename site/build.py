@@ -363,7 +363,7 @@ def build(args):
 
     # Copy static pages (faq.html, legal.html) alongside the generated index
     out_dir = output_path.parent
-    for page in ("faq.html", "legal.html"):
+    for page in ("faq.html", "legal.html", "og.png"):
         src = site_dir / page
         if src.exists():
             shutil.copy2(src, out_dir / page)
