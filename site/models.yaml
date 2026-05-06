@@ -129,18 +129,26 @@ models:
       performer overall</strong>.
 
   gemma4:
-    name: "Gemma 4 27B A4B (MoE)"
+    name: "Gemma 4 26B A4B (MoE)"
     results_dir: "gemma-4-26B-A4B-it"
     provider: "Unsloth"
     arch: "MoE"
-    hf_repo: "unsloth/gemma-4-27b-a4b-it-GGUF"
+    hf_repo: "unsloth/gemma-4-26B-A4B-it-GGUF"
     compare_color: "#ce93d8"
     compare_style: "dashed"
     takeaway: >
-      IQ2_XXS takes a noticeable hit on ARC (<strong>-13 points</strong>),
-      but GSM8K and IFEval remain surprisingly stable across quants. From
-      Q3_K_S onward, all benchmarks plateau. The sweet spot is around
-      <strong>Q4_K_S</strong>.
+      <strong>HumanEval and HumanEval+ were not run</strong>: these
+      benchmarks use a code-completion format (complete the function stub)
+      that is fundamentally incompatible with instruct-tuned models, which
+      respond in chat mode rather than completing raw code — this reflects
+      a benchmark format mismatch, not the model's coding ability.
+      IFEval and GSM8K are exceptionally stable across the entire
+      quantization range (±2 points from IQ2 to Q5), consistent with
+      the MoE architecture's resilience. ARC shows the only real cliff
+      at IQ2 (<strong>~8–9 points below</strong> the Q4 range).
+      <strong>IQ3_XXS is the practical floor</strong>: it already matches
+      MXFP4 on IFEval and GSM8K, and recovers nearly all the ARC score —
+      going above Q4 offers diminishing returns.
 
 # Comparison chart takeaways (section 3)
 compare_takeaways:
