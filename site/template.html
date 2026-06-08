@@ -217,7 +217,7 @@ footer .links { display: flex; justify-content: center; gap: 2rem; margin-bottom
   </p>
   <div class="hw-badge">
     <span class="dot"></span>
-    2× RTX 3060 12 GB · GTX 1070 8 GB · llama.cpp · lm-evaluation-harness
+    2× RTX 3060 12 GB · GTX 1070 8 GB · llama.cpp · lm-evaluation-harness · inspect_ai
   </div>
 </div>
 
@@ -229,12 +229,12 @@ footer .links { display: flex; justify-content: center; gap: 2rem; margin-bottom
       <div class="banner-title">Benchmark saturation notice</div>
       <p class="banner-text">
         Most current benchmarks are <strong>saturating</strong> — top quants all cluster near the ceiling, which confirms that modern quantized models are remarkably capable. The downside: scores are too close to meaningfully differentiate one quant from another.
-        <strong>Additional benchmarks are being evaluated</strong> to restore discrimination — selecting the right ones and validating them takes time. A subset of <a href="https://github.com/hsiehjackson/RULER" target="_blank" style="color:var(--accent-1);text-decoration:none;">RULER</a> is among the candidates. In the meantime, treat the existing results as a quality floor, not a ranking.
+        <strong>BBEH Mini</strong> (Big-Bench Extra Hard, via inspect_ai) is now available for the Qwen 3.6 A35B A3B MTP model and shows clear discrimination between quant tiers. inspect_ai supports incremental evaluation, so the sample count grows as machine time allows — current count is 100 (±5% margin; treat differences &lt; 8 pts as noise). Coverage is being extended to other models.
       </p>
       <div class="banner-pills">
         <span class="pill pill-good">Good news: high absolute quality</span>
-        <span class="pill pill-warn">Limitation: low discrimination between quants</span>
-        <span class="pill pill-info">Harder benchmarks coming</span>
+        <span class="pill pill-warn">Limitation: low discrimination on standard benchmarks</span>
+        <span class="pill pill-info">BBEH Mini now available (partial)</span>
       </div>
     </div>
   </div>
@@ -277,6 +277,12 @@ footer .links { display: flex; justify-content: center; gap: 2rem; margin-bottom
       <p>Same problems, 80× more test cases. Catches false positives where code passes by luck. Practical floor: <strong>≥ 60%</strong>. Watch the gap with HumanEval — a large spread means the model handles basics but collapses on edge cases.</p>
       <div class="resilience">Quantization resilience<div class="bar"><div class="bar-fill" style="width:40%; background: var(--accent-5);"></div></div></div>
     </div>
+    <div class="usecase-card">
+      <span class="tag">BBEH Mini</span>
+      <h3>Hard Reasoning</h3>
+      <p>Subset of <em>Big-Bench Extra Hard</em> — logic, causal inference, multi-step deduction. Designed to resist saturation where standard benchmarks hit a ceiling. Results via <strong>inspect_ai</strong>, which supports incremental evaluation: sample count grows as machine time allows. Current count: <strong>100 samples</strong> (±5% margin).</p>
+      <div class="resilience">Quantization resilience<div class="bar"><div class="bar-fill" style="width:55%; background: var(--danger);"></div></div></div>
+    </div>
   </div>
   <div class="callout">
     <strong>Key insight:</strong> If your use case is running an agent (Hermes Agent, Picoclaw…), you need IFEval and ARC to hold — and they do, even at Q3. For code, aim for ≥ 65% HumanEval+ as a practical floor; below that, edge cases break too often. The right quant depends on <em>what you're doing</em>, not on a single leaderboard score.
@@ -292,6 +298,7 @@ footer .links { display: flex; justify-content: center; gap: 2rem; margin-bottom
           <th>IFEval</th>
           <th>GSM8K</th>
           <th>HumanEval / HumanEval+</th>
+          <th>BBEH Mini</th>
         </tr>
       </thead>
       <tbody>
@@ -301,6 +308,7 @@ footer .links { display: flex; justify-content: center; gap: 2rem; margin-bottom
           <td><span class="bench-tag bench-primary">primary</span></td>
           <td><span class="bench-tag bench-cond">if reasoning chains</span></td>
           <td class="na">—</td>
+          <td class="na">—</td>
         </tr>
         <tr>
           <td class="quant-name">Chatbot</td>
@@ -308,9 +316,19 @@ footer .links { display: flex; justify-content: center; gap: 2rem; margin-bottom
           <td><span class="bench-tag bench-secondary">secondary</span></td>
           <td class="na">—</td>
           <td class="na">—</td>
+          <td class="na">—</td>
         </tr>
         <tr>
           <td class="quant-name">Code assistance</td>
+          <td class="na">—</td>
+          <td><span class="bench-tag bench-primary">primary</span></td>
+          <td class="na">—</td>
+          <td><span class="bench-tag bench-primary">primary</span></td>
+          <td class="na">—</td>
+        </tr>
+        <tr>
+          <td class="quant-name">Complex reasoning</td>
+          <td><span class="bench-tag bench-secondary">secondary</span></td>
           <td class="na">—</td>
           <td><span class="bench-tag bench-primary">primary</span></td>
           <td class="na">—</td>
@@ -330,8 +348,8 @@ footer .links { display: flex; justify-content: center; gap: 2rem; margin-bottom
     <div class="rn-icon">🔬</div>
     <div class="rn-body">
       <div class="rn-title">What's coming</div>
-      <strong>Gemma 4 12B</strong> is currently being benchmarked on the existing suite (ARC, IFEval, GSM8K, HumanEval). Results will appear here once complete.
-      Separately, <strong>additional benchmarks</strong> are being evaluated to address saturation — selecting and validating the right ones (a subset of <a href="https://github.com/hsiehjackson/RULER" target="_blank" style="color:var(--accent-1);text-decoration:none;">RULER</a> is among the candidates) takes time, and they are not yet finalized.
+      <strong>Qwen 3.6 A35B A3B MTP</strong> is now evaluated with <strong>BBEH Mini</strong> (100 samples, inspect_ai) — see its tab for results. BBEH coverage is being extended to other models.
+      The evaluation stack is migrating from lm-evaluation-harness to <strong>inspect_ai</strong>, which handles instruction-tuned models more reliably. Results from the two harnesses are not directly comparable; mixed-harness models are clearly labeled.
     </div>
   </div>
 
@@ -402,7 +420,7 @@ footer .links { display: flex; justify-content: center; gap: 2rem; margin-bottom
   <div class="method-grid">
     <div class="method-item">
       <h4>Evaluation harness</h4>
-      <p>All tests run through <code>lm-evaluation-harness</code> by EleutherAI with models served via <code>llama-server</code> from llama.cpp.</p>
+      <p>Most results use <code>lm-evaluation-harness</code> by EleutherAI. The Qwen 3.6 A35B A3B MTP model and BBEH Mini use <code>inspect_ai</code> via <code>inspect_evals</code> — better suited to instruction-tuned models on a chat API. Both use <code>llama-server</code> from llama.cpp as the inference backend.</p>
     </div>
     <div class="method-item">
       <h4>ARC-Challenge variant</h4>

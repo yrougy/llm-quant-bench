@@ -54,6 +54,9 @@ FIELD_MAP = {
     "humaneval_pass@1_stderr":"humaneval_pass_at_1_stderr",
     "humaneval_plus_pass@1":  "humaneval_plus_pass_at_1",
     "humaneval_plus_pass@1_stderr": "humaneval_plus_pass_at_1_stderr",
+    # inspect_ai benchmarks — scores are already 0–1, same conversion applies
+    "bbeh_mini_accuracy":     "bbeh_mini",
+    "arc_challenge_accuracy": "arc_challenge",
 }
 
 

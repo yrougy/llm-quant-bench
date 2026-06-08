@@ -58,6 +58,30 @@ We use `q4_0` for both K and V cache. This introduces a small amount of noise co
 
 If you want to reproduce our exact numbers, use the same KV cache settings. If you have more VRAM, using fp16 KV cache will give slightly cleaner results.
 
+## lm-eval-harness vs inspect_ai: mixed results
+
+Starting with the Qwen 3.6 A35B A3B MTP model, evaluations switched to inspect_ai. This means **results from this model are not directly comparable to lm-eval results for other models**, even for nominally identical benchmarks like ARC-Challenge.
+
+The two harnesses differ in:
+- **Prompt format:** lm-eval used the completions endpoint (`/v1/completions`) with manually applied chat templates. inspect_ai uses `/v1/chat/completions` via the OpenAI client — llama-server applies the chat template automatically.
+- **Evaluation logic:** lm-eval uses token log-probabilities for some tasks; inspect_ai uses generative scoring throughout.
+- **Task implementations:** The ARC-Challenge task in inspect_ai is not identical to `arc_challenge_chat` in lm-eval — the scoring method and prompt phrasing differ.
+
+**What this means in practice:** Do not compare ARC or other overlapping scores between the MTP model (inspect_ai) and the other models (lm-eval). The comparison charts in section 3 of the site only include benchmarks where the same harness was used, or where the difference is clearly labeled.
+
+## BBEH Mini: growing sample count
+
+The BBEH Mini results currently reflect 100 samples. This is not a fixed limit — inspect_ai supports **incremental evaluation**, meaning a run can be paused and resumed later without discarding prior work. New samples are appended to existing results as machine time becomes available.
+
+At the current 100-sample count:
+
+- Standard error is approximately ±5%
+- Differences smaller than ~8 points should be treated as noise
+- The gap between IQ1_M (~40%) and IQ4_NL (~54%) is large enough to be meaningful
+- The clustering of IQ1_M / IQ2_XXS / Q3_K_M around 40–41% is likely real, but individual differences between those quants are not
+
+The first goal was to produce **readable, discriminating graphs** rather than statistically definitive ones. Precision will improve as the sample count grows. Results in the data files include a `total_samples` field so you can always see how many samples backed a given score.
+
 ## Model sources
 
 Most GGUF files come from [Unsloth](https://huggingface.co/unsloth), who provide a wide range of quantization levels including the "UD" (Unsloth Dynamic) variants with non-standard quant schemes. We also tested a few quants from [Bartowski](https://huggingface.co/bartowski) for cross-validation.

@@ -2,29 +2,37 @@
   {
     "model": "Qwen3.6-35B-A3B",
     "quant": "UD-IQ1_M",
-    "eval_time_seconds": 10204.0,
-    "total_samples": 100,
+    "eval_time_seconds": 1174.0,
+    "total_samples": 1172,
+    "arc_challenge_accuracy": 0.950512,
+    "arc_challenge_stderr": 0.006338,
     "bbeh_mini_accuracy": 0.4
   },
   {
     "model": "Qwen3.6-35B-A3B",
     "quant": "UD-IQ2_M",
-    "eval_time_seconds": 7246.0,
-    "total_samples": 100,
+    "eval_time_seconds": 897.0,
+    "total_samples": 1172,
+    "arc_challenge_accuracy": 0.955631,
+    "arc_challenge_stderr": 0.006017,
     "bbeh_mini_accuracy": 0.41
   },
   {
     "model": "Qwen3.6-35B-A3B",
     "quant": "UD-IQ2_XXS",
-    "eval_time_seconds": 8735.0,
-    "total_samples": 100,
+    "eval_time_seconds": 824.0,
+    "total_samples": 1172,
+    "arc_challenge_accuracy": 0.957338,
+    "arc_challenge_stderr": 0.005906,
     "bbeh_mini_accuracy": 0.41
   },
   {
     "model": "Qwen3.6-35B-A3B",
     "quant": "UD-IQ4_NL",
-    "eval_time_seconds": 6353.0,
-    "total_samples": 100,
+    "eval_time_seconds": 2323.0,
+    "total_samples": 1172,
+    "arc_challenge_accuracy": 0.96587,
+    "arc_challenge_stderr": 0.005306,
     "bbeh_mini_accuracy": 0.54
   },
   {
@@ -32,6 +40,8 @@
     "quant": "UD-Q3_K_M",
     "eval_time_seconds": 7823.0,
     "total_samples": 100,
+    "arc_challenge_accuracy": 0.963311,
+    "arc_challenge_stderr": 0.005494,
     "bbeh_mini_accuracy": 0.4
   },
   {
@@ -39,6 +49,8 @@
     "quant": "UD-Q4_K_M",
     "eval_time_seconds": 7013.0,
     "total_samples": 100,
+    "arc_challenge_accuracy": null,
+    "arc_challenge_stderr": null,
     "bbeh_mini_accuracy": 0.49
   }
 ]

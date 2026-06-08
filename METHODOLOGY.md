@@ -12,11 +12,23 @@ This means:
 - What matters is the **delta** between quants, not the absolute numbers.
 - Each model family has its own baseline (the highest quant tested).
 
-## Evaluation tool
+## Evaluation tools
 
-All evaluations use [EleutherAI's lm-evaluation-harness](https://github.com/EleutherAI/lm-evaluation-harness) (version 0.4.12).
+### lm-evaluation-harness (legacy)
+
+Most results were produced with [EleutherAI's lm-evaluation-harness](https://github.com/EleutherAI/lm-evaluation-harness) (version 0.4.12).
 
 The models are served locally via `llama-server` (from [llama.cpp](https://github.com/ggml-org/llama.cpp)) and queried through the OpenAI-compatible completions endpoint (`/v1/completions`). The harness connects as a `local-completions` backend.
+
+**Why we're moving away from it:** lm-eval-harness is designed for base models. Adapting it to instruction-tuned models running through a local chat endpoint requires significant parameter tuning (chat templates, tokenizer paths, generative task variants) and produces fragile configurations. Finding the right settings for each new model family can take days of debugging.
+
+### inspect_ai (current)
+
+Starting with the **Qwen 3.6 A35B A3B MTP** model, evaluations use [inspect_ai](https://github.com/UKGovernmentBEIS/inspect_evals) via `inspect_evals`. This framework is designed for instruction-tuned models evaluated through a chat API, which maps naturally to how these models are actually deployed.
+
+The models are still served locally via `llama-server` through the OpenAI-compatible chat endpoint (`/v1/chat/completions`), and inspect_ai connects as an `openai`-compatible provider.
+
+The migration is ongoing. Future models will be evaluated exclusively with inspect_ai. Existing lm-eval results are preserved as-is.
 
 ## Inference setup
 
@@ -93,6 +105,20 @@ The strict/loose distinction matters: strict parsing checks exact compliance, wh
 HumanEval tests practical coding ability. Each problem provides a function signature and docstring; the model must complete the function body. The generated code is then executed against test cases.
 
 Note: HumanEval results can have high variance (stderr ~±3.8%). Small differences between quants should not be over-interpreted.
+
+### BBEH Mini — Big-Bench Extra Hard (subset)
+
+- **Dataset:** 100-sample subset drawn from [Big-Bench Extra Hard](https://github.com/google-deepmind/bbeh)
+- **What it tests:** Hard reasoning across diverse tasks — logic puzzles, causal reasoning, multi-step inference. Designed to resist saturation where standard benchmarks cluster near the ceiling.
+- **Evaluation:** Exact match / format-specific parsing per task type
+- **N-shot:** 0
+- **Harness:** inspect_ai via `inspect_evals`
+
+**Important caveat:** The current results use 100 samples. At 100 samples, the margin of error is high (~±5%). Results should be read as directional signal — the gap between IQ1_M and IQ4_NL is real, but small inter-quant differences may be noise.
+
+Unlike lm-eval-harness, inspect_ai supports **incremental evaluation**: a run can be interrupted and resumed later, and new samples can be appended to existing results. This means the sample count is not a fixed ceiling but a snapshot of the current state — it grows as machine time becomes available. The first priority is having graphs that are readable and discriminating; precision improves from there.
+
+BBEH was added specifically to address benchmark saturation: existing tests (ARC, IFEval, GSM8K) are too easy for top quants, so they all cluster near the ceiling. BBEH provides discrimination where the others don't.
 
 ## What's NOT tested
 

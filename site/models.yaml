@@ -28,6 +28,14 @@ benchmarks:
     label: "HumanEval+"
     color: "#26a69a"
     color_bg: "rgba(38,166,154,0.15)"
+  bbeh_mini:
+    label: "BBEH Mini"
+    color: "#ef5350"
+    color_bg: "rgba(239,83,80,0.15)"
+  arc_challenge:
+    label: "ARC-Challenge"
+    color: "#29b6f6"
+    color_bg: "rgba(41,182,246,0.15)"
 
 # Quantization ordering (low → high quality)
 # The build script will sort quants in this order
@@ -128,6 +136,21 @@ models:
       stabilizes around 91–92%. The <strong>UD-Q4_K_XL is the best
       performer overall</strong>.
 
+  qwen36_35b_mtp:
+    name: "Qwen 3.6 A35B A3B MTP (MoE)"
+    results_dir: "Qwen3.6-36B-A3B-MTP"
+    provider: "Unsloth"
+    arch: "MoE"
+    hf_repo: "unsloth/Qwen3.6-35B-A3B-GGUF"
+    compare_color: "#80cbc4"
+    compare_style: "dotted"
+    takeaway: >
+      Results via inspect_ai (BBEH Mini, 100 samples).
+      The MoE architecture again shows strong resilience:
+      <strong>IQ4_NL reaches 54%</strong> while IQ1_M/IQ2_XXS/Q3_K_M
+      cluster around 40–41%. There is a clear step at Q4 — consistent
+      with the pattern observed on other benchmarks.
+
   gemma4:
     name: "Gemma 4 26B A4B (MoE)"
     results_dir: "gemma-4-26B-A4B-it"
@@ -175,3 +198,10 @@ compare_takeaways:
     <strong>HumanEval+</strong> (80× more tests) amplifies the same
     pattern. Scores are systematically lower than HumanEval, confirming
     that some code passes by luck at higher quants.
+  bbeh_mini: >
+    <strong>BBEH Mini</strong> (Big-Bench Extra Hard, 100 samples via
+    inspect_ai) is only available for the Qwen 3.6 A35B A3B MTP variants
+    so far. A clear step appears at Q4: IQ1_M–Q3_K_M cluster around
+    40–41% while IQ4_NL reaches 54%.
+  arc_challenge: >
+    <strong>ARC-Challenge</strong> via inspect_ai. Results pending.
