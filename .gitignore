@@ -20,3 +20,4 @@ env/
 # tmp
 tmp/
 docs/
+docs/*
