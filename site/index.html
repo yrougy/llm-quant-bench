@@ -83,6 +83,25 @@ section > .intro { color: var(--text-dim); font-size: 1.05rem; max-width: 720px;
 .callout { background: rgba(79, 195, 247, 0.06); border-left: 3px solid var(--accent-1); border-radius: 0 8px 8px 0; padding: 1.2rem 1.5rem; margin-top: 2rem; font-size: 0.95rem; color: var(--text); }
 .callout strong { color: var(--accent-1); }
 
+.saturation-banner { max-width: 1100px; margin: 0 auto 2.5rem; padding: 0 2rem; }
+.saturation-banner .banner-inner { background: rgba(255,183,77,0.07); border: 1px solid rgba(255,183,77,0.28); border-radius: 12px; padding: 1.4rem 1.8rem; display: flex; gap: 1.2rem; align-items: flex-start; }
+.saturation-banner .banner-icon { font-size: 1.3rem; flex-shrink: 0; margin-top: 0.05rem; }
+.saturation-banner .banner-body { flex: 1; }
+.saturation-banner .banner-title { font-family: var(--font-mono); font-size: 0.72rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; color: var(--warning); margin-bottom: 0.5rem; }
+.saturation-banner .banner-text { font-size: 0.9rem; color: var(--text-dim); line-height: 1.7; }
+.saturation-banner .banner-text strong { color: var(--text); }
+.saturation-banner .banner-pills { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 0.9rem; }
+.saturation-banner .pill { font-family: var(--font-mono); font-size: 0.72rem; padding: 0.25rem 0.7rem; border-radius: 100px; border: 1px solid; }
+.pill-good { color: var(--success); border-color: rgba(102,187,106,0.35); background: rgba(102,187,106,0.07); }
+.pill-warn { color: var(--warning); border-color: rgba(255,183,77,0.35); background: rgba(255,183,77,0.07); }
+.pill-info { color: var(--accent-1); border-color: rgba(79,195,247,0.35); background: rgba(79,195,247,0.07); }
+
+.roadmap-notice { background: rgba(171,71,188,0.07); border: 1px solid rgba(171,71,188,0.25); border-radius: 10px; padding: 1.1rem 1.5rem; margin-bottom: 1.5rem; display: flex; gap: 1rem; align-items: flex-start; }
+.roadmap-notice .rn-icon { font-size: 1.1rem; flex-shrink: 0; }
+.roadmap-notice .rn-body { flex: 1; font-size: 0.88rem; color: var(--text-dim); line-height: 1.7; }
+.roadmap-notice .rn-body strong { color: var(--text); }
+.roadmap-notice .rn-title { font-family: var(--font-mono); font-size: 0.7rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; color: var(--accent-2); margin-bottom: 0.4rem; }
+
 .model-tabs { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 2rem; }
 .model-tab { background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; padding: 0.6rem 1.2rem; font-family: var(--font-mono); font-size: 0.8rem; color: var(--text-dim); cursor: pointer; transition: all 0.2s; outline: none; }
 .model-tab:hover { border-color: var(--border-accent); color: var(--text); }
@@ -177,6 +196,25 @@ footer .links { display: flex; justify-content: center; gap: 2rem; margin-bottom
   </div>
 </div>
 
+<!-- ════════════════ SATURATION BANNER ════════════════ -->
+<div class="saturation-banner">
+  <div class="banner-inner">
+    <div class="banner-icon">⚠️</div>
+    <div class="banner-body">
+      <div class="banner-title">Benchmark saturation notice</div>
+      <p class="banner-text">
+        Most current benchmarks are <strong>saturating</strong> — top quants all cluster near the ceiling, which confirms that modern quantized models are remarkably capable. The downside: scores are too close to meaningfully differentiate one quant from another.
+        <strong>Additional benchmarks are being evaluated</strong> to restore discrimination — selecting the right ones and validating them takes time. A subset of <a href="https://github.com/hsiehjackson/RULER" target="_blank" style="color:var(--accent-1);text-decoration:none;">RULER</a> is among the candidates. In the meantime, treat the existing results as a quality floor, not a ranking.
+      </p>
+      <div class="banner-pills">
+        <span class="pill pill-good">Good news: high absolute quality</span>
+        <span class="pill pill-warn">Limitation: low discrimination between quants</span>
+        <span class="pill pill-info">Harder benchmarks coming</span>
+      </div>
+    </div>
+  </div>
+</div>
+
 <!-- ════════════════ USE CASES ════════════════ -->
 <section id="usecases">
   <h2><span class="num">01</span>Pick your use case, not your quant</h2>
@@ -224,6 +262,15 @@ footer .links { display: flex; justify-content: center; gap: 2rem; margin-bottom
 <section id="results">
   <h2><span class="num">02</span>Results by model</h2>
   <p class="intro">Select a model to see how each benchmark degrades across quantization levels.</p>
+
+  <div class="roadmap-notice">
+    <div class="rn-icon">🔬</div>
+    <div class="rn-body">
+      <div class="rn-title">What's coming</div>
+      <strong>Gemma 4 12B</strong> is currently being benchmarked on the existing suite (ARC, IFEval, GSM8K). Results will appear here once complete.
+      Separately, <strong>additional benchmarks</strong> are being evaluated to address saturation — selecting and validating the right ones (a subset of <a href="https://github.com/hsiehjackson/RULER" target="_blank" style="color:var(--accent-1);text-decoration:none;">RULER</a> is among the candidates) takes time, and they are not yet finalized.
+    </div>
+  </div>
 
   <div class="model-tabs" id="model-tabs">
     <!-- ▼ GENERATED BY build.py — do not edit ▼ -->
