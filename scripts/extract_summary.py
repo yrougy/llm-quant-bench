@@ -228,12 +228,10 @@ def build_summaries(entries: list[tuple[Path, dict]]) -> dict:
 
 
 def write_outputs(summaries: dict, output_dir: Path):
-    """Écrit les fichiers de sortie."""
+    """Écrit les summary.json par modèle (les fichiers globaux sont gérés par aggregate.py)."""
     output_dir.mkdir(parents=True, exist_ok=True)
 
-    all_records = []
-
-    # Collecter toutes les métriques existantes pour les colonnes du CSV
+    # Collecter toutes les métriques pour normaliser les colonnes par run
     all_metrics = set()
     for model, quants in summaries.items():
         for quant, entry in quants.items():
@@ -241,7 +239,6 @@ def write_outputs(summaries: dict, output_dir: Path):
     all_metrics = sorted(all_metrics)
 
     for model, quants in sorted(summaries.items()):
-        # Un summary.json par famille de modèle
         model_dir = output_dir / model
         model_dir.mkdir(parents=True, exist_ok=True)
 
@@ -261,7 +258,6 @@ def write_outputs(summaries: dict, output_dir: Path):
                     record[f"{metric}_stderr"] = None
 
             model_summary.append(record)
-            all_records.append(record)
 
         summary_path = model_dir / "summary.json"
         summary_path.write_text(
@@ -269,28 +265,6 @@ def write_outputs(summaries: dict, output_dir: Path):
             encoding="utf-8",
         )
         print(f"  [OK] {summary_path}  ({len(model_summary)} quants)")
-
-    # CSV global
-    csv_path = output_dir / "all_results.csv"
-    if all_records:
-        fieldnames = ["model", "quant"] + all_metrics
-        with open(csv_path, "w", newline="", encoding="utf-8") as f:
-            writer = csv.DictWriter(
-                f,
-                fieldnames=fieldnames,
-                extrasaction="ignore",
-            )
-            writer.writeheader()
-            writer.writerows(all_records)
-        print(f"  [OK] {csv_path}  ({len(all_records)} lignes)")
-
-    # JSON global
-    json_path = output_dir / "all_results.json"
-    json_path.write_text(
-        json.dumps(all_records, indent=2, ensure_ascii=False),
-        encoding="utf-8",
-    )
-    print(f"  [OK] {json_path}")
 
 
 def main():

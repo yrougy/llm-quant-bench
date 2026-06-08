@@ -211,23 +211,41 @@ No full results for this one for now. I plan to redo it fully. I hope to find a 
 ├── REPRODUCE.md           # Step-by-step guide to replicate the tests
 ├── CAVEATS.md             # Pitfalls encountered and lessons learned
 ├── results/
-│   ├── all_results.csv    # Global CSV (all models, all quants, all benchmarks)
-│   ├── all_results.json   # Same data as JSON
+│   ├── all_results.csv        # Global CSV — rebuilt by aggregate.py
+│   ├── all_results.json       # Same data as JSON — rebuilt by aggregate.py
 │   ├── gemma-4-26B-A4B-it/
-│   │   ├── summary.json
-│   │   └── raw/           # Original lm-eval-harness JSON outputs
+│   │   └── summary.json       # Per-model source of truth (lm-eval)
 │   ├── Qwen3.6-35B-A3B/
-│   │   ├── summary.json
-│   │   └── raw/
+│   │   └── summary.json
+│   ├── Qwen3.6-36B-A3B-MTP/
+│   │   └── summary.json       # Per-model source of truth (inspect_ai)
+│   ├── inspect_evals/
+│   │   └── {model}/           # Raw .eval files from inspect_ai runs
 │   └── .../
 ├── scripts/
-│   ├── bench2md.py        # Markdown Array generator
-│   ├── extract_summary.py # Generates summary.json & CSV from raw results
-│   ├── run.sh             # Evaluation launcher called by autotest.sh
-│   ├── autotest.sh        # Model iteration wrapper
-│   └── list_quants.py     # Get list of quants from HF, called by autotest.sh
-
+│   ├── extract_summary.py         # lm-eval → results/{model}/summary.json
+│   ├── extract_inspect_summary.py # inspect_ai .eval → results/{model}/summary.json
+│   ├── aggregate.py               # Merges all summary.json → all_results.{json,csv}
+│   ├── bench2md.py                # Markdown table generator
+│   ├── run.sh                     # Evaluation launcher called by autotest.sh
+│   ├── autotest.sh                # Model iteration wrapper
+│   └── list_quants.py             # Get list of quants from HF, called by autotest.sh
 └── LICENSE
+```
+
+## Scripts workflow
+
+Each extraction script only writes its own `results/{model}/summary.json`. The global files are always rebuilt from scratch by `aggregate.py`, so adding a new model never loses older results.
+
+```bash
+# After an lm-evaluation-harness run:
+python scripts/extract_summary.py /path/to/bench/outputs
+
+# After an inspect_ai run:
+site/menv/bin/python scripts/extract_inspect_summary.py
+
+# Always finish with:
+python scripts/aggregate.py
 ```
 
 ## Hardware

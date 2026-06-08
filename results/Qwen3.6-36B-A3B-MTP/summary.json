@@ -1,0 +1,44 @@
+[
+  {
+    "model": "Qwen3.6-35B-A3B",
+    "quant": "UD-IQ1_M",
+    "eval_time_seconds": 10204.0,
+    "total_samples": 100,
+    "bbeh_mini_accuracy": 0.4
+  },
+  {
+    "model": "Qwen3.6-35B-A3B",
+    "quant": "UD-IQ2_M",
+    "eval_time_seconds": 7246.0,
+    "total_samples": 100,
+    "bbeh_mini_accuracy": 0.41
+  },
+  {
+    "model": "Qwen3.6-35B-A3B",
+    "quant": "UD-IQ2_XXS",
+    "eval_time_seconds": 8735.0,
+    "total_samples": 100,
+    "bbeh_mini_accuracy": 0.41
+  },
+  {
+    "model": "Qwen3.6-35B-A3B",
+    "quant": "UD-IQ4_NL",
+    "eval_time_seconds": 6353.0,
+    "total_samples": 100,
+    "bbeh_mini_accuracy": 0.54
+  },
+  {
+    "model": "Qwen3.6-35B-A3B",
+    "quant": "UD-Q3_K_M",
+    "eval_time_seconds": 7823.0,
+    "total_samples": 100,
+    "bbeh_mini_accuracy": 0.4
+  },
+  {
+    "model": "Qwen3.6-35B-A3B",
+    "quant": "UD-Q4_K_M",
+    "eval_time_seconds": 7013.0,
+    "total_samples": 100,
+    "bbeh_mini_accuracy": 0.49
+  }
+]
