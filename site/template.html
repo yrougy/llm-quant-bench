@@ -109,7 +109,8 @@ section > .intro { color: var(--text-dim); font-size: 1.05rem; max-width: 720px;
 .pill-warn { color: var(--warning); border-color: rgba(255,183,77,0.35); background: rgba(255,183,77,0.07); }
 .pill-info { color: var(--accent-1); border-color: rgba(79,195,247,0.35); background: rgba(79,195,247,0.07); }
 
-.roadmap-notice { background: rgba(171,71,188,0.07); border: 1px solid rgba(171,71,188,0.25); border-radius: 10px; padding: 1.1rem 1.5rem; margin-bottom: 1.5rem; display: flex; gap: 1rem; align-items: flex-start; }
+.roadmap-notice { max-width: 1100px; margin: 0 auto 2.5rem; padding: 0 2rem; }
+.roadmap-notice .roadmap-notice-inner { background: rgba(171,71,188,0.07); border: 1px solid rgba(171,71,188,0.25); border-radius: 10px; padding: 1.1rem 1.5rem; display: flex; gap: 1rem; align-items: flex-start; }
 .roadmap-notice .rn-icon { font-size: 1.1rem; flex-shrink: 0; }
 .roadmap-notice .rn-body { flex: 1; font-size: 0.88rem; color: var(--text-dim); line-height: 1.7; }
 .roadmap-notice .rn-body strong { color: var(--text); }
@@ -222,20 +223,20 @@ footer .links { display: flex; justify-content: center; gap: 2rem; margin-bottom
 </div>
 
 <!-- ════════════════ SATURATION BANNER ════════════════ -->
-<div class="saturation-banner">
-  <div class="banner-inner">
-    <div class="banner-icon">⚠️</div>
-    <div class="banner-body">
-      <div class="banner-title">Benchmark saturation notice</div>
-      <p class="banner-text">
-        Most current benchmarks are <strong>saturating</strong> — top quants all cluster near the ceiling, which confirms that modern quantized models are remarkably capable. The downside: scores are too close to meaningfully differentiate one quant from another.
-        <strong>BBEH Mini</strong> (Big-Bench Extra Hard, via inspect_ai) is now available for the Qwen 3.6 A35B A3B MTP model and shows clear discrimination between quant tiers. inspect_ai supports incremental evaluation, so the sample count grows as machine time allows — current count is 100 (±5% margin; treat differences &lt; 8 pts as noise). Coverage is being extended to other models.
-      </p>
-      <div class="banner-pills">
-        <span class="pill pill-good">Good news: high absolute quality</span>
-        <span class="pill pill-warn">Limitation: low discrimination on standard benchmarks</span>
-        <span class="pill pill-info">BBEH Mini now available (partial)</span>
-      </div>
+<div class="roadmap-notice">
+  <div class="roadmap-notice-inner">
+    <div class="rn-icon">🔬</div>
+    <div class="rn-body">
+      <div class="rn-title">What's coming</div>
+      Current benchmarks are <strong>saturating</strong> — scores cluster near the ceiling and no longer discriminate well between quant levels. All benchmarks are being replaced and rerun, using <strong>MTP (Multi-Token Prediction)</strong> variants where available. GSM8K is dropped entirely — too saturated to be useful.
+      <ul style="margin: 0.6rem 0 0; padding-left: 1.2rem; line-height: 1.8;">
+        <li><strong>Logic / comprehension:</strong> ARC-Challenge is being replaced by <strong>BBEH Mini</strong> or the full BBEH suite — designed to resist saturation, with harder distractors and broader reasoning coverage.</li>
+        <li><strong>Code generation:</strong> HumanEval and HumanEval+ are replaced by <strong>BigCodeBench</strong>, which covers a broader set of programming tasks and is harder to game.</li>
+        <li><strong>Code understanding:</strong> <strong>SWE-Bench</strong> is added — tests the ability to understand an existing codebase and patch real GitHub issues, complementing BigCodeBench's generation focus.</li>
+        <li><strong>Knowledge &amp; analysis:</strong> <strong>MMLU-Pro</strong> is added — harder than standard MMLU (10-choice format, expert-level questions), useful as a proxy for complex content comprehension and analysis tasks.</li>
+        <li><strong>Instruction following:</strong> IFEval stays — no better alternative available for this capability.</li>
+        <li><strong>Tool use:</strong> Tau2-Telecom is currently under evaluation as a tool-use benchmark in a telecom context (multi-step agentic tasks with function calls) — not yet selected for the suite.</li>
+      </ul>
     </div>
   </div>
 </div>
@@ -248,44 +249,39 @@ footer .links { display: flex; justify-content: center; gap: 2rem; margin-bottom
   </p>
   <div class="usecase-grid">
     <div class="usecase-card">
-      <span class="tag">ARC-Challenge</span>
-      <h3>Comprehension &amp; Chat</h3>
-      <p>Science QA with distractors. Measures whether the model understands what you're saying and resists confusion.</p>
-      <div class="resilience">Quantization resilience<div class="bar"><div class="bar-fill" style="width:95%; background: var(--accent-1);"></div></div></div>
+      <span class="tag">BBEH Mini</span>
+      <h3>Hard Reasoning &amp; Comprehension</h3>
+      <p>Subset of <em>Big-Bench Extra Hard</em> — logic, causal inference, multi-step deduction. Designed to resist saturation. Also a good proxy for complex explanation tasks. Results via <strong>inspect_ai</strong>; sample count grows as machine time allows (current: <strong>100 samples</strong>, ±5% margin).</p>
+      <div class="resilience">Quantization resilience<div class="bar"><div class="bar-fill" style="width:55%; background: var(--danger);"></div></div></div>
     </div>
     <div class="usecase-card">
       <span class="tag">IFEval</span>
-      <h3>Agents &amp; Tool Use</h3>
-      <p>Strict instruction following. Measures if the model obeys formatting constraints exactly — critical for agentic workflows.</p>
+      <h3>Instruction Following</h3>
+      <p>Strict instruction following. Measures if the model obeys formatting constraints exactly — critical for agentic workflows and any output that must conform to a specific structure.</p>
       <div class="resilience">Quantization resilience<div class="bar"><div class="bar-fill" style="width:88%; background: var(--accent-2);"></div></div></div>
     </div>
+
     <div class="usecase-card">
-      <span class="tag">GSM8K</span>
-      <h3>Reasoning</h3>
-      <p>Multi-step arithmetic. Tests chain-of-thought ability and whether the model can hold intermediate results without losing track.</p>
-      <div class="resilience">Quantization resilience<div class="bar"><div class="bar-fill" style="width:72%; background: var(--accent-3);"></div></div></div>
+      <span class="tag">MMLU-Pro</span>
+      <h3>Knowledge &amp; Analysis</h3>
+      <p>Expert-level questions across 14 domains, 10-choice format. Harder than standard MMLU and less prone to saturation. Good proxy for document analysis and content comprehension tasks.</p>
+      <div class="resilience">Quantization resilience<div class="bar"><div class="bar-fill" style="width:65%; background: var(--accent-1);"></div></div></div>
     </div>
     <div class="usecase-card">
-      <span class="tag">HumanEval</span>
+      <span class="tag">BigCodeBench</span>
       <h3>Code Generation</h3>
-      <p>Python pass@1. Tests whether generated code actually runs. First benchmark to collapse under quantization. Practical floor: <strong>≥ 65%</strong> — below that, structurally broken code becomes too frequent to be useful.</p>
-      <div class="resilience">Quantization resilience<div class="bar"><div class="bar-fill" style="width:45%; background: var(--accent-4);"></div></div></div>
+      <p>Diverse programming tasks using real-world libraries and APIs. Harder and broader than HumanEval — tests whether the model can write functional code, not just produce syntactically correct snippets.</p>
+      <div class="resilience">Quantization resilience<div class="bar"><div class="bar-fill" style="width:50%; background: var(--accent-4);"></div></div></div>
     </div>
     <div class="usecase-card">
-      <span class="tag">HumanEval+</span>
-      <h3>Code Robustness</h3>
-      <p>Same problems, 80× more test cases. Catches false positives where code passes by luck. Practical floor: <strong>≥ 60%</strong>. Watch the gap with HumanEval — a large spread means the model handles basics but collapses on edge cases.</p>
+      <span class="tag">SWE-Bench</span>
+      <h3>Code Understanding</h3>
+      <p>Real GitHub issues: the model must locate a bug in an existing codebase and produce a valid patch. Tests comprehension and modification of existing code — a different skill from generation.</p>
       <div class="resilience">Quantization resilience<div class="bar"><div class="bar-fill" style="width:40%; background: var(--accent-5);"></div></div></div>
-    </div>
-    <div class="usecase-card">
-      <span class="tag">BBEH Mini</span>
-      <h3>Hard Reasoning</h3>
-      <p>Subset of <em>Big-Bench Extra Hard</em> — logic, causal inference, multi-step deduction. Designed to resist saturation where standard benchmarks hit a ceiling. Results via <strong>inspect_ai</strong>, which supports incremental evaluation: sample count grows as machine time allows. Current count: <strong>100 samples</strong> (±5% margin).</p>
-      <div class="resilience">Quantization resilience<div class="bar"><div class="bar-fill" style="width:55%; background: var(--danger);"></div></div></div>
     </div>
   </div>
   <div class="callout">
-    <strong>Key insight:</strong> If your use case is running an agent (Hermes Agent, Picoclaw…), you need IFEval and ARC to hold — and they do, even at Q3. For code, aim for ≥ 65% HumanEval+ as a practical floor; below that, edge cases break too often. The right quant depends on <em>what you're doing</em>, not on a single leaderboard score.
+    <strong>Key insight:</strong> IFEval and BBEH hold surprisingly well even at aggressive quants — agents and chat use cases can go lower. Code is where quantization bites hardest: BigCodeBench and SWE-Bench degrade faster, so if coding matters, don't go below Q3. The right quant depends on <em>what you're doing</em>, not on a single leaderboard score.
   </div>
 
   <h3 style="font-family: var(--font-serif); font-size: 1.2rem; font-weight: 600; margin: 2.5rem 0 1rem; letter-spacing: -0.01em;">Which benchmarks to watch, by use case</h3>
@@ -294,45 +290,54 @@ footer .links { display: flex; justify-content: center; gap: 2rem; margin-bottom
       <thead>
         <tr>
           <th>Use case</th>
-          <th>ARC-Challenge</th>
-          <th>IFEval</th>
-          <th>GSM8K</th>
-          <th>HumanEval / HumanEval+</th>
           <th>BBEH Mini</th>
+          <th>IFEval</th>
+
+          <th>MMLU-Pro</th>
+          <th>BigCodeBench</th>
+          <th>SWE-Bench</th>
         </tr>
       </thead>
       <tbody>
         <tr>
           <td class="quant-name">Agentic</td>
+          <td><span class="bench-tag bench-secondary">secondary</span></td>
           <td><span class="bench-tag bench-primary">primary</span></td>
-          <td><span class="bench-tag bench-primary">primary</span></td>
-          <td><span class="bench-tag bench-cond">if reasoning chains</span></td>
+          <td class="na">—</td>
           <td class="na">—</td>
           <td class="na">—</td>
         </tr>
         <tr>
-          <td class="quant-name">Chatbot</td>
+          <td class="quant-name">Chatbot / Comprehension</td>
           <td><span class="bench-tag bench-primary">primary</span></td>
           <td><span class="bench-tag bench-secondary">secondary</span></td>
-          <td class="na">—</td>
+          <td><span class="bench-tag bench-primary">primary</span></td>
           <td class="na">—</td>
           <td class="na">—</td>
         </tr>
         <tr>
-          <td class="quant-name">Code assistance</td>
+          <td class="quant-name">Code generation</td>
+          <td class="na">—</td>
+          <td><span class="bench-tag bench-secondary">secondary</span></td>
           <td class="na">—</td>
           <td><span class="bench-tag bench-primary">primary</span></td>
           <td class="na">—</td>
-          <td><span class="bench-tag bench-primary">primary</span></td>
+        </tr>
+        <tr>
+          <td class="quant-name">Code debugging</td>
           <td class="na">—</td>
+          <td class="na">—</td>
+          <td class="na">—</td>
+          <td><span class="bench-tag bench-secondary">secondary</span></td>
+          <td><span class="bench-tag bench-primary">primary</span></td>
         </tr>
         <tr>
           <td class="quant-name">Complex reasoning</td>
+          <td><span class="bench-tag bench-primary">primary</span></td>
+          <td class="na">—</td>
           <td><span class="bench-tag bench-secondary">secondary</span></td>
           <td class="na">—</td>
-          <td><span class="bench-tag bench-primary">primary</span></td>
           <td class="na">—</td>
-          <td><span class="bench-tag bench-primary">primary</span></td>
         </tr>
       </tbody>
     </table>
@@ -344,14 +349,7 @@ footer .links { display: flex; justify-content: center; gap: 2rem; margin-bottom
   <h2><span class="num">02</span>Results by model</h2>
   <p class="intro">Select a model to see how each benchmark degrades across quantization levels.</p>
 
-  <div class="roadmap-notice">
-    <div class="rn-icon">🔬</div>
-    <div class="rn-body">
-      <div class="rn-title">What's coming</div>
-      <strong>Qwen 3.6 A35B A3B MTP</strong> is now evaluated with <strong>BBEH Mini</strong> (100 samples, inspect_ai) — see its tab for results. BBEH coverage is being extended to other models.
-      The evaluation stack is migrating from lm-evaluation-harness to <strong>inspect_ai</strong>, which handles instruction-tuned models more reliably. Results from the two harnesses are not directly comparable; mixed-harness models are clearly labeled.
-    </div>
-  </div>
+
 
   <div class="model-tabs" id="model-tabs" role="tablist" aria-label="Select model">
     <!-- ▼ GENERATED BY build.py — do not edit ▼ -->
@@ -608,7 +606,7 @@ function buildDatasets(model) {
       backgroundColor: BENCH_COLORS[b].bg,
       borderWidth: 2.5, pointRadius: 4, pointHoverRadius: 7,
       pointBackgroundColor: BENCH_COLORS[b].border,
-      tension: 0.3, spanGaps: false, fill: false
+      tension: 0.3, spanGaps: true, fill: false
     });
   }
   return datasets;

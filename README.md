@@ -258,6 +258,19 @@ All benchmarks were run on a single consumer GPU setup:
 - **KV cache:** q4_0 for both K and V
 - **Context:** 16384–65536 tokens depending on model
 
+## What's coming
+
+All benchmarks will be rerun — notably using MTP (Multi-Token Prediction) variants where available, as they tend to perform better on coding and reasoning tasks. GSM8K is dropped entirely — too saturated to be useful.
+
+**Benchmark changes:**
+
+- **Logic / comprehension:** ARC-Challenge will be replaced by [BBEH Mini](https://github.com/google-deepmind/bbeh) or the full BBEH suite — designed to resist saturation, with harder distractors and broader reasoning coverage.
+- **Code generation:** HumanEval and HumanEval+ are replaced by [BigCodeBench](https://bigcode-bench.github.io/), which covers a broader set of programming tasks and is harder to game.
+- **Code understanding:** [SWE-Bench](https://www.swebench.com/) is added — tests the ability to understand an existing codebase and patch real GitHub issues, complementing BigCodeBench's generation focus.
+- **Knowledge & analysis:** [MMLU-Pro](https://github.com/TIGER-AI-Lab/MMLU-Pro) is added — harder than standard MMLU (10-choice format, expert-level questions), useful as a proxy for complex content comprehension and analysis tasks.
+- **Instruction following:** IFEval stays — no better alternative available for this capability.
+- **Tool use:** Tau2-Telecom is currently under evaluation as a tool-use benchmark in a telecom context (multi-step agentic tasks with function calls), but not yet selected for the suite.
+
 ## License
 
 This work is licensed under [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/). You are free to share and adapt the data with attribution.
