@@ -57,6 +57,9 @@ FIELD_MAP = {
     # inspect_ai benchmarks — scores are already 0–1, same conversion applies
     "bbeh_mini_accuracy":     "bbeh_mini",
     "arc_challenge_accuracy": "arc_challenge",
+    # BigCodeBench (0–1 pass rate)
+    "bigcodebench_mean":      "bigcodebench",
+    "bigcodebench_std":       "bigcodebench_stderr",
 }
 
 
@@ -322,6 +325,11 @@ def build_compare_tabs_html(config: dict) -> str:
     return "\n".join(tabs)
 
 
+def inject_stats(html: str, stats_snippet: str) -> str:
+    """Insert stats_snippet just before </head>."""
+    return html.replace("</head>", f"{stats_snippet}\n</head>", 1)
+
+
 def build(args):
     """Main build function."""
     site_dir = Path(args.site_dir)
@@ -330,6 +338,12 @@ def build(args):
 
     config_path = site_dir / "models.yaml"
     template_path = site_dir / "template.html"
+
+    # Load stats snippet if present
+    stats_path = site_dir.parent / ".stats"
+    stats_snippet = stats_path.read_text().strip() if stats_path.exists() else ""
+    if stats_snippet:
+        print(f"✓ Loaded stats snippet from {stats_path}")
 
     # Validate inputs
     if not config_path.exists():
@@ -383,6 +397,10 @@ def build(args):
     html = html.replace("{{COMPARE_BENCH_TABS}}", compare_tabs_html)
     html = html.replace("{{JSONLD}}", jsonld_html)
 
+    # Inject stats snippet
+    if stats_snippet:
+        html = inject_stats(html, stats_snippet)
+
     # Check for unreplaced placeholders
     remaining = re.findall(r'\{\{[A-Z_]+\}\}', html)
     if remaining:
@@ -414,11 +432,21 @@ def build(args):
 
     # Copy static files alongside the generated index
     out_dir = output_path.parent
-    for page in ("faq.html", "legal.html", "og.png", "robots.txt"):
+    for page in ("og.png", "robots.txt"):
         src = site_dir / page
         if src.exists():
             shutil.copy2(src, out_dir / page)
             print(f"✓ Copied {src} → {out_dir / page}")
+
+    # HTML pages: inject stats snippet then write
+    for page in ("faq.html", "legal.html"):
+        src = site_dir / page
+        if src.exists():
+            content = src.read_text()
+            if stats_snippet:
+                content = inject_stats(content, stats_snippet)
+            (out_dir / page).write_text(content)
+            print(f"✓ Processed {src} → {out_dir / page}")
 
 
 if __name__ == "__main__":

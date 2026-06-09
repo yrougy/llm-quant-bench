@@ -36,6 +36,10 @@ benchmarks:
     label: "ARC-Challenge"
     color: "#29b6f6"
     color_bg: "rgba(41,182,246,0.15)"
+  bigcodebench:
+    label: "BigCodeBench"
+    color: "#ffca28"
+    color_bg: "rgba(255,202,40,0.15)"
 
 # Quantization ordering (low → high quality)
 # The build script will sort quants in this order
