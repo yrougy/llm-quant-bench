@@ -18,6 +18,7 @@ env/
 *.swp
 
 # tmp
+.stats
 tmp/
 docs/
 docs/*
