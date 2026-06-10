@@ -1570,20 +1570,40 @@
   {
     "model": "Qwen3.6-35B-A3B",
     "quant": "MXFP4_MOE",
-    "eval_time_seconds": 744.0,
+    "eval_time_seconds": 6267.0,
     "total_samples": 100,
-    "bbeh_mini_accuracy": null,
+    "bbeh_mini_accuracy": 0.53,
     "bigcodebench_mean": 0.54,
-    "bigcodebench_std": 0.500908
+    "bigcodebench_std": 0.500908,
+    "ifeval_final_acc": 0.861365,
+    "ifeval_final_stderr": 0.015791,
+    "ifeval_inst_loose_acc": 0.902878,
+    "ifeval_inst_loose_stderr": 0.010065,
+    "ifeval_inst_strict_acc": 0.8753,
+    "ifeval_inst_strict_stderr": 0.011079,
+    "ifeval_prompt_loose_acc": 0.853974,
+    "ifeval_prompt_loose_stderr": 0.015196,
+    "ifeval_prompt_strict_acc": 0.813309,
+    "ifeval_prompt_strict_stderr": 0.016768
   },
   {
     "model": "Qwen3.6-35B-A3B",
     "quant": "UD-IQ1_M",
-    "eval_time_seconds": 1361.0,
+    "eval_time_seconds": 9240.0,
     "total_samples": 100,
-    "bbeh_mini_accuracy": 0.4,
+    "bbeh_mini_accuracy": 0.33,
     "bigcodebench_mean": 0.5,
-    "bigcodebench_std": 0.502519
+    "bigcodebench_std": 0.502519,
+    "ifeval_final_acc": 0.83992,
+    "ifeval_final_stderr": 0.016874,
+    "ifeval_inst_loose_acc": 0.888489,
+    "ifeval_inst_loose_stderr": 0.010804,
+    "ifeval_inst_strict_acc": 0.85012,
+    "ifeval_inst_strict_stderr": 0.012051,
+    "ifeval_prompt_loose_acc": 0.837338,
+    "ifeval_prompt_loose_stderr": 0.015882,
+    "ifeval_prompt_strict_acc": 0.783734,
+    "ifeval_prompt_strict_stderr": 0.017717
   },
   {
     "model": "Qwen3.6-35B-A3B",
@@ -1592,7 +1612,17 @@
     "total_samples": 100,
     "bbeh_mini_accuracy": 0.41,
     "bigcodebench_mean": 0.39,
-    "bigcodebench_std": 0.490207
+    "bigcodebench_std": 0.490207,
+    "ifeval_final_acc": null,
+    "ifeval_final_stderr": null,
+    "ifeval_inst_loose_acc": null,
+    "ifeval_inst_loose_stderr": null,
+    "ifeval_inst_strict_acc": null,
+    "ifeval_inst_strict_stderr": null,
+    "ifeval_prompt_loose_acc": null,
+    "ifeval_prompt_loose_stderr": null,
+    "ifeval_prompt_strict_acc": null,
+    "ifeval_prompt_strict_stderr": null
   },
   {
     "model": "Qwen3.6-35B-A3B",
@@ -1601,7 +1631,17 @@
     "total_samples": 100,
     "bbeh_mini_accuracy": 0.41,
     "bigcodebench_mean": 0.44,
-    "bigcodebench_std": 0.498888
+    "bigcodebench_std": 0.498888,
+    "ifeval_final_acc": null,
+    "ifeval_final_stderr": null,
+    "ifeval_inst_loose_acc": null,
+    "ifeval_inst_loose_stderr": null,
+    "ifeval_inst_strict_acc": null,
+    "ifeval_inst_strict_stderr": null,
+    "ifeval_prompt_loose_acc": null,
+    "ifeval_prompt_loose_stderr": null,
+    "ifeval_prompt_strict_acc": null,
+    "ifeval_prompt_strict_stderr": null
   },
   {
     "model": "Qwen3.6-35B-A3B",
@@ -1610,7 +1650,17 @@
     "total_samples": 100,
     "bbeh_mini_accuracy": null,
     "bigcodebench_mean": 0.55,
-    "bigcodebench_std": 0.5
+    "bigcodebench_std": 0.5,
+    "ifeval_final_acc": null,
+    "ifeval_final_stderr": null,
+    "ifeval_inst_loose_acc": null,
+    "ifeval_inst_loose_stderr": null,
+    "ifeval_inst_strict_acc": null,
+    "ifeval_inst_strict_stderr": null,
+    "ifeval_prompt_loose_acc": null,
+    "ifeval_prompt_loose_stderr": null,
+    "ifeval_prompt_strict_acc": null,
+    "ifeval_prompt_strict_stderr": null
   },
   {
     "model": "Qwen3.6-35B-A3B",
@@ -1619,7 +1669,17 @@
     "total_samples": 100,
     "bbeh_mini_accuracy": null,
     "bigcodebench_mean": 0.47,
-    "bigcodebench_std": 0.501614
+    "bigcodebench_std": 0.501614,
+    "ifeval_final_acc": null,
+    "ifeval_final_stderr": null,
+    "ifeval_inst_loose_acc": null,
+    "ifeval_inst_loose_stderr": null,
+    "ifeval_inst_strict_acc": null,
+    "ifeval_inst_strict_stderr": null,
+    "ifeval_prompt_loose_acc": null,
+    "ifeval_prompt_loose_stderr": null,
+    "ifeval_prompt_strict_acc": null,
+    "ifeval_prompt_strict_stderr": null
   },
   {
     "model": "Qwen3.6-35B-A3B",
@@ -1628,7 +1688,17 @@
     "total_samples": 100,
     "bbeh_mini_accuracy": 0.54,
     "bigcodebench_mean": 0.54,
-    "bigcodebench_std": 0.500908
+    "bigcodebench_std": 0.500908,
+    "ifeval_final_acc": null,
+    "ifeval_final_stderr": null,
+    "ifeval_inst_loose_acc": null,
+    "ifeval_inst_loose_stderr": null,
+    "ifeval_inst_strict_acc": null,
+    "ifeval_inst_strict_stderr": null,
+    "ifeval_prompt_loose_acc": null,
+    "ifeval_prompt_loose_stderr": null,
+    "ifeval_prompt_strict_acc": null,
+    "ifeval_prompt_strict_stderr": null
   },
   {
     "model": "Qwen3.6-35B-A3B",
@@ -1637,7 +1707,17 @@
     "total_samples": 100,
     "bbeh_mini_accuracy": null,
     "bigcodebench_mean": 0.56,
-    "bigcodebench_std": 0.498888
+    "bigcodebench_std": 0.498888,
+    "ifeval_final_acc": null,
+    "ifeval_final_stderr": null,
+    "ifeval_inst_loose_acc": null,
+    "ifeval_inst_loose_stderr": null,
+    "ifeval_inst_strict_acc": null,
+    "ifeval_inst_strict_stderr": null,
+    "ifeval_prompt_loose_acc": null,
+    "ifeval_prompt_loose_stderr": null,
+    "ifeval_prompt_strict_acc": null,
+    "ifeval_prompt_strict_stderr": null
   },
   {
     "model": "Qwen3.6-35B-A3B",
@@ -1646,7 +1726,17 @@
     "total_samples": 100,
     "bbeh_mini_accuracy": null,
     "bigcodebench_mean": 0.55,
-    "bigcodebench_std": 0.5
+    "bigcodebench_std": 0.5,
+    "ifeval_final_acc": null,
+    "ifeval_final_stderr": null,
+    "ifeval_inst_loose_acc": null,
+    "ifeval_inst_loose_stderr": null,
+    "ifeval_inst_strict_acc": null,
+    "ifeval_inst_strict_stderr": null,
+    "ifeval_prompt_loose_acc": null,
+    "ifeval_prompt_loose_stderr": null,
+    "ifeval_prompt_strict_acc": null,
+    "ifeval_prompt_strict_stderr": null
   },
   {
     "model": "Qwen3.6-35B-A3B",
@@ -1655,7 +1745,17 @@
     "total_samples": 100,
     "bbeh_mini_accuracy": 0.4,
     "bigcodebench_mean": 0.55,
-    "bigcodebench_std": 0.5
+    "bigcodebench_std": 0.5,
+    "ifeval_final_acc": null,
+    "ifeval_final_stderr": null,
+    "ifeval_inst_loose_acc": null,
+    "ifeval_inst_loose_stderr": null,
+    "ifeval_inst_strict_acc": null,
+    "ifeval_inst_strict_stderr": null,
+    "ifeval_prompt_loose_acc": null,
+    "ifeval_prompt_loose_stderr": null,
+    "ifeval_prompt_strict_acc": null,
+    "ifeval_prompt_strict_stderr": null
   },
   {
     "model": "Qwen3.6-35B-A3B",
@@ -1664,7 +1764,17 @@
     "total_samples": 100,
     "bbeh_mini_accuracy": null,
     "bigcodebench_mean": 0.54,
-    "bigcodebench_std": 0.500908
+    "bigcodebench_std": 0.500908,
+    "ifeval_final_acc": null,
+    "ifeval_final_stderr": null,
+    "ifeval_inst_loose_acc": null,
+    "ifeval_inst_loose_stderr": null,
+    "ifeval_inst_strict_acc": null,
+    "ifeval_inst_strict_stderr": null,
+    "ifeval_prompt_loose_acc": null,
+    "ifeval_prompt_loose_stderr": null,
+    "ifeval_prompt_strict_acc": null,
+    "ifeval_prompt_strict_stderr": null
   },
   {
     "model": "Qwen3.6-35B-A3B",
@@ -1673,7 +1783,17 @@
     "total_samples": 100,
     "bbeh_mini_accuracy": 0.49,
     "bigcodebench_mean": 0.58,
-    "bigcodebench_std": 0.496045
+    "bigcodebench_std": 0.496045,
+    "ifeval_final_acc": null,
+    "ifeval_final_stderr": null,
+    "ifeval_inst_loose_acc": null,
+    "ifeval_inst_loose_stderr": null,
+    "ifeval_inst_strict_acc": null,
+    "ifeval_inst_strict_stderr": null,
+    "ifeval_prompt_loose_acc": null,
+    "ifeval_prompt_loose_stderr": null,
+    "ifeval_prompt_strict_acc": null,
+    "ifeval_prompt_strict_stderr": null
   },
   {
     "model": "Qwen3.6-35B-A3B",
@@ -1682,7 +1802,17 @@
     "total_samples": 100,
     "bbeh_mini_accuracy": null,
     "bigcodebench_mean": 0.53,
-    "bigcodebench_std": 0.501614
+    "bigcodebench_std": 0.501614,
+    "ifeval_final_acc": null,
+    "ifeval_final_stderr": null,
+    "ifeval_inst_loose_acc": null,
+    "ifeval_inst_loose_stderr": null,
+    "ifeval_inst_strict_acc": null,
+    "ifeval_inst_strict_stderr": null,
+    "ifeval_prompt_loose_acc": null,
+    "ifeval_prompt_loose_stderr": null,
+    "ifeval_prompt_strict_acc": null,
+    "ifeval_prompt_strict_stderr": null
   },
   {
     "model": "Qwen3.6-35B-A3B",
@@ -1691,7 +1821,17 @@
     "total_samples": 100,
     "bbeh_mini_accuracy": null,
     "bigcodebench_mean": 0.55,
-    "bigcodebench_std": 0.5
+    "bigcodebench_std": 0.5,
+    "ifeval_final_acc": null,
+    "ifeval_final_stderr": null,
+    "ifeval_inst_loose_acc": null,
+    "ifeval_inst_loose_stderr": null,
+    "ifeval_inst_strict_acc": null,
+    "ifeval_inst_strict_stderr": null,
+    "ifeval_prompt_loose_acc": null,
+    "ifeval_prompt_loose_stderr": null,
+    "ifeval_prompt_strict_acc": null,
+    "ifeval_prompt_strict_stderr": null
   },
   {
     "model": "gemma-4-26B-A4B-it",
