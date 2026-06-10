@@ -37,11 +37,15 @@ import yaml
 FIELD_MAP = {
     "arc_chat":               "arc_chat",
     "arc_chat_stderr":        "arc_chat_stderr",
-    "ifeval_prompt_strict":   "ifeval_prompt_strict",
+    "ifeval_prompt_strict":     "ifeval_prompt_strict",
+    "ifeval_prompt_strict_acc": "ifeval_prompt_strict",   # inspect_ai suffix
     "ifeval_prompt_strict_stderr": "ifeval_prompt_strict_stderr",
-    "ifeval_prompt_loose":    "ifeval_prompt_loose",
-    "ifeval_inst_strict":     "ifeval_inst_strict",
-    "ifeval_inst_loose":      "ifeval_inst_loose",
+    "ifeval_prompt_loose":      "ifeval_prompt_loose",
+    "ifeval_prompt_loose_acc":  "ifeval_prompt_loose",    # inspect_ai suffix
+    "ifeval_inst_strict":       "ifeval_inst_strict",
+    "ifeval_inst_strict_acc":   "ifeval_inst_strict",     # inspect_ai suffix
+    "ifeval_inst_loose":        "ifeval_inst_loose",
+    "ifeval_inst_loose_acc":    "ifeval_inst_loose",      # inspect_ai suffix
     "gsm8k":                  "gsm8k",
     "gsm8k_acc":              "gsm8k",
     "gsm8k_strict":           "gsm8k",

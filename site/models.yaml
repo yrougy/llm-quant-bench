@@ -89,27 +89,6 @@ models:
       <strong>Q4_K_S</strong>: it matches or exceeds all higher quants
       on every benchmark at a significantly smaller file size.
 
-  qwen36_35b:
-    name: "Qwen 3.6 A35B A3B (MoE)"
-    results_dir: "Qwen3.6-35B-A3B"
-    provider: "Unsloth"
-    arch: "MoE"
-    hf_repo: "unsloth/Qwen3.6-35B-A3B-GGUF"
-    compare_color: "#ab47bc"
-    compare_style: "solid"
-    takeaway: >
-      The MoE architecture makes this model <strong>exceptionally
-      resilient</strong>. ARC-Chat barely moves across the entire range
-      (95–96%), and IFEval strict stays within 4 points from IQ1_M to
-      Q4_K_XL. Even <strong>IQ1_M — the most aggressive quant tested —
-      produces usable results for chat and agentic use cases</strong>;
-      code generation (56.7% HumanEval) degrades significantly even at
-      this level. HumanEval is noisier due to both small dataset variance
-      (±3.8%) and MoE weight distribution. GSM8K shows
-      <strong>negligible variation across quantization levels</strong> —
-      IQ1_M and IQ4_NL both score 89–90% (±1%), so intermediate quants
-      were not measured: the benchmark does not discriminate for this model.
-
   qwen35_9b:
     name: "Qwen 3.5 9B Dense"
     results_dir: "Qwen3.5-9B"
