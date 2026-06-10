@@ -89,6 +89,20 @@ models:
       <strong>Q4_K_S</strong>: it matches or exceeds all higher quants
       on every benchmark at a significantly smaller file size.
 
+  qwen36_27b_mtp:
+    name: "Qwen 3.6 27B MTP Dense"
+    results_dir: "Qwen3.6-27B-MTP"
+    provider: "Unsloth"
+    arch: "Dense"
+    hf_repo: "unsloth/Qwen3.6-27B-MTP-GGUF"
+    compare_color: "#42a5f5"
+    compare_style: "dashed"
+    takeaway: >
+      Results via inspect_ai (BigCodeBench only so far).
+      IQ4_NL and Q3_K_M both reach <strong>60%</strong> on BigCodeBench,
+      while Q4_0 pushes to <strong>63%</strong>. IQ4_XS and Q3_K_S score
+      slightly lower (57% and 53%). More benchmarks pending.
+
   qwen35_9b:
     name: "Qwen 3.5 9B Dense"
     results_dir: "Qwen3.5-9B"
