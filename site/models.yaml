@@ -73,23 +73,6 @@ quant_order:
 
 # ─── Models ───────────────────────────────────────────────────
 models:
-  qwen36_27b:
-    name: "Qwen 3.6 27B Dense"
-    results_dir: "Qwen3.6-27B"
-    provider: "Unsloth"
-    arch: "Dense"
-    hf_repo: "unsloth/Qwen3.6-27B-GGUF"
-    compare_color: "#ffa726"
-    compare_style: "solid"
-    takeaway: >
-      ARC-Chat and IFEval remain remarkably stable across the entire
-      quantization range — even IQ2_XXS loses less than 4 points on
-      either benchmark. HumanEval is where quantization bites: IQ2_XXS
-      scores 25 points below Q4_K_S (59.8% vs 84.8%). If coding ability
-      matters, <strong>IQ2_M is the floor</strong>. The sweet spot is
-      <strong>Q4_K_S</strong>: it matches or exceeds all higher quants
-      on every benchmark at a significantly smaller file size.
-
   qwen36_27b_mtp:
     name: "Qwen 3.6 27B MTP Dense"
     results_dir: "Qwen3.6-27B-MTP"
@@ -128,11 +111,11 @@ models:
     compare_color: "#ef5350"
     compare_style: "solid"
     takeaway: >
-      This 4B model has a <strong>hard cliff at 2-bit quantization</strong>.
-      IQ2_XXS causes near-total collapse (34% ARC, 17.7% HumanEval —
-      near-zero on code, essentially non-functional). Above IQ3_XXS, ARC
-      stabilizes around 91–92%. The <strong>UD-Q4_K_XL is the best
-      performer overall</strong>.
+      Results via inspect_ai (BigCodeBench, 100 samples).
+      IQ2_XXS completely collapses to <strong>0%</strong> — non-functional.
+      IQ2_M recovers to only 17%. The floor is around <strong>Q3_K_M (36%)</strong>.
+      The sweet spot is <strong>Q4_K_M at 43%</strong>; above Q4, scores plateau
+      in the 37–41% range with no consistent gain.
 
   qwen36_35b_mtp:
     name: "Qwen 3.6 A35B A3B MTP (MoE)"
