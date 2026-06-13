@@ -743,13 +743,35 @@ document.querySelectorAll('#model-tabs .model-tab').forEach(tab => {
 // ── Comparison chart (section 3) ──
 const ctxComp = document.getElementById('compareChart').getContext('2d');
 let compChart;
-const compLabels = ['IQ1_M','IQ2_XXS','IQ2_M','Q2_K_XL','IQ3_XXS','Q3_K_S','Q3_K_M','Q4_K_S','Q4_K_M','Q5_K_M','Q6_K'];
+
+const QUANT_ORDER = [
+  'MXFP4_MOE',
+  'IQ1_M','IQ2_XXS','IQ2_M','Q2_K_XL',
+  'IQ3_XXS','IQ3_S','Q3_K_S','Q3_K_M','Q3_K_XL',
+  'IQ4_XS','IQ4_NL','Q4_0','Q4_1','Q4_K_S','Q4_K_M','Q4_K_XL',
+  'Q5_K_S','Q5_K_M','Q5_K_XL','Q6_K','Q8_0','Q8_K_XL'
+];
+
+function getCompLabels(benchKey) {
+  const labelSet = new Set();
+  for (const [, model] of Object.entries(MODELS)) {
+    const data = model[benchKey];
+    if (!data || data.length === 0) continue;
+    for (let i = 0; i < model.quants.length; i++) {
+      if (data[i] !== null && data[i] !== undefined) {
+        labelSet.add(model.quants[i].replace(/^UD-/, ''));
+      }
+    }
+  }
+  const known = QUANT_ORDER.filter(q => labelSet.has(q));
+  const unknown = [...labelSet].filter(q => !QUANT_ORDER.includes(q)).sort();
+  return [...known, ...unknown];
+}
 
 function valAtQuant(modelKey, benchKey, quant) {
   const m = MODELS[modelKey];
   const data = m[benchKey];
   if (!data || data.length === 0) return null;
-  // Try exact match, then try with UD- prefix
   let idx = m.quants.indexOf(quant);
   if (idx < 0) idx = m.quants.indexOf('UD-' + quant);
   return idx >= 0 && data[idx] !== null && data[idx] !== undefined ? data[idx] : null;
@@ -757,6 +779,7 @@ function valAtQuant(modelKey, benchKey, quant) {
 
 function renderCompareChart(benchKey) {
   if (compChart) compChart.destroy();
+  const compLabels = getCompLabels(benchKey);
   document.getElementById('compareChart').setAttribute('aria-label', (BENCH_LABELS[benchKey] || benchKey) + ' — model comparison');
   document.getElementById('compare-chart-title').textContent =
     (BENCH_LABELS[benchKey] || benchKey) + ' across all models — same quantization axis';
