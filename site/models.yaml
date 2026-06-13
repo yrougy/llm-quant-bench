@@ -60,8 +60,8 @@ quant_order:
   - Q4_K_S
   - Q4_K_M
   - Q4_K_XL
-  - IQ4_NL_XL
   - MXFP4
+  - IQ4_NL_XL
   - Q5_K_S
   - Q5_K_M
   - Q5_K_XL
@@ -69,6 +69,7 @@ quant_order:
   - Q6_K_XL
   - Q8_0
   - Q8_K_XL
+  - BF16
 
 # ─── Models ───────────────────────────────────────────────────
 models:
@@ -112,11 +113,11 @@ models:
     compare_color: "#ffcc80"
     compare_style: "dashed"
     takeaway: >
-      The 9B handles low-bit quantization significantly better than the
-      4B. IQ2_XXS still damages coding ability severely (HumanEval drops
-      to 25%), but <strong>ARC holds at 86.3%</strong> — no total
-      collapse. <strong>IQ2_M is the defensible floor</strong>. The sweet
-      spot is <strong>Q4_K_M or Q4_1</strong>.
+      Results via inspect_ai (BigCodeBench, 100 samples).
+      UD-Q8_K_XL and UD-Q6_K_XL both reach <strong>52%</strong>, while UD-IQ2_M
+      drops to <strong>29%</strong>. The sweet spot is
+      <strong>Q4_K_M or Q5_K_M</strong> (~49%). BF16 scores 47% —
+      consistent with the quantization noise at this sample size.
 
   qwen35_4b:
     name: "Qwen 3.5 4B Dense"
