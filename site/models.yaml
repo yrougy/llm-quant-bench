@@ -40,6 +40,10 @@ benchmarks:
     label: "BigCodeBench"
     color: "#ffca28"
     color_bg: "rgba(255,202,40,0.15)"
+  tau2_telecom:
+    label: "TAU2 Telecom"
+    color: "#ff7043"
+    color_bg: "rgba(255,112,67,0.15)"
 
 # Quantization ordering (low → high quality)
 # The build script will sort quants in this order
@@ -186,3 +190,8 @@ compare_takeaways:
     40–41% while IQ4_NL reaches 54%.
   arc_challenge: >
     <strong>ARC-Challenge</strong> via inspect_ai. Results pending.
+  tau2_telecom: >
+    <strong>TAU2 Telecom</strong> is an agentic benchmark: the model acts as a support agent
+    diagnosing telecom issues (MMS, mobile data, roaming) by following a multi-step decision tree —
+    full benchmark, 114 samples. Only available for Qwen 3.5 9B so far.
+    Scores are very low (1–2%), reflecting the difficulty of multi-turn agentic reasoning at this scale.

@@ -279,6 +279,12 @@ footer .links { display: flex; justify-content: center; gap: 2rem; margin-bottom
       <p>Real GitHub issues: the model must locate a bug in an existing codebase and produce a valid patch. Tests comprehension and modification of existing code — a different skill from generation.</p>
       <div class="resilience">Quantization resilience<div class="bar"><div class="bar-fill" style="width:40%; background: var(--accent-5);"></div></div></div>
     </div>
+    <div class="usecase-card">
+      <span class="tag">TAU2 Telecom</span>
+      <h3>Agentic Reasoning</h3>
+      <p>The model acts as a support agent diagnosing multi-step telecom issues (MMS, data, roaming) — it must navigate a decision tree, ask the right questions, and resolve the problem. Full benchmark, 114 samples via <strong>inspect_ai</strong>. A direct measure of agentic capability.</p>
+      <div class="resilience">Quantization resilience<div class="bar"><div class="bar-fill" style="width:60%; background: #ff7043;"></div></div></div>
+    </div>
   </div>
   <div class="callout">
     <strong>Key insight:</strong> IFEval and BBEH hold surprisingly well even at aggressive quants — agents and chat use cases can go lower. Code is where quantization bites hardest: BigCodeBench and SWE-Bench degrade faster, so if coding matters, don't go below Q3. The right quant depends on <em>what you're doing</em>, not on a single leaderboard score.
@@ -292,10 +298,10 @@ footer .links { display: flex; justify-content: center; gap: 2rem; margin-bottom
           <th>Use case</th>
           <th>BBEH Mini</th>
           <th>IFEval</th>
-
           <th>MMLU-Pro</th>
           <th>BigCodeBench</th>
           <th>SWE-Bench</th>
+          <th>TAU2 Telecom</th>
         </tr>
       </thead>
       <tbody>
@@ -306,12 +312,14 @@ footer .links { display: flex; justify-content: center; gap: 2rem; margin-bottom
           <td class="na">—</td>
           <td class="na">—</td>
           <td class="na">—</td>
+          <td><span class="bench-tag bench-primary">primary</span></td>
         </tr>
         <tr>
           <td class="quant-name">Chatbot / Comprehension</td>
           <td><span class="bench-tag bench-primary">primary</span></td>
           <td><span class="bench-tag bench-secondary">secondary</span></td>
           <td><span class="bench-tag bench-primary">primary</span></td>
+          <td class="na">—</td>
           <td class="na">—</td>
           <td class="na">—</td>
         </tr>
@@ -322,6 +330,7 @@ footer .links { display: flex; justify-content: center; gap: 2rem; margin-bottom
           <td class="na">—</td>
           <td><span class="bench-tag bench-primary">primary</span></td>
           <td class="na">—</td>
+          <td class="na">—</td>
         </tr>
         <tr>
           <td class="quant-name">Code debugging</td>
@@ -330,12 +339,14 @@ footer .links { display: flex; justify-content: center; gap: 2rem; margin-bottom
           <td class="na">—</td>
           <td><span class="bench-tag bench-secondary">secondary</span></td>
           <td><span class="bench-tag bench-primary">primary</span></td>
+          <td class="na">—</td>
         </tr>
         <tr>
           <td class="quant-name">Complex reasoning</td>
           <td><span class="bench-tag bench-primary">primary</span></td>
           <td class="na">—</td>
           <td><span class="bench-tag bench-secondary">secondary</span></td>
+          <td class="na">—</td>
           <td class="na">—</td>
           <td class="na">—</td>
         </tr>

@@ -64,6 +64,9 @@ FIELD_MAP = {
     # BigCodeBench (0–1 pass rate)
     "bigcodebench_mean":      "bigcodebench",
     "bigcodebench_std":       "bigcodebench_stderr",
+    # TAU2 Telecom (0–1 accuracy)
+    "tau2_telecom_accuracy":  "tau2_telecom",
+    "tau2_telecom_stderr":    "tau2_telecom_stderr",
 }
 
 
