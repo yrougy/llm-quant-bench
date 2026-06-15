@@ -132,14 +132,13 @@ footer .links { display: flex; justify-content: center; gap: 2rem; margin-bottom
   <details>
     <summary>Why these specific benchmarks?</summary>
     <div class="inner">
-      <p>The benchmarks were chosen to cover complementary skills:</p>
+      <p>The current suite uses <strong>BigCodeBench</strong> and <strong>BBEH-mini</strong>, chosen for complementary coverage and resistance to saturation:</p>
       <p>
-        <strong>ARC-Challenge</strong> — science multiple-choice reasoning, resistant to benchmark artefacts.<br>
-        <strong>IFEval</strong> — ability to follow precise instructions (format, style, constraints).<br>
-        <strong>GSM8K</strong> — elementary arithmetic and multi-step math problem solving.<br>
-        <strong>HumanEval</strong> — Python code generation evaluated by unit tests.
+        <strong>BigCodeBench</strong> — diverse code generation across real-world libraries; much harder than HumanEval and less prone to ceiling effects on capable models.<br>
+        <strong>BBEH-mini</strong> — a broad mix of hard reasoning tasks (logic, math, language understanding) that remains discriminative even on strong models.
       </p>
-      <p>These are standard, reproducible academic benchmarks with low training-data contamination risk.</p>
+      <p>Earlier benchmarks (ARC-Challenge, IFEval, GSM8K, HumanEval) were dropped because they saturate on current models — scores cluster so close to the ceiling that no meaningful conclusion can be drawn about quantization impact.</p>
+      <p><strong>IFEval</strong> will be re-introduced later using a different harness to keep results comparable across runs. <strong>SWE-bench</strong> is also planned, subject to hardware availability.</p>
     </div>
   </details>
 
@@ -155,8 +154,9 @@ footer .links { display: flex; justify-content: center; gap: 2rem; margin-bottom
   <details>
     <summary>What hardware was used?</summary>
     <div class="inner">
-      <p>Benchmarks are run with <a href="https://github.com/EleutherAI/lm-evaluation-harness" target="_blank">lm-evaluation-harness</a> by EleutherAI, using <code>llama.cpp</code> as the inference backend.</p>
-      <p>See the <a href="index.html#methodology">Methodology</a> section on the main site for hardware details and evaluation parameters.</p>
+      <p>Benchmarks are run with <a href="https://inspect.ai-safety-institute.org.uk/" target="_blank">Inspect AI</a> (UK AISI) as the evaluation harness, using <code>llama-server</code> from llama.cpp as the inference backend.</p>
+      <p>A single <strong>RTX 3060 12 GB</strong> consumer GPU is used — no cloud, no H100. Context is capped at <strong>64k tokens</strong>, which means results are not directly comparable to official leaderboard scores measured without such constraints.</p>
+      <p>See the <a href="index.html#methodology">Methodology</a> section on the main site for full details.</p>
     </div>
   </details>
 

@@ -73,23 +73,6 @@ quant_order:
 
 # ─── Models ───────────────────────────────────────────────────
 models:
-  qwen36_27b:
-    name: "Qwen 3.6 27B Dense"
-    results_dir: "Qwen3.6-27B"
-    provider: "Unsloth"
-    arch: "Dense"
-    hf_repo: "unsloth/Qwen3.6-27B-GGUF"
-    compare_color: "#ffa726"
-    compare_style: "solid"
-    takeaway: >
-      ARC-Chat and IFEval remain remarkably stable across the entire
-      quantization range — even IQ2_XXS loses less than 4 points on
-      either benchmark. HumanEval is where quantization bites: IQ2_XXS
-      scores 25 points below Q4_K_S (59.8% vs 84.8%). If coding ability
-      matters, <strong>IQ2_M is the floor</strong>. The sweet spot is
-      <strong>Q4_K_S</strong>: it matches or exceeds all higher quants
-      on every benchmark at a significantly smaller file size.
-
   qwen36_27b_mtp:
     name: "Qwen 3.6 27B MTP Dense"
     results_dir: "Qwen3.6-27B-MTP"
