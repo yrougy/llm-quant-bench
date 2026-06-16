@@ -16,7 +16,9 @@
     "ifeval_prompt_loose_acc": 0.853974,
     "ifeval_prompt_loose_stderr": 0.015196,
     "ifeval_prompt_strict_acc": 0.813309,
-    "ifeval_prompt_strict_stderr": 0.016768
+    "ifeval_prompt_strict_stderr": 0.016768,
+    "tau2_telecom_accuracy": null,
+    "tau2_telecom_stderr": null
   },
   {
     "model": "Qwen3.6-35B-A3B",
@@ -35,7 +37,9 @@
     "ifeval_prompt_loose_acc": 0.837338,
     "ifeval_prompt_loose_stderr": 0.015882,
     "ifeval_prompt_strict_acc": 0.783734,
-    "ifeval_prompt_strict_stderr": 0.017717
+    "ifeval_prompt_strict_stderr": 0.017717,
+    "tau2_telecom_accuracy": null,
+    "tau2_telecom_stderr": null
   },
   {
     "model": "Qwen3.6-35B-A3B",
@@ -54,7 +58,9 @@
     "ifeval_prompt_loose_acc": null,
     "ifeval_prompt_loose_stderr": null,
     "ifeval_prompt_strict_acc": null,
-    "ifeval_prompt_strict_stderr": null
+    "ifeval_prompt_strict_stderr": null,
+    "tau2_telecom_accuracy": null,
+    "tau2_telecom_stderr": null
   },
   {
     "model": "Qwen3.6-35B-A3B",
@@ -73,7 +79,9 @@
     "ifeval_prompt_loose_acc": null,
     "ifeval_prompt_loose_stderr": null,
     "ifeval_prompt_strict_acc": null,
-    "ifeval_prompt_strict_stderr": null
+    "ifeval_prompt_strict_stderr": null,
+    "tau2_telecom_accuracy": null,
+    "tau2_telecom_stderr": null
   },
   {
     "model": "Qwen3.6-35B-A3B",
@@ -92,7 +100,9 @@
     "ifeval_prompt_loose_acc": null,
     "ifeval_prompt_loose_stderr": null,
     "ifeval_prompt_strict_acc": null,
-    "ifeval_prompt_strict_stderr": null
+    "ifeval_prompt_strict_stderr": null,
+    "tau2_telecom_accuracy": null,
+    "tau2_telecom_stderr": null
   },
   {
     "model": "Qwen3.6-35B-A3B",
@@ -111,7 +121,9 @@
     "ifeval_prompt_loose_acc": null,
     "ifeval_prompt_loose_stderr": null,
     "ifeval_prompt_strict_acc": null,
-    "ifeval_prompt_strict_stderr": null
+    "ifeval_prompt_strict_stderr": null,
+    "tau2_telecom_accuracy": null,
+    "tau2_telecom_stderr": null
   },
   {
     "model": "Qwen3.6-35B-A3B",
@@ -130,7 +142,9 @@
     "ifeval_prompt_loose_acc": null,
     "ifeval_prompt_loose_stderr": null,
     "ifeval_prompt_strict_acc": null,
-    "ifeval_prompt_strict_stderr": null
+    "ifeval_prompt_strict_stderr": null,
+    "tau2_telecom_accuracy": null,
+    "tau2_telecom_stderr": null
   },
   {
     "model": "Qwen3.6-35B-A3B",
@@ -149,7 +163,9 @@
     "ifeval_prompt_loose_acc": null,
     "ifeval_prompt_loose_stderr": null,
     "ifeval_prompt_strict_acc": null,
-    "ifeval_prompt_strict_stderr": null
+    "ifeval_prompt_strict_stderr": null,
+    "tau2_telecom_accuracy": null,
+    "tau2_telecom_stderr": null
   },
   {
     "model": "Qwen3.6-35B-A3B",
@@ -168,7 +184,9 @@
     "ifeval_prompt_loose_acc": null,
     "ifeval_prompt_loose_stderr": null,
     "ifeval_prompt_strict_acc": null,
-    "ifeval_prompt_strict_stderr": null
+    "ifeval_prompt_strict_stderr": null,
+    "tau2_telecom_accuracy": null,
+    "tau2_telecom_stderr": null
   },
   {
     "model": "Qwen3.6-35B-A3B",
@@ -187,7 +205,9 @@
     "ifeval_prompt_loose_acc": null,
     "ifeval_prompt_loose_stderr": null,
     "ifeval_prompt_strict_acc": null,
-    "ifeval_prompt_strict_stderr": null
+    "ifeval_prompt_strict_stderr": null,
+    "tau2_telecom_accuracy": null,
+    "tau2_telecom_stderr": null
   },
   {
     "model": "Qwen3.6-35B-A3B",
@@ -206,7 +226,9 @@
     "ifeval_prompt_loose_acc": null,
     "ifeval_prompt_loose_stderr": null,
     "ifeval_prompt_strict_acc": null,
-    "ifeval_prompt_strict_stderr": null
+    "ifeval_prompt_strict_stderr": null,
+    "tau2_telecom_accuracy": null,
+    "tau2_telecom_stderr": null
   },
   {
     "model": "Qwen3.6-35B-A3B",
@@ -225,7 +247,9 @@
     "ifeval_prompt_loose_acc": null,
     "ifeval_prompt_loose_stderr": null,
     "ifeval_prompt_strict_acc": null,
-    "ifeval_prompt_strict_stderr": null
+    "ifeval_prompt_strict_stderr": null,
+    "tau2_telecom_accuracy": null,
+    "tau2_telecom_stderr": null
   },
   {
     "model": "Qwen3.6-35B-A3B",
@@ -244,7 +268,9 @@
     "ifeval_prompt_loose_acc": null,
     "ifeval_prompt_loose_stderr": null,
     "ifeval_prompt_strict_acc": null,
-    "ifeval_prompt_strict_stderr": null
+    "ifeval_prompt_strict_stderr": null,
+    "tau2_telecom_accuracy": null,
+    "tau2_telecom_stderr": null
   },
   {
     "model": "Qwen3.6-35B-A3B",
@@ -263,6 +289,8 @@
     "ifeval_prompt_loose_acc": null,
     "ifeval_prompt_loose_stderr": null,
     "ifeval_prompt_strict_acc": null,
-    "ifeval_prompt_strict_stderr": null
+    "ifeval_prompt_strict_stderr": null,
+    "tau2_telecom_accuracy": null,
+    "tau2_telecom_stderr": null
   }
 ]

@@ -2,9 +2,9 @@
   {
     "model": "Qwen3.5-9B",
     "quant": "BF16",
-    "eval_time_seconds": 1937.0,
+    "eval_time_seconds": 8447.0,
     "total_samples": 100,
-    "bbeh_mini_accuracy": null,
+    "bbeh_mini_accuracy": 0.07,
     "bigcodebench_mean": 0.47,
     "bigcodebench_std": 0.501614,
     "ifeval_final_acc": null,
@@ -16,14 +16,16 @@
     "ifeval_prompt_loose_acc": null,
     "ifeval_prompt_loose_stderr": null,
     "ifeval_prompt_strict_acc": null,
-    "ifeval_prompt_strict_stderr": null
+    "ifeval_prompt_strict_stderr": null,
+    "tau2_telecom_accuracy": 0.017544,
+    "tau2_telecom_stderr": 0.01235
   },
   {
     "model": "Qwen3.5-9B",
     "quant": "IQ4_NL",
-    "eval_time_seconds": 1040.0,
+    "eval_time_seconds": 3849.0,
     "total_samples": 100,
-    "bbeh_mini_accuracy": null,
+    "bbeh_mini_accuracy": 0.17,
     "bigcodebench_mean": 0.42,
     "bigcodebench_std": 0.496045,
     "ifeval_final_acc": null,
@@ -35,14 +37,16 @@
     "ifeval_prompt_loose_acc": null,
     "ifeval_prompt_loose_stderr": null,
     "ifeval_prompt_strict_acc": null,
-    "ifeval_prompt_strict_stderr": null
+    "ifeval_prompt_strict_stderr": null,
+    "tau2_telecom_accuracy": 0.008772,
+    "tau2_telecom_stderr": 0.008772
   },
   {
     "model": "Qwen3.5-9B",
     "quant": "IQ4_XS",
-    "eval_time_seconds": 1093.0,
+    "eval_time_seconds": 3553.0,
     "total_samples": 100,
-    "bbeh_mini_accuracy": null,
+    "bbeh_mini_accuracy": 0.19,
     "bigcodebench_mean": 0.44,
     "bigcodebench_std": 0.498888,
     "ifeval_final_acc": null,
@@ -54,7 +58,9 @@
     "ifeval_prompt_loose_acc": null,
     "ifeval_prompt_loose_stderr": null,
     "ifeval_prompt_strict_acc": null,
-    "ifeval_prompt_strict_stderr": null
+    "ifeval_prompt_strict_stderr": null,
+    "tau2_telecom_accuracy": 0.017544,
+    "tau2_telecom_stderr": 0.01235
   },
   {
     "model": "Qwen3.5-9B",
@@ -73,7 +79,9 @@
     "ifeval_prompt_loose_acc": null,
     "ifeval_prompt_loose_stderr": null,
     "ifeval_prompt_strict_acc": null,
-    "ifeval_prompt_strict_stderr": null
+    "ifeval_prompt_strict_stderr": null,
+    "tau2_telecom_accuracy": null,
+    "tau2_telecom_stderr": null
   },
   {
     "model": "Qwen3.5-9B",
@@ -92,7 +100,9 @@
     "ifeval_prompt_loose_acc": null,
     "ifeval_prompt_loose_stderr": null,
     "ifeval_prompt_strict_acc": null,
-    "ifeval_prompt_strict_stderr": null
+    "ifeval_prompt_strict_stderr": null,
+    "tau2_telecom_accuracy": null,
+    "tau2_telecom_stderr": null
   },
   {
     "model": "Qwen3.5-9B",
@@ -111,7 +121,9 @@
     "ifeval_prompt_loose_acc": null,
     "ifeval_prompt_loose_stderr": null,
     "ifeval_prompt_strict_acc": null,
-    "ifeval_prompt_strict_stderr": null
+    "ifeval_prompt_strict_stderr": null,
+    "tau2_telecom_accuracy": null,
+    "tau2_telecom_stderr": null
   },
   {
     "model": "Qwen3.5-9B",
@@ -130,7 +142,9 @@
     "ifeval_prompt_loose_acc": null,
     "ifeval_prompt_loose_stderr": null,
     "ifeval_prompt_strict_acc": null,
-    "ifeval_prompt_strict_stderr": null
+    "ifeval_prompt_strict_stderr": null,
+    "tau2_telecom_accuracy": null,
+    "tau2_telecom_stderr": null
   },
   {
     "model": "Qwen3.5-9B",
@@ -149,7 +163,9 @@
     "ifeval_prompt_loose_acc": null,
     "ifeval_prompt_loose_stderr": null,
     "ifeval_prompt_strict_acc": null,
-    "ifeval_prompt_strict_stderr": null
+    "ifeval_prompt_strict_stderr": null,
+    "tau2_telecom_accuracy": null,
+    "tau2_telecom_stderr": null
   },
   {
     "model": "Qwen3.5-9B",
@@ -168,7 +184,9 @@
     "ifeval_prompt_loose_acc": null,
     "ifeval_prompt_loose_stderr": null,
     "ifeval_prompt_strict_acc": null,
-    "ifeval_prompt_strict_stderr": null
+    "ifeval_prompt_strict_stderr": null,
+    "tau2_telecom_accuracy": null,
+    "tau2_telecom_stderr": null
   },
   {
     "model": "Qwen3.5-9B",
@@ -187,7 +205,9 @@
     "ifeval_prompt_loose_acc": null,
     "ifeval_prompt_loose_stderr": null,
     "ifeval_prompt_strict_acc": null,
-    "ifeval_prompt_strict_stderr": null
+    "ifeval_prompt_strict_stderr": null,
+    "tau2_telecom_accuracy": null,
+    "tau2_telecom_stderr": null
   },
   {
     "model": "Qwen3.5-9B",
@@ -206,7 +226,9 @@
     "ifeval_prompt_loose_acc": null,
     "ifeval_prompt_loose_stderr": null,
     "ifeval_prompt_strict_acc": null,
-    "ifeval_prompt_strict_stderr": null
+    "ifeval_prompt_strict_stderr": null,
+    "tau2_telecom_accuracy": null,
+    "tau2_telecom_stderr": null
   },
   {
     "model": "Qwen3.5-9B",
@@ -225,7 +247,9 @@
     "ifeval_prompt_loose_acc": null,
     "ifeval_prompt_loose_stderr": null,
     "ifeval_prompt_strict_acc": null,
-    "ifeval_prompt_strict_stderr": null
+    "ifeval_prompt_strict_stderr": null,
+    "tau2_telecom_accuracy": null,
+    "tau2_telecom_stderr": null
   },
   {
     "model": "Qwen3.5-9B",
@@ -244,7 +268,9 @@
     "ifeval_prompt_loose_acc": null,
     "ifeval_prompt_loose_stderr": null,
     "ifeval_prompt_strict_acc": null,
-    "ifeval_prompt_strict_stderr": null
+    "ifeval_prompt_strict_stderr": null,
+    "tau2_telecom_accuracy": null,
+    "tau2_telecom_stderr": null
   },
   {
     "model": "Qwen3.5-9B",
@@ -263,7 +289,9 @@
     "ifeval_prompt_loose_acc": null,
     "ifeval_prompt_loose_stderr": null,
     "ifeval_prompt_strict_acc": null,
-    "ifeval_prompt_strict_stderr": null
+    "ifeval_prompt_strict_stderr": null,
+    "tau2_telecom_accuracy": null,
+    "tau2_telecom_stderr": null
   },
   {
     "model": "Qwen3.5-9B",
@@ -282,7 +310,9 @@
     "ifeval_prompt_loose_acc": null,
     "ifeval_prompt_loose_stderr": null,
     "ifeval_prompt_strict_acc": null,
-    "ifeval_prompt_strict_stderr": null
+    "ifeval_prompt_strict_stderr": null,
+    "tau2_telecom_accuracy": null,
+    "tau2_telecom_stderr": null
   },
   {
     "model": "Qwen3.5-9B",
@@ -301,7 +331,9 @@
     "ifeval_prompt_loose_acc": null,
     "ifeval_prompt_loose_stderr": null,
     "ifeval_prompt_strict_acc": null,
-    "ifeval_prompt_strict_stderr": null
+    "ifeval_prompt_strict_stderr": null,
+    "tau2_telecom_accuracy": null,
+    "tau2_telecom_stderr": null
   },
   {
     "model": "Qwen3.5-9B",
@@ -320,7 +352,9 @@
     "ifeval_prompt_loose_acc": null,
     "ifeval_prompt_loose_stderr": null,
     "ifeval_prompt_strict_acc": null,
-    "ifeval_prompt_strict_stderr": null
+    "ifeval_prompt_strict_stderr": null,
+    "tau2_telecom_accuracy": null,
+    "tau2_telecom_stderr": null
   },
   {
     "model": "Qwen3.5-9B",
@@ -339,7 +373,9 @@
     "ifeval_prompt_loose_acc": null,
     "ifeval_prompt_loose_stderr": null,
     "ifeval_prompt_strict_acc": null,
-    "ifeval_prompt_strict_stderr": null
+    "ifeval_prompt_strict_stderr": null,
+    "tau2_telecom_accuracy": null,
+    "tau2_telecom_stderr": null
   },
   {
     "model": "Qwen3.5-9B",
@@ -358,7 +394,9 @@
     "ifeval_prompt_loose_acc": null,
     "ifeval_prompt_loose_stderr": null,
     "ifeval_prompt_strict_acc": null,
-    "ifeval_prompt_strict_stderr": null
+    "ifeval_prompt_strict_stderr": null,
+    "tau2_telecom_accuracy": null,
+    "tau2_telecom_stderr": null
   },
   {
     "model": "Qwen3.5-9B",
@@ -377,7 +415,9 @@
     "ifeval_prompt_loose_acc": null,
     "ifeval_prompt_loose_stderr": null,
     "ifeval_prompt_strict_acc": null,
-    "ifeval_prompt_strict_stderr": null
+    "ifeval_prompt_strict_stderr": null,
+    "tau2_telecom_accuracy": null,
+    "tau2_telecom_stderr": null
   },
   {
     "model": "Qwen3.5-9B",
@@ -396,6 +436,8 @@
     "ifeval_prompt_loose_acc": null,
     "ifeval_prompt_loose_stderr": null,
     "ifeval_prompt_strict_acc": null,
-    "ifeval_prompt_strict_stderr": null
+    "ifeval_prompt_strict_stderr": null,
+    "tau2_telecom_accuracy": null,
+    "tau2_telecom_stderr": null
   }
 ]

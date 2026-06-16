@@ -40,6 +40,10 @@ benchmarks:
     label: "BigCodeBench"
     color: "#ffca28"
     color_bg: "rgba(255,202,40,0.15)"
+  tau2_telecom:
+    label: "TAU2 Telecom"
+    color: "#ff7043"
+    color_bg: "rgba(255,112,67,0.15)"
 
 # Quantization ordering (low → high quality)
 # The build script will sort quants in this order
@@ -111,11 +115,11 @@ models:
     compare_color: "#ef5350"
     compare_style: "solid"
     takeaway: >
-      This 4B model has a <strong>hard cliff at 2-bit quantization</strong>.
-      IQ2_XXS causes near-total collapse (34% ARC, 17.7% HumanEval —
-      near-zero on code, essentially non-functional). Above IQ3_XXS, ARC
-      stabilizes around 91–92%. The <strong>UD-Q4_K_XL is the best
-      performer overall</strong>.
+      Results via inspect_ai (BigCodeBench, 100 samples).
+      IQ2_XXS completely collapses to <strong>0%</strong> — non-functional.
+      IQ2_M recovers to only 17%. The floor is around <strong>Q3_K_M (36%)</strong>.
+      The sweet spot is <strong>Q4_K_M at 43%</strong>; above Q4, scores plateau
+      in the 37–41% range with no consistent gain.
 
   qwen36_35b_mtp:
     name: "Qwen 3.6 A35B A3B MTP (MoE)"
@@ -186,3 +190,8 @@ compare_takeaways:
     40–41% while IQ4_NL reaches 54%.
   arc_challenge: >
     <strong>ARC-Challenge</strong> via inspect_ai. Results pending.
+  tau2_telecom: >
+    <strong>TAU2 Telecom</strong> is an agentic benchmark: the model acts as a support agent
+    diagnosing telecom issues (MMS, mobile data, roaming) by following a multi-step decision tree —
+    full benchmark, 114 samples. Only available for Qwen 3.5 9B so far.
+    Scores are very low (1–2%), reflecting the difficulty of multi-turn agentic reasoning at this scale.
