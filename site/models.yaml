@@ -8,42 +8,22 @@
 
 # Which benchmarks to show, and in what order
 benchmarks:
-  arc_chat:
-    label: "ARC-Challenge (Chat)"
-    color: "#4fc3f7"
-    color_bg: "rgba(79,195,247,0.15)"
-  ifeval_prompt_strict:
-    label: "IFEval (strict)"
-    color: "#ab47bc"
-    color_bg: "rgba(171,71,188,0.15)"
-  gsm8k:
-    label: "GSM8K"
-    color: "#ffa726"
-    color_bg: "rgba(255,167,38,0.15)"
-  humaneval_pass_at_1:
-    label: "HumanEval"
-    color: "#66bb6a"
-    color_bg: "rgba(102,187,106,0.15)"
-  humaneval_plus_pass_at_1:
-    label: "HumanEval+"
-    color: "#26a69a"
-    color_bg: "rgba(38,166,154,0.15)"
-  bbeh_mini:
-    label: "BBEH Mini"
-    color: "#ef5350"
-    color_bg: "rgba(239,83,80,0.15)"
-  arc_challenge:
-    label: "ARC-Challenge"
-    color: "#29b6f6"
-    color_bg: "rgba(41,182,246,0.15)"
   bigcodebench:
     label: "BigCodeBench"
-    color: "#ffca28"
-    color_bg: "rgba(255,202,40,0.15)"
-  tau2_telecom:
-    label: "TAU2 Telecom"
-    color: "#ff7043"
-    color_bg: "rgba(255,112,67,0.15)"
+    color: "#4fc3f7"
+    color_bg: "rgba(79,195,247,0.15)"
+  musr:
+    label: "MUSR"
+    color: "#ab47bc"
+    color_bg: "rgba(171,71,188,0.15)"
+  gpqa:
+    label: "GPQA"
+    color: "#ffa726"
+    color_bg: "rgba(255,167,38,0.15)"
+  bfcl:
+    label: "BFCL"
+    color: "#66bb6a"
+    color_bg: "rgba(102,187,106,0.15)"
 
 # Quantization ordering (low → high quality)
 # The build script will sort quants in this order
@@ -145,38 +125,22 @@ models:
 
 # Comparison chart takeaways (section 3)
 compare_takeaways:
-  arc_chat: >
-    <strong>ARC-Challenge</strong> is the most resilient benchmark. MoE
-    models barely move across the entire quantization range. Dense models
-    show a clear cliff below Q3, especially smaller ones.
-  ifeval_prompt_strict: >
-    <strong>IFEval</strong> (instruction following) holds well across
-    architectures. Good news for agentic use cases: Q3 and above are
-    reliable across the board.
-  gsm8k: >
-    <strong>GSM8K</strong> (reasoning) is flat for the Qwen 3.6 A35B:
-    89–90% from IQ1_M to IQ4_NL (±1%), so only boundary quants were
-    measured — quantization barely affects reasoning on this MoE
-    architecture. Dense models show the expected Q3 floor pattern.
-  humaneval_pass_at_1: >
-    <strong>HumanEval</strong> (code generation) is the first benchmark
-    to collapse under quantization. The floor varies by model size —
-    larger models can go as low as IQ2_M, smaller ones may not reach
-    65% even at Q4. <strong>Q4 is a safe starting point</strong>; check
-    the per-model takeaway for the actual floor.
-  humaneval_plus_pass_at_1: >
-    <strong>HumanEval+</strong> (80× more tests) amplifies the same
-    pattern. Scores are systematically lower than HumanEval, confirming
-    that some code passes by luck at higher quants.
-  bbeh_mini: >
-    <strong>BBEH Mini</strong> (Big-Bench Extra Hard, 100 samples via
-    inspect_ai) is only available for the Qwen 3.6 A35B A3B MTP variants
-    so far. A clear step appears at Q4: IQ1_M–Q3_K_M cluster around
-    40–41% while IQ4_NL reaches 54%.
-  arc_challenge: >
-    <strong>ARC-Challenge</strong> via inspect_ai. Results pending.
-  tau2_telecom: >
-    <strong>TAU2 Telecom</strong> is an agentic benchmark: the model acts as a support agent
-    diagnosing telecom issues (MMS, mobile data, roaming) by following a multi-step decision tree —
-    full benchmark, 114 samples. Only available for Qwen 3.5 9B so far.
-    Scores are very low (1–2%), reflecting the difficulty of multi-turn agentic reasoning at this scale.
+  bigcodebench: >
+    <strong>BigCodeBench</strong> (code generation, unit-test scoring) is consistently
+    the benchmark most sensitive to quantization. Dense models show a clear performance
+    cliff at aggressive quants. MoE architectures are more resilient across the range.
+    <strong>Q4_K_M is a reliable floor</strong> for most models; going below Q3 risks
+    significant drops on coding tasks.
+  musr: >
+    <strong>MUSR</strong> (multi-step narrative reasoning) sits around 60% for 9B models
+    — well away from saturation. Quantization impact is moderate: the benchmark
+    discriminates between model sizes more than between quant levels, making it
+    a useful signal for capability rather than compression sensitivity.
+  gpqa: >
+    <strong>GPQA</strong> (graduate-level science Q&amp;A) is the hardest benchmark in the suite.
+    Even frontier models are far from the ceiling. Larger models and higher quants both matter here —
+    GPQA is the best discriminator for measuring the combined cost of size reduction and quantization.
+  bfcl: >
+    <strong>BFCL</strong> (function calling, AST-matched) measures the practical agentic
+    capability most sensitive to quantization noise: generating well-formed structured tool calls.
+    Results pending — first runs in progress.

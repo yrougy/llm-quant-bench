@@ -4,13 +4,13 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>LLM Quant Bench — Real accuracy cost of GGUF quantization</title>
-<meta name="description" content="Independent benchmark measuring the real accuracy cost of GGUF quantization across popular LLMs. Compare BigCodeBench and BBEH-mini scores at every quant level.">
+<meta name="description" content="Independent benchmark measuring the real accuracy cost of GGUF quantization across popular LLMs. Compare BigCodeBench, MUSR, GPQA and BFCL scores at every quant level.">
 <link rel="canonical" href="https://gguf-bench.com/">
 <meta property="og:type" content="article">
 <meta property="article:author" content="https://www.linkedin.com/in/yrougy/">
 <meta name="author" content="Yves Rougy">
 <meta property="og:title" content="LLM Quant Bench — Real accuracy cost of GGUF quantization">
-<meta property="og:description" content="Independent benchmark measuring the real accuracy cost of GGUF quantization across popular LLMs. Compare BigCodeBench and BBEH-mini scores at every quant level.">
+<meta property="og:description" content="Independent benchmark measuring the real accuracy cost of GGUF quantization across popular LLMs. Compare BigCodeBench, MUSR, GPQA and BFCL scores at every quant level.">
 <meta property="og:url" content="https://gguf-bench.com/">
 <meta property="og:image" content="https://gguf-bench.com/og.png">
 <meta name="twitter:card" content="summary_large_image">
@@ -218,7 +218,23 @@ footer .links { display: flex; justify-content: center; gap: 2rem; margin-bottom
   </p>
   <div class="hw-badge">
     <span class="dot"></span>
-    2× RTX 3060 12 GB · GTX 1070 8 GB · llama.cpp · lm-evaluation-harness · inspect_ai
+    2× RTX 3060 12 GB · GTX 1070 8 GB · llama.cpp · inspect_ai
+  </div>
+</div>
+
+<!-- ════════════════ V1 → V2 NOTICE ════════════════ -->
+<div class="roadmap-notice">
+  <div class="roadmap-notice-inner">
+    <div class="rn-icon">📋</div>
+    <div class="rn-body">
+      <div class="rn-title">About v1 — and why everything changed</div>
+      The first version of this project used <strong>lm-evaluation-harness</strong> with ARC-Challenge, IFEval, GSM8K and HumanEval.
+      These were dropped for two reasons: <strong>saturation</strong> (modern 9B+ models score so tightly at the ceiling that quant differences disappear into noise)
+      and <strong>format issues</strong> (HumanEval's completion format is incompatible with instruct models; IFEval scores were polluted by <code>&lt;think&gt;</code> tags).
+      A first attempt at a new suite added BBEH-mini, but it takes <strong>days per model</strong> on consumer hardware — impractical for systematic quant comparisons.
+      The v2 suite was designed around one constraint: <strong>fast, reliable, non-saturated</strong>, with fully deterministic scoring (no LLM judge).
+      Raw results from v1 are preserved in <a href="https://github.com/yrougy/llm-quant-bench/blob/main/LEGACY.md" target="_blank" style="color:var(--accent-2);">LEGACY.md</a> on GitHub.
+    </div>
   </div>
 </div>
 
@@ -227,19 +243,17 @@ footer .links { display: flex; justify-content: center; gap: 2rem; margin-bottom
   <div class="banner-inner">
     <div class="banner-icon">🔬</div>
     <div class="banner-body">
-      <div class="banner-title">Work in progress — current scope</div>
+      <div class="banner-title">v2 benchmark suite — current scope</div>
       <p class="banner-text">
-        To stay realistic with available hardware, benchmarks are currently limited to <strong>BigCodeBench</strong> and <strong>BBEH-mini</strong>.
-        Initial runs use <strong>100 samples</strong> to establish a working baseline — precision will be refined over time for more reliable results.
-        Previous benchmarks (ARC-Challenge, IFEval, GSM8K, HumanEval) were <strong>dropped because they saturate on current models</strong> — scores cluster so tightly at the ceiling that nothing meaningful can be concluded about quantization impact.
-        These results are <strong>not directly comparable to official leaderboard scores</strong>: inference runs under consumer hardware constraints (e.g. 64k context limit).
-        <strong>IFEval</strong> will be re-introduced later under a different harness to remain comparable. <strong>SWE-bench</strong> is also planned depending on hardware availability.
+        All evaluations run through <strong>inspect_ai</strong> with fully deterministic scoring — no LLM judge.
+        The four benchmarks were chosen because they <strong>remain discriminating on modern models</strong> and complete in a reasonable time on consumer hardware.
+        These results are <strong>not directly comparable to official leaderboard scores</strong>: inference runs under consumer hardware constraints (q4_0 KV cache, 32k context).
       </p>
       <div class="banner-pills">
         <span class="pill pill-good">BigCodeBench — code generation</span>
-        <span class="pill pill-good">BBEH-mini — broad reasoning</span>
-        <span class="pill pill-warn">100-sample baseline · precision improving</span>
-        <span class="pill pill-info">IFEval · SWE-bench planned</span>
+        <span class="pill pill-good">MUSR — narrative reasoning</span>
+        <span class="pill pill-good">GPQA — expert scientific reasoning</span>
+        <span class="pill pill-good">BFCL — function calling</span>
       </div>
     </div>
   </div>
@@ -249,24 +263,36 @@ footer .links { display: flex; justify-content: center; gap: 2rem; margin-bottom
 <section id="usecases">
   <h2><span class="num">01</span>Pick your use case, not your quant</h2>
   <p class="intro">
-    Code and reasoning degrade differently under quantization. The two benchmarks currently measured were chosen because they are hard to saturate — they still discriminate between quants even on capable models.
+    Code, reasoning, knowledge and tool use degrade differently under quantization. The four benchmarks were chosen because they are hard to saturate, fast to run on consumer hardware, and cover complementary capability axes.
   </p>
   <div class="usecase-grid">
     <div class="usecase-card">
       <span class="tag">BigCodeBench</span>
       <h3>Code Generation</h3>
-      <p>Diverse programming tasks across multiple languages and real-world libraries. Much harder than HumanEval — measures practical coding ability, not just toy problems.</p>
-      <div class="resilience">Quantization resilience<div class="bar"><div class="bar-fill" style="width:60%; background: var(--accent-1);"></div></div></div>
+      <p>Diverse programming tasks across real-world libraries. Much harder than HumanEval — measures practical coding ability. Scored by unit test execution, fully deterministic.</p>
+      <div class="resilience">Quantization resilience<div class="bar"><div class="bar-fill" style="width:55%; background: var(--accent-1);"></div></div></div>
     </div>
     <div class="usecase-card">
-      <span class="tag">BBEH-mini</span>
-      <h3>Broad Reasoning</h3>
-      <p>A diverse mix of hard reasoning tasks — logic, math, language understanding. Designed to avoid saturation: even strong models don't max out, so it keeps discriminating between quants.</p>
-      <div class="resilience">Quantization resilience<div class="bar"><div class="bar-fill" style="width:70%; background: var(--accent-2);"></div></div></div>
+      <span class="tag">MUSR</span>
+      <h3>Narrative Reasoning</h3>
+      <p>Multi-step soft reasoning on long narratives — mystery stories, object tracking, team assignments. Reading comprehension meets logic. Scores around 60% on 9B models, not saturated.</p>
+      <div class="resilience">Quantization resilience<div class="bar"><div class="bar-fill" style="width:65%; background: var(--accent-2);"></div></div></div>
+    </div>
+    <div class="usecase-card">
+      <span class="tag">GPQA</span>
+      <h3>Expert Scientific Reasoning</h3>
+      <p>Graduate-level questions in chemistry, physics and biology — hard enough that even frontier models are far from the ceiling. Strong discriminator between model sizes and quant levels.</p>
+      <div class="resilience">Quantization resilience<div class="bar"><div class="bar-fill" style="width:50%; background: var(--accent-3);"></div></div></div>
+    </div>
+    <div class="usecase-card">
+      <span class="tag">BFCL</span>
+      <h3>Function Calling</h3>
+      <p>Berkeley Function-Calling Leaderboard — tests the ability to generate correct tool calls given a function spec. Scored by AST matching. Directly measures agentic / tool-use capability.</p>
+      <div class="resilience">Quantization resilience<div class="bar"><div class="bar-fill" style="width:70%; background: var(--accent-4);"></div></div></div>
     </div>
   </div>
   <div class="callout">
-    <strong>Why these two?</strong> BigCodeBench and BBEH-mini are complementary — one probes code, the other broad reasoning — and both remain discriminative on modern models. They're a practical starting point while the benchmark suite grows. IFEval and SWE-bench are planned once hardware capacity allows.
+    <strong>Design principle:</strong> each benchmark covers a different capability axis, uses deterministic scoring (no LLM judge), completes in under an hour on a single consumer GPU, and discriminates between modern 9B–35B models without saturating.
   </div>
 </section>
 
@@ -344,27 +370,27 @@ footer .links { display: flex; justify-content: center; gap: 2rem; margin-bottom
   <div class="method-grid">
     <div class="method-item">
       <h4>Evaluation harness</h4>
-      <p>BigCodeBench and BBEH-mini are run through <a href="https://inspect.ai-safety-institute.org.uk/" target="_blank" style="color:var(--accent-1);">Inspect AI</a> (UK AISI) with models served via <code>llama-server</code> from llama.cpp.</p>
+      <p>All benchmarks run through <a href="https://inspect.ai-safety-institute.org.uk/" target="_blank" style="color:var(--accent-1);">Inspect AI</a> (UK AISI / <code>inspect_evals</code>), with models served locally via <code>llama-server</code>. Scoring is fully deterministic — no LLM judge.</p>
     </div>
     <div class="method-item">
       <h4>BigCodeBench</h4>
-      <p>Measures practical code generation across real-world libraries. Scores are pass@1 on the <code>complete</code> split. Significantly harder than HumanEval, less prone to saturation on capable models.</p>
+      <p>Practical code generation across real-world libraries. Scored by unit test execution (pass@1, <code>complete</code> split). Full benchmark — no limit. Runs in ~2–3 h on a 9B model with 3 parallel slots.</p>
     </div>
     <div class="method-item">
-      <h4>BBEH-mini</h4>
-      <p>A diverse mix of hard reasoning tasks (logic, math, language). The mini split provides a good signal-to-compute ratio — detailed enough to discriminate between quants without requiring days of compute.</p>
+      <h4>MUSR</h4>
+      <p>Multi-Step Soft Reasoning — narrative logic (mystery, object tracking, team allocation). MCQ format, accuracy scoring. Full dataset (~750 questions), runs in ~40 min. Not saturated: 9B models score ~60%.</p>
     </div>
     <div class="method-item">
-      <h4>Sample count</h4>
-      <p>Initial runs use <strong>100 samples</strong> to establish a quick baseline. More samples will be added over time to improve statistical reliability and reduce variance between runs.</p>
+      <h4>GPQA</h4>
+      <p>Graduate-level science Q&amp;A (chemistry, physics, biology). MCQ, ~450 questions. Even frontier models are far from the ceiling — strong discriminator between model sizes and quant levels.</p>
     </div>
     <div class="method-item">
-      <h4>KV cache</h4>
-      <p>All models tested with <code>q4_0</code> KV cache for both K and V, which reflects real consumer usage rather than FP16 cache that wouldn't fit in VRAM.</p>
+      <h4>BFCL</h4>
+      <p>Berkeley Function-Calling Leaderboard — tests structured tool-call generation. Scored by AST matching (deterministic). Run with <code>--limit 1000 --seed 42</code> for reproducibility across models.</p>
     </div>
     <div class="method-item">
-      <h4>Hardware &amp; context</h4>
-      <p>Personal hardware: <strong>2× RTX 3060 12 GB</strong> for larger models, <strong>GTX 1070 8 GB</strong> for smallest quants. Context capped at <strong>64k tokens</strong> — results are therefore not directly comparable to official leaderboard scores run without such constraints.</p>
+      <h4>KV cache &amp; hardware</h4>
+      <p>All models tested with <code>q4_0</code> KV cache (K and V), reflecting real consumer usage. Hardware: <strong>2× RTX 3060 12 GB</strong> for larger models, <strong>GTX 1070 8 GB</strong> for small quants. Context: 32k tokens.</p>
     </div>
   </div>
   <div class="callout" style="margin-top: 2rem;">
