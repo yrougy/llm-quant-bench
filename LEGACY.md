@@ -30,14 +30,14 @@ All evaluations run through [lm-evaluation-harness](https://github.com/EleutherA
 | Model | Size | Type | Status |
 |-------|------|------|--------|
 | Qwen 3.6 27B (Unsloth UD) | 27B | Dense | Complete (no GSM8K) |
-| Qwen 3.6 A35B A3B (Unsloth UD) | 35B MoE | MoE | Complete (no GSM8K, some anomalies to rerun) |
+| Qwen 3.6 35B A3B (Unsloth UD) | 35B MoE | MoE | Complete (no GSM8K, some anomalies to rerun) |
 | Qwen 3.5 4B | 4B | Dense | Complete (no GSM8K, no IFEval) |
 | Qwen 3.5 9B | 9B | Dense | Complete (no GSM8K, no IFEval) |
 | Gemma 4 27B A4B (Unsloth UD) | 27B MoE | MoE | Partial — to be redone with HumanEval |
 
 ## Quick results
 
-### Qwen 3.6 A35B A3B — Unsloth UD quants
+### Qwen 3.6 35B A3B — Unsloth UD quants
 
 > GSM8K not done yet
 

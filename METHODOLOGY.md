@@ -4,7 +4,7 @@ This document describes the benchmarks, the evaluation setup, and the reasoning 
 
 ## Goal
 
-The goal is to measure how much accuracy is lost when quantizing a model from high-precision (Q6_K, Q5_K) down to aggressive quants (IQ2_XXS, IQ1_M). We are **not** comparing models to each other — we are comparing quantization levels within the same model family.
+The goal is to measure how much accuracy is lost when quantizing a model from high-precision (Q8_0, Q6_K) down to aggressive quants (IQ2_XXS, IQ1_M). We are **not** comparing models to each other — we are comparing quantization levels within the same model family.
 
 This means:
 
@@ -12,117 +12,91 @@ This means:
 - What matters is the **delta** between quants, not the absolute numbers.
 - Each model family has its own baseline (the highest quant tested).
 
-## Evaluation tools
+## Evaluation harness
 
-### lm-evaluation-harness (legacy)
+All v2 evaluations run through [inspect_ai](https://inspect.ai-safety-institute.org.uk/) using the [inspect_evals](https://github.com/UKGovernmentBEIS/inspect_evals) task library. Models are served locally via `llama-server` (from [llama.cpp](https://github.com/ggml-org/llama.cpp)) through the OpenAI-compatible chat endpoint (`/v1/chat/completions`), and inspect_ai connects as an `openai-api` provider.
 
-Most results were produced with [EleutherAI's lm-evaluation-harness](https://github.com/EleutherAI/lm-evaluation-harness) (version 0.4.12).
+Scoring is **fully deterministic** — unit test execution, MCQ accuracy, or AST matching. No LLM judge is involved at any point.
 
-The models are served locally via `llama-server` (from [llama.cpp](https://github.com/ggml-org/llama.cpp)) and queried through the OpenAI-compatible completions endpoint (`/v1/completions`). The harness connects as a `local-completions` backend.
-
-**Why we're moving away from it:** lm-eval-harness is designed for base models. Adapting it to instruction-tuned models running through a local chat endpoint requires significant parameter tuning (chat templates, tokenizer paths, generative task variants) and produces fragile configurations. Finding the right settings for each new model family can take days of debugging.
-
-### inspect_ai (current)
-
-Starting with the **Qwen 3.6 A35B A3B MTP** model, evaluations use [inspect_ai](https://github.com/UKGovernmentBEIS/inspect_evals) via `inspect_evals`. This framework is designed for instruction-tuned models evaluated through a chat API, which maps naturally to how these models are actually deployed.
-
-The models are still served locally via `llama-server` through the OpenAI-compatible chat endpoint (`/v1/chat/completions`), and inspect_ai connects as an `openai`-compatible provider.
-
-The migration is ongoing. Future models will be evaluated exclusively with inspect_ai. Existing lm-eval results are preserved as-is.
+Earlier results were produced with [lm-evaluation-harness](https://github.com/EleutherAI/lm-evaluation-harness) on a different benchmark suite (v1). Those results and the reasons for moving away from that suite are preserved in [LEGACY.md](LEGACY.md).
 
 ## Inference setup
 
-All tests share the following llama-server configuration:
+All tests share the following `llama-server` configuration (see `scripts/bench_config.json`):
 
 | Parameter | Value | Notes |
 |-----------|-------|-------|
-| Context length | 16384–65536 | Depends on model requirements |
+| Context length | 16384–32768 | Up to 32k depending on model / GPU |
 | Flash attention | on | |
-| KV cache type (K) | q4_0 | Reduces VRAM usage |
+| KV cache type (K) | q4_0 | Reduces VRAM usage, reflects consumer setups |
 | KV cache type (V) | q4_0 | Same |
 | Batch size | 1024 | |
+| Parallel slots | 3 | Matched to inspect_ai `max_connections` |
 | Temperature | 0.6 | |
 | Top-p | 0.95 | |
 | Top-k | 20 | |
 | Min-p | 0.00 | |
 
-For thinking models (Qwen 3.x, Gemma 4), the `enable_thinking` parameter in `chat-template-kwargs` is set depending on the test:
+For reproducibility, inspect_ai runs use `--seed 42` and `--sample-shuffle 42`.
 
-- **Thinking enabled** for Gemma 4 (GSM8K benefits from chain-of-thought)
-- **Thinking disabled** for Qwen 3.6 (the `<think>` tags interfere with IFEval scoring — see [CAVEATS.md](CAVEATS.md))
+For thinking models (Qwen 3.x), `enable_thinking` is set to `false` in `chat-template-kwargs`: `<think>` blocks pollute deterministic scorers and inflate evaluation time (see [CAVEATS.md](CAVEATS.md) for the v1 IFEval story that motivated this).
 
-## Benchmarks
+## Hardware
 
-### GSM8K — Grade School Math
+- **2× RTX 3060 12 GiB** — larger models (27B+)
+- **GTX 1070 8 GiB** — small models / small quants
 
-- **Dataset:** ~8,500 grade-school math word problems
-- **What it tests:** Multi-step arithmetic reasoning with intermediate dependencies
-- **Evaluation:** Exact match on the final numerical answer
-- **N-shot:** 8
-- **Metrics reported:** `flexible-extract` (lenient parsing) and `strict-match` (exact format)
+No cloud, no H100. This is deliberate: the results reflect what these quants actually do on the consumer hardware people run them on — including the q4_0 KV cache that wouldn't be needed with more VRAM.
 
-GSM8K is the most stable benchmark across quantization levels. The reasoning chain is relatively short and the answer space is numerical, so even aggressive quants tend to preserve the core capability.
+## The v2 benchmark suite
 
-The `flexible-extract` metric uses regex to find the final number in the model's response, while `strict-match` requires the answer to be in the expected format. The gap between the two reveals how much the model's formatting drifts at lower quants.
+The four benchmarks were chosen on three criteria: **non-saturated** on modern models, **deterministic scoring**, and **fast enough** to run systematically across 10–20 quants per model on consumer hardware.
 
-### ARC-Challenge (Chat variant)
+### BigCodeBench — Code generation
 
-- **Dataset:** ~1,172 science multiple-choice questions (filtered for difficulty)
-- **What it tests:** Scientific reasoning, combining facts, resisting distractors
-- **Evaluation:** Exact match on the selected answer letter (A/B/C/D)
-- **N-shot:** 0
-- **Metric:** `exact_match` with whitespace removal
+- **Dataset:** 1,140 practical programming tasks across real-world libraries (`complete` split)
+- **What it tests:** Practical coding ability — much harder than HumanEval
+- **Evaluation:** Unit test execution, pass@1, sandboxed
+- **Samples:** Full benchmark, no limit
 
-**Important:** We use `arc_challenge_chat` instead of the standard `arc_challenge`. The standard version relies on token log-probabilities to select the answer, but llama.cpp's completions API does not return probabilities in a format compatible with lm-eval-harness. This produced inconsistent results.
+### MUSR — Multi-step soft reasoning
 
-The chat variant instead asks the model to generate a response ending with "The best answer is [letter]" and parses the output. This is less fine-grained (no probability ranking) but produces reliable, interpretable results with llama.cpp.
+- **Dataset:** ~750 narrative reasoning questions (murder mysteries, object placement, team allocation)
+- **What it tests:** Multi-step reasoning over long narrative contexts
+- **Evaluation:** MCQ accuracy
+- **Samples:** Full dataset
 
-See [CAVEATS.md](CAVEATS.md) for the full story on this issue.
+### GPQA — Graduate-level science Q&A
 
-### IFEval — Instruction Following Evaluation
+- **Dataset:** ~450 questions in chemistry, physics, biology, written by domain experts
+- **What it tests:** Expert scientific reasoning — even frontier models are far from the ceiling
+- **Evaluation:** MCQ accuracy
+- **Samples:** Full dataset
 
-- **Dataset:** ~540 prompts with verifiable formatting constraints
-- **What it tests:** Strict obedience to structural instructions (word count, formatting, keywords, etc.)
-- **Evaluation:** Deterministic Python scripts that check constraint satisfaction
-- **N-shot:** 0
-- **Metrics reported:**
-  - `prompt_level_strict_acc` — % of prompts where ALL constraints are met (strict parsing)
-  - `prompt_level_loose_acc` — Same with lenient parsing
-  - `inst_level_strict_acc` — % of individual instructions satisfied (strict)
-  - `inst_level_loose_acc` — Same with lenient parsing
+### BFCL — Function calling
 
-IFEval is the most practically relevant benchmark for agentic use cases. A model that can't follow formatting instructions reliably will break tool-calling pipelines, structured output generation, and multi-step agent workflows.
+- **Dataset:** Berkeley Function-Calling Leaderboard
+- **What it tests:** Generating well-formed structured tool calls from a function spec — the practical agentic capability
+- **Evaluation:** AST matching (deterministic)
+- **Samples:** `--limit 1000` with `--seed 42` for reproducibility across models
 
-The strict/loose distinction matters: strict parsing checks exact compliance, while loose allows minor deviations (extra whitespace, case differences). A large gap between strict and loose suggests the model "understands" the instruction but is sloppy in execution.
+### Current status
 
-### HumanEval — Code Generation
+BigCodeBench runs are complete for the published models; MUSR, GPQA and BFCL runs are in progress and will be added as they complete.
 
-- **Dataset:** 164 Python programming problems
-- **What it tests:** Ability to generate correct, runnable Python code
-- **Evaluation:** pass@1 (single attempt, code is executed and tested)
-- **N-shot:** 0
+## Why the v1 suite was dropped
 
-HumanEval tests practical coding ability. Each problem provides a function signature and docstring; the model must complete the function body. The generated code is then executed against test cases.
+The first version of this project used ARC-Challenge, IFEval, GSM8K, HumanEval and later BBEH-mini. They were dropped for concrete reasons:
 
-Note: HumanEval results can have high variance (stderr ~±3.8%). Small differences between quants should not be over-interpreted.
+- **Saturation** — modern 9B+ models score so close to the ceiling on ARC/IFEval/GSM8K that quant differences disappear into noise.
+- **Format incompatibility** — HumanEval's completion format doesn't fit instruct models; IFEval scores were polluted by `<think>` tags.
+- **Runtime** — BBEH-mini takes days per model on consumer hardware; MMLU takes 6–8 hours per quant. Impractical for systematic quant comparisons.
+- **race_h** was also evaluated and abandoned (saturated at ~89% on a 9B model).
 
-### BBEH Mini — Big-Bench Extra Hard (subset)
-
-- **Dataset:** 100-sample subset drawn from [Big-Bench Extra Hard](https://github.com/google-deepmind/bbeh)
-- **What it tests:** Hard reasoning across diverse tasks — logic puzzles, causal reasoning, multi-step inference. Designed to resist saturation where standard benchmarks cluster near the ceiling.
-- **Evaluation:** Exact match / format-specific parsing per task type
-- **N-shot:** 0
-- **Harness:** inspect_ai via `inspect_evals`
-
-**Important caveat:** The current results use 100 samples. At 100 samples, the margin of error is high (~±5%). Results should be read as directional signal — the gap between IQ1_M and IQ4_NL is real, but small inter-quant differences may be noise.
-
-Unlike lm-eval-harness, inspect_ai supports **incremental evaluation**: a run can be interrupted and resumed later, and new samples can be appended to existing results. This means the sample count is not a fixed ceiling but a snapshot of the current state — it grows as machine time becomes available. The first priority is having graphs that are readable and discriminating; precision improves from there.
-
-BBEH was added specifically to address benchmark saturation: existing tests (ARC, IFEval, GSM8K) are too easy for top quants, so they all cluster near the ceiling. BBEH provides discrimination where the others don't.
+Full v1 results and per-benchmark details are in [LEGACY.md](LEGACY.md); the debugging war stories are in [CAVEATS.md](CAVEATS.md).
 
 ## What's NOT tested
 
 - **Speed / throughput:** This project only measures accuracy. Quantization obviously affects speed, but that's hardware-dependent and well-documented elsewhere.
 - **Perplexity:** While perplexity is the most sensitive measure of quantization quality, it doesn't directly predict task performance.
-- **MMLU:** We ran MMLU on a couple of Gemma 4 quants but suspended it — each run takes 6+ hours on our setup, and the signal-to-noise ratio for quantization comparison was low. The results we do have are in the raw data.
-- **Creative / subjective tasks:** No benchmark captures writing quality, conversational ability, or nuanced reasoning. These tests measure the mechanical capabilities that quantization is most likely to degrade.
+- **Creative / subjective tasks:** No benchmark here captures writing quality, conversational ability, translation, or summarization. These tests measure the mechanical capabilities that quantization is most likely to degrade.

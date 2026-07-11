@@ -60,7 +60,7 @@ If you want to reproduce our exact numbers, use the same KV cache settings. If y
 
 ## lm-eval-harness vs inspect_ai: mixed results
 
-Starting with the Qwen 3.6 A35B A3B MTP model, evaluations switched to inspect_ai. This means **results from this model are not directly comparable to lm-eval results for other models**, even for nominally identical benchmarks like ARC-Challenge.
+Starting with the Qwen 3.6 35B A3B MTP model, evaluations switched to inspect_ai. This means **results from this model are not directly comparable to lm-eval results for other models**, even for nominally identical benchmarks like ARC-Challenge.
 
 The two harnesses differ in:
 - **Prompt format:** lm-eval used the completions endpoint (`/v1/completions`) with manually applied chat templates. inspect_ai uses `/v1/chat/completions` via the OpenAI client — llama-server applies the chat template automatically.

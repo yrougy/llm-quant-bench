@@ -72,6 +72,13 @@
         "max_connections": 1,
         "time_limit": 300
       },
+      "gpqa_diamond": {
+        "enabled": false,
+        "limit": 0,
+        "max_sandboxes": 1,
+        "max_connections": 1,
+        "time_limit": 300
+      },
       "bfcl": {
         "enabled": true,
         "limit": 1000,

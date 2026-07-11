@@ -21,7 +21,7 @@ All evaluations run through [inspect_ai](https://github.com/UKGovernmentBEIS/ins
 
 ## Hardware
 
-- **GPUs:** RTX 3060 12 GiB (large models) · GTX 1070 8 GiB (small models)
+- **GPUs:** 2× RTX 3060 12 GiB (large models) · GTX 1070 8 GiB (small models)
 - **Inference:** llama.cpp `llama-server`
 - **KV cache:** q4_0 for both K and V
 - **Context:** 16384–32768 tokens depending on model
