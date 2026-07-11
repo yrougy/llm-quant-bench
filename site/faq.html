@@ -132,13 +132,14 @@ footer .links { display: flex; justify-content: center; gap: 2rem; margin-bottom
   <details>
     <summary>Why these specific benchmarks?</summary>
     <div class="inner">
-      <p>The current suite uses <strong>BigCodeBench</strong> and <strong>BBEH-mini</strong>, chosen for complementary coverage and resistance to saturation:</p>
+      <p>The v2 suite uses four benchmarks chosen for three criteria: <strong>non-saturated</strong> on modern models, <strong>deterministic scoring</strong> (no LLM judge), and <strong>fast enough to run systematically</strong> on consumer hardware.</p>
       <p>
-        <strong>BigCodeBench</strong> — diverse code generation across real-world libraries; much harder than HumanEval and less prone to ceiling effects on capable models.<br>
-        <strong>BBEH-mini</strong> — a broad mix of hard reasoning tasks (logic, math, language understanding) that remains discriminative even on strong models.
+        <strong>BigCodeBench</strong> — diverse code generation across real-world libraries; scored by unit test execution. Much harder than HumanEval.<br>
+        <strong>MUSR</strong> — multi-step soft reasoning on long narratives (mystery, object tracking, team allocation). MCQ format. 9B models score ~60% — not saturated.<br>
+        <strong>GPQA</strong> — graduate-level science Q&amp;A (chemistry, physics, biology). Hard enough that even frontier models are far from the ceiling.<br>
+        <strong>BFCL</strong> — Berkeley Function-Calling Leaderboard; tests structured tool-call generation, scored by AST matching.
       </p>
-      <p>Earlier benchmarks (ARC-Challenge, IFEval, GSM8K, HumanEval) were dropped because they saturate on current models — scores cluster so close to the ceiling that no meaningful conclusion can be drawn about quantization impact.</p>
-      <p><strong>IFEval</strong> will be re-introduced later using a different harness to keep results comparable across runs. <strong>SWE-bench</strong> is also planned, subject to hardware availability.</p>
+      <p>Earlier benchmarks (ARC-Challenge, IFEval, GSM8K, HumanEval) were dropped because they <strong>saturate on current models</strong> — scores cluster so close to the ceiling that no meaningful conclusion can be drawn about quantization impact. BBEH-mini was also tried but takes too long per model on consumer hardware to be practical for systematic quant comparisons.</p>
     </div>
   </details>
 
@@ -154,8 +155,9 @@ footer .links { display: flex; justify-content: center; gap: 2rem; margin-bottom
   <details>
     <summary>What hardware was used?</summary>
     <div class="inner">
-      <p>Benchmarks are run with <a href="https://inspect.ai-safety-institute.org.uk/" target="_blank">Inspect AI</a> (UK AISI) as the evaluation harness, using <code>llama-server</code> from llama.cpp as the inference backend.</p>
-      <p>A single <strong>RTX 3060 12 GB</strong> consumer GPU is used — no cloud, no H100. Context is capped at <strong>64k tokens</strong>, which means results are not directly comparable to official leaderboard scores measured without such constraints.</p>
+      <p>All evaluations run through <a href="https://inspect.ai-safety-institute.org.uk/" target="_blank">Inspect AI</a> (UK AISI / <code>inspect_evals</code>), with models served locally via <code>llama-server</code> from llama.cpp. No cloud, no H100.</p>
+      <p>Two consumer GPUs are used depending on model size: <strong>2× RTX 3060 12 GB</strong> for larger models (27B+), <strong>GTX 1070 8 GB</strong> for small quants. KV cache is set to <code>q4_0</code> for both K and V — reflecting real consumer usage rather than FP16 cache that wouldn't fit in VRAM. Context is capped at <strong>32k tokens</strong>.</p>
+      <p>Results are therefore not directly comparable to official leaderboard scores measured without such constraints.</p>
       <p>See the <a href="index.html#methodology">Methodology</a> section on the main site for full details.</p>
     </div>
   </details>
