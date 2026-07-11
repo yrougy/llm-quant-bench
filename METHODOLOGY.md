@@ -18,6 +18,8 @@ All v2 evaluations run through [inspect_ai](https://inspect.ai-safety-institute.
 
 Scoring is **fully deterministic** — unit test execution, MCQ accuracy, or AST matching. No LLM judge is involved at any point.
 
+Margins of error shown on the site are **95% confidence intervals** (±1.96 × standard error of the mean). For BigCodeBench (1,140 samples) this is about ±2.9 points: differences between two quants smaller than the overlap of their intervals should be treated as noise.
+
 Earlier results were produced with [lm-evaluation-harness](https://github.com/EleutherAI/lm-evaluation-harness) on a different benchmark suite (v1). Those results and the reasons for moving away from that suite are preserved in [LEGACY.md](LEGACY.md).
 
 ## Inference setup

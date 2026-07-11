@@ -17,6 +17,7 @@ Usage:
 
 import argparse
 import json
+import math
 import re
 import shutil
 import sys
@@ -61,9 +62,16 @@ FIELD_MAP = {
     # inspect_ai benchmarks — scores are already 0–1, same conversion applies
     "bbeh_mini_accuracy":     "bbeh_mini",
     "arc_challenge_accuracy": "arc_challenge",
-    # BigCodeBench (0–1 pass rate)
+    # BigCodeBench (0–1 pass rate; std is per-sample, converted to SE below)
     "bigcodebench_mean":      "bigcodebench",
     "bigcodebench_std":       "bigcodebench_stderr",
+    # v2 MCQ / AST benchmarks (inspect_ai reports accuracy + stderr = SE)
+    "musr_accuracy":          "musr",
+    "musr_stderr":            "musr_stderr",
+    "gpqa_diamond_accuracy":  "gpqa",
+    "gpqa_diamond_stderr":    "gpqa_stderr",
+    "bfcl_accuracy":          "bfcl",
+    "bfcl_stderr":            "bfcl_stderr",
     # TAU2 Telecom (0–1 accuracy)
     "tau2_telecom_accuracy":  "tau2_telecom",
     "tau2_telecom_stderr":    "tau2_telecom_stderr",
@@ -181,6 +189,7 @@ def extract_model_data(summary: list, bench_keys: list, quant_order: list) -> di
         if not quant:
             continue
 
+        n_samples = entry.get("total_samples") or 0
         row = {"quant": quant}
         for json_field, canonical in FIELD_MAP.items():
             if json_field in entry:
@@ -189,7 +198,11 @@ def extract_model_data(summary: list, bench_keys: list, quant_order: list) -> di
                 if val is not None and canonical in bench_keys:
                     val = round(val * 100, 1)
                 elif val is not None and canonical.endswith("_stderr"):
-                    val = round(val * 100, 1)
+                    # Per-sample std (e.g. bigcodebench_std) must be converted
+                    # to a standard error; inspect_ai *_stderr metrics already are.
+                    if json_field.endswith("_std") and n_samples > 1:
+                        val = val / math.sqrt(n_samples)
+                    val = round(val * 100, 2)
                 row[canonical] = val
 
         entries.append(row)
@@ -240,9 +253,10 @@ def build_models_js(config: dict, results_dir: Path) -> str:
             "compare_style": model_meta.get("compare_style", "solid"),
         }
 
-        # Add benchmark arrays
+        # Add benchmark arrays (values + standard errors)
         for key in bench_keys:
             js_model[key] = data[key]
+            js_model[key + "_stderr"] = data[key + "_stderr"]
 
         js_models[model_id] = js_model
 

@@ -139,6 +139,7 @@ section > .intro { color: var(--text-dim); font-size: 1.05rem; max-width: 720px;
 .data-table .quant-name { color: var(--text); font-weight: 500; }
 .data-table .na { color: var(--text-muted); }
 .data-table .danger { color: var(--danger); }
+.data-table .ci { color: var(--text-muted); font-size: 0.68rem; }
 .data-table .size-cell { color: var(--text-dim); font-size: 0.75rem; }
 
 .provider-badge { display: inline-block; font-family: var(--font-mono); font-size: 0.65rem; padding: 0.15rem 0.5rem; border-radius: 4px; margin-left: 0.5rem; vertical-align: middle; }
@@ -450,6 +451,8 @@ function sortBySize(model, sizes) {
   const sorted = { ...model, quants: idxs.map(i => model.quants[i]) };
   for (const b of BENCH_KEYS) {
     if (model[b]) sorted[b] = idxs.map(i => model[b][i]);
+    const se = model[b + '_stderr'];
+    if (se) sorted[b + '_stderr'] = idxs.map(i => se[i]);
   }
   sorted._sizes = idxs.map(i => sizes[model.quants[i]] ?? null);
   return sorted;
@@ -468,6 +471,46 @@ function computeBands(sortedQuants, sizes) {
   }
   return bands;
 }
+
+// ── Margin of error (95% CI = ±1.96·SE) ──
+const CI_FACTOR = 1.96;
+function ciMargin(se) { return se != null ? +(CI_FACTOR * se).toFixed(1) : null; }
+function fmtScore(v, se) {
+  if (v === null || v === undefined) return '—';
+  const m = ciMargin(se);
+  return v + '%' + (m != null ? ' ±' + m : '');
+}
+
+// ── Error bars Chart.js plugin (reads dataset._stderr) ──
+const errorBarsPlugin = {
+  id: 'errorBars',
+  afterDatasetsDraw(chart) {
+    const { ctx } = chart;
+    const yScale = chart.scales.y;
+    chart.data.datasets.forEach((ds, di) => {
+      if (!ds._stderr) return;
+      const meta = chart.getDatasetMeta(di);
+      if (meta.hidden || !meta.data) return;
+      ctx.save();
+      ctx.strokeStyle = ds.borderColor;
+      ctx.globalAlpha = 0.45;
+      ctx.lineWidth = 1;
+      meta.data.forEach((pt, i) => {
+        const v = ds.data[i], se = ds._stderr[i];
+        if (v === null || v === undefined || se == null || !pt) return;
+        const m = CI_FACTOR * se;
+        const yTop = yScale.getPixelForValue(v + m);
+        const yBot = yScale.getPixelForValue(v - m);
+        ctx.beginPath();
+        ctx.moveTo(pt.x, yTop); ctx.lineTo(pt.x, yBot);
+        ctx.moveTo(pt.x - 3, yTop); ctx.lineTo(pt.x + 3, yTop);
+        ctx.moveTo(pt.x - 3, yBot); ctx.lineTo(pt.x + 3, yBot);
+        ctx.stroke();
+      });
+      ctx.restore();
+    });
+  }
+};
 
 // ── VRAM bands Chart.js plugin ──
 const vramBandsPlugin = {
@@ -551,6 +594,7 @@ function buildDatasets(model) {
     datasets.push({
       label: BENCH_LABELS[b],
       data: data.map(v => v === null ? null : v),
+      _stderr: model[b + '_stderr'] || null,
       borderColor: BENCH_COLORS[b].border,
       backgroundColor: BENCH_COLORS[b].bg,
       borderWidth: 2.5, pointRadius: 4, pointHoverRadius: 7,
@@ -606,12 +650,15 @@ function renderChart(modelKey) {
       const s = sizes[items[0].label];
       return s ? 'File size: ' + s.toFixed(2) + ' GB' : '';
     },
-    label: (c) => c.dataset.label + ': ' + (c.parsed.y !== null ? c.parsed.y + '%' : '—')
+    label: (c) => {
+      const se = c.dataset._stderr ? c.dataset._stderr[c.dataIndex] : null;
+      return c.dataset.label + ': ' + fmtScore(c.parsed.y, se);
+    }
   };
 
   mainChart = new Chart(ctx, {
     type: 'line',
-    plugins: [vramBandsPlugin],
+    plugins: [vramBandsPlugin, errorBarsPlugin],
     data: { labels: dm.quants, datasets: buildDatasets(dm) },
     options: opts
   });
@@ -645,14 +692,21 @@ function renderTable(model, modelKey) {
     html += '<tr><td class="quant-name">' + q + '</td><td class="size-cell">' + sizeStr + '</td>';
     for (const b of available) {
       const v = model[b][i];
+      const se = model[b + '_stderr'] ? model[b + '_stderr'][i] : null;
       let cls = '';
       if (v === null || v === undefined) cls = 'na';
       else if (best[b] !== null && v < best[b] * 0.9) cls = 'danger';
-      html += '<td class="' + cls + '">' + (v !== null && v !== undefined ? v + '%' : '—') + '</td>';
+      let cell = '—';
+      if (v !== null && v !== undefined) {
+        const m = ciMargin(se);
+        cell = v + '%' + (m != null ? ' <span class="ci">±' + m + '</span>' : '');
+      }
+      html += '<td class="' + cls + '">' + cell + '</td>';
     }
     html += '</tr>';
   }
   html += '</tbody></table>';
+  html += '<p style="margin-top:0.8rem; font-size:0.75rem; color: var(--text-muted);">± = 95% confidence interval (±1.96 × standard error). Differences smaller than the overlap of two intervals are likely noise.</p>';
   document.getElementById('table-container').innerHTML = html;
 }
 
@@ -720,13 +774,26 @@ function getCompLabels(benchKey) {
   return [...known, ...unknown];
 }
 
+function idxAtQuant(m, quant) {
+  let idx = m.quants.indexOf(quant);
+  if (idx < 0) idx = m.quants.indexOf('UD-' + quant);
+  return idx;
+}
+
 function valAtQuant(modelKey, benchKey, quant) {
   const m = MODELS[modelKey];
   const data = m[benchKey];
   if (!data || data.length === 0) return null;
-  let idx = m.quants.indexOf(quant);
-  if (idx < 0) idx = m.quants.indexOf('UD-' + quant);
+  const idx = idxAtQuant(m, quant);
   return idx >= 0 && data[idx] !== null && data[idx] !== undefined ? data[idx] : null;
+}
+
+function stderrAtQuant(modelKey, benchKey, quant) {
+  const m = MODELS[modelKey];
+  const se = m[benchKey + '_stderr'];
+  if (!se || se.length === 0) return null;
+  const idx = idxAtQuant(m, quant);
+  return idx >= 0 ? se[idx] ?? null : null;
 }
 
 function renderCompareChart(benchKey) {
@@ -747,6 +814,7 @@ function renderCompareChart(benchKey) {
     datasets.push({
       label: model.name,
       data: points,
+      _stderr: compLabels.map(q => stderrAtQuant(modelKey, benchKey, q)),
       borderColor: model.compare_color || '#888',
       backgroundColor: (model.compare_color || '#888') + '1a',
       borderWidth: model.compare_style === 'dashed' ? 2 : 2.5,
@@ -765,10 +833,13 @@ function renderCompareChart(benchKey) {
   const opts = JSON.parse(JSON.stringify(CHART_OPTIONS_BASE));
   opts.scales.y.min = yMin;
   opts.plugins.tooltip.callbacks = {
-    label: (c) => c.dataset.label + ': ' + (c.parsed.y !== null ? c.parsed.y + '%' : '—')
+    label: (c) => {
+      const se = c.dataset._stderr ? c.dataset._stderr[c.dataIndex] : null;
+      return c.dataset.label + ': ' + fmtScore(c.parsed.y, se);
+    }
   };
 
-  compChart = new Chart(ctxComp, { type: 'line', data: { labels: compLabels, datasets }, options: opts });
+  compChart = new Chart(ctxComp, { type: 'line', plugins: [errorBarsPlugin], data: { labels: compLabels, datasets }, options: opts });
 }
 
 document.querySelectorAll('#compare-bench-tabs .model-tab').forEach(tab => {
