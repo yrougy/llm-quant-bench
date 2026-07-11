@@ -144,6 +144,7 @@ section > .intro { color: var(--text-dim); font-size: 1.05rem; max-width: 720px;
 .provider-badge { display: inline-block; font-family: var(--font-mono); font-size: 0.65rem; padding: 0.15rem 0.5rem; border-radius: 4px; margin-left: 0.5rem; vertical-align: middle; }
 .provider-unsloth { color: #4fc3f7; background: rgba(79,195,247,0.12); }
 .provider-bartowski { color: #ffa726; background: rgba(255,167,38,0.12); }
+.provider-deepreinforce { color: #ce93d8; background: rgba(206,147,216,0.12); }
 .provider-other { color: var(--text-dim); background: rgba(255,255,255,0.06); }
 .size-loading { display: inline-block; width: 40px; height: 8px; background: linear-gradient(90deg, var(--border) 25%, var(--border-accent) 50%, var(--border) 75%); background-size: 200% 100%; animation: shimmer 1.5s infinite; border-radius: 4px; }
 
@@ -270,25 +271,21 @@ footer .links { display: flex; justify-content: center; gap: 2rem; margin-bottom
       <span class="tag">BigCodeBench</span>
       <h3>Code Generation</h3>
       <p>Diverse programming tasks across real-world libraries. Much harder than HumanEval — measures practical coding ability. Scored by unit test execution, fully deterministic.</p>
-      <div class="resilience">Quantization resilience<div class="bar"><div class="bar-fill" style="width:55%; background: var(--accent-1);"></div></div></div>
     </div>
     <div class="usecase-card">
       <span class="tag">MUSR</span>
       <h3>Narrative Reasoning</h3>
-      <p>Multi-step soft reasoning on long narratives — mystery stories, object tracking, team assignments. Reading comprehension meets logic. Scores around 60% on 9B models, not saturated.</p>
-      <div class="resilience">Quantization resilience<div class="bar"><div class="bar-fill" style="width:65%; background: var(--accent-2);"></div></div></div>
+      <p>Multi-step soft reasoning on long narratives — mystery stories, object tracking, team assignments. Reading comprehension meets logic. Stays well below saturation on modern models.</p>
     </div>
     <div class="usecase-card">
       <span class="tag">GPQA</span>
       <h3>Expert Scientific Reasoning</h3>
       <p>Graduate-level questions in chemistry, physics and biology — hard enough that even frontier models are far from the ceiling. Strong discriminator between model sizes and quant levels.</p>
-      <div class="resilience">Quantization resilience<div class="bar"><div class="bar-fill" style="width:50%; background: var(--accent-3);"></div></div></div>
     </div>
     <div class="usecase-card">
       <span class="tag">BFCL</span>
       <h3>Function Calling</h3>
       <p>Berkeley Function-Calling Leaderboard — tests the ability to generate correct tool calls given a function spec. Scored by AST matching. Directly measures agentic / tool-use capability.</p>
-      <div class="resilience">Quantization resilience<div class="bar"><div class="bar-fill" style="width:70%; background: var(--accent-4);"></div></div></div>
     </div>
   </div>
   <div class="callout">
@@ -314,7 +311,7 @@ footer .links { display: flex; justify-content: center; gap: 2rem; margin-bottom
     <canvas id="mainChart" role="img" aria-label="Benchmark accuracy chart"></canvas>
   </div>
   <div class="chart-container" id="size-chart-container">
-    <h3 id="size-chart-title">File size · sorted small → large · fetching from HuggingFace…</h3>
+    <h3 id="size-chart-title">File size · sorted small → large</h3>
     <canvas id="sizeChart" role="img" aria-label="File size chart"></canvas>
     <div class="vram-legend" id="vram-legend"></div>
   </div>
@@ -378,7 +375,7 @@ footer .links { display: flex; justify-content: center; gap: 2rem; margin-bottom
     </div>
     <div class="method-item">
       <h4>MUSR</h4>
-      <p>Multi-Step Soft Reasoning — narrative logic (mystery, object tracking, team allocation). MCQ format, accuracy scoring. Full dataset (~750 questions). Not saturated: 9B models score ~60%.</p>
+      <p>Multi-Step Soft Reasoning — narrative logic (mystery, object tracking, team allocation). MCQ format, accuracy scoring. Full dataset (~750 questions). Chosen for staying well below saturation on modern models.</p>
     </div>
     <div class="method-item">
       <h4>GPQA</h4>
@@ -390,7 +387,7 @@ footer .links { display: flex; justify-content: center; gap: 2rem; margin-bottom
     </div>
     <div class="method-item">
       <h4>KV cache &amp; hardware</h4>
-      <p>All models tested with <code>q4_0</code> KV cache (K and V), reflecting real consumer usage. Hardware: <strong>2× RTX 3060 12 GB</strong> for larger models, <strong>GTX 1070 8 GB</strong> for small quants. Context: 32k tokens.</p>
+      <p>All models tested with <code>q4_0</code> KV cache (K and V), reflecting real consumer usage. Hardware: <strong>2× RTX 3060 12 GB</strong> for larger models, <strong>GTX 1070 8 GB</strong> for small quants. Context: up to 32k tokens depending on model.</p>
     </div>
   </div>
   <div class="callout" style="margin-top: 2rem;">
@@ -633,16 +630,24 @@ function renderTable(model, modelKey) {
   for (const b of available) html += '<th>' + BENCH_LABELS[b] + '</th>';
   html += '</tr></thead><tbody>';
 
+  // Danger threshold is relative to the model's best score per benchmark:
+  // flag scores more than 10% (relative) below the best quant.
+  const best = {};
+  for (const b of available) {
+    const vals = model[b].filter(v => v !== null && v !== undefined);
+    best[b] = vals.length ? Math.max(...vals) : null;
+  }
+
   for (let i = 0; i < model.quants.length; i++) {
     const q = model.quants[i];
     const sizeGb = sizes[q];
-    const sizeStr = sizeGb ? sizeGb.toFixed(1) + ' GB' : '<span class="size-loading"></span>';
+    const sizeStr = sizeGb ? sizeGb.toFixed(1) + ' GB' : '—';
     html += '<tr><td class="quant-name">' + q + '</td><td class="size-cell">' + sizeStr + '</td>';
     for (const b of available) {
       const v = model[b][i];
       let cls = '';
       if (v === null || v === undefined) cls = 'na';
-      else if (v < 50) cls = 'danger';
+      else if (best[b] !== null && v < best[b] * 0.9) cls = 'danger';
       html += '<td class="' + cls + '">' + (v !== null && v !== undefined ? v + '%' : '—') + '</td>';
     }
     html += '</tr>';
@@ -696,13 +701,8 @@ document.querySelectorAll('#model-tabs .model-tab').forEach(tab => {
 const ctxComp = document.getElementById('compareChart').getContext('2d');
 let compChart;
 
-const QUANT_ORDER = [
-  'MXFP4_MOE',
-  'IQ1_M','IQ2_XXS','IQ2_M','Q2_K_XL',
-  'IQ3_XXS','IQ3_S','Q3_K_S','Q3_K_M','Q3_K_XL',
-  'IQ4_XS','IQ4_NL','Q4_0','Q4_1','Q4_K_S','Q4_K_M','Q4_K_XL',
-  'Q5_K_S','Q5_K_M','Q5_K_XL','Q6_K','Q8_0','Q8_K_XL'
-];
+// Injected by build.py from models.yaml (single source of truth)
+const QUANT_ORDER = {{QUANT_ORDER}};
 
 function getCompLabels(benchKey) {
   const labelSet = new Set();

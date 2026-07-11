@@ -4,7 +4,7 @@ build.py — Static site generator for llm-quant-bench
 
 Reads:
   - models.yaml          (editorial metadata, takeaways, config)
-  - results/*/summary.json  (benchmark data from lm-evaluation-harness)
+  - results/*/summary.json  (benchmark data extracted from inspect_ai runs)
   - template.html        (HTML template with placeholders)
 
 Writes:
@@ -142,15 +142,18 @@ def normalize_quant_name(raw_quant: str) -> str:
     return raw_quant.strip()
 
 
-def quant_sort_key(quant_name: str, quant_order: list) -> int:
-    """Return sort index for a quant name based on the defined order."""
+def quant_sort_key(quant_name: str, quant_order: list) -> tuple:
+    """Return sort key for a quant name based on the defined order.
+
+    Known quants sort by their index in quant_order; unknown quants go
+    to the end, sorted alphabetically (deterministic across builds).
+    """
     # Strip UD- prefix for matching
     clean = re.sub(r'^UD-', '', quant_name)
     try:
-        return quant_order.index(clean)
+        return (0, quant_order.index(clean), quant_name)
     except ValueError:
-        # Unknown quant goes to the end
-        return len(quant_order) + hash(quant_name)
+        return (1, 0, quant_name)
 
 
 def load_summary(summary_path: Path) -> list:
@@ -282,7 +285,7 @@ def build_jsonld(config: dict) -> str:
         "creator": {"@type": "Person", "name": "Yves Rougy", "url": "https://rougy.net"},
         "license": "https://creativecommons.org/licenses/by/4.0/",
         "keywords": ["LLM", "quantization", "GGUF", "llama.cpp", "benchmark"] + list(benchmarks.keys()),
-        "measurementTechnique": "lm-evaluation-harness via llama.cpp",
+        "measurementTechnique": "inspect_ai (inspect_evals) via llama.cpp",
         "variableMeasured": bench_labels,
         "distribution": {
             "@type": "DataDownload",
@@ -398,6 +401,7 @@ def build(args):
     html = template
     html = html.replace("{{MODELS_DATA}}", models_js)
     html = html.replace("{{BENCH_CONFIG}}", bench_config_js)
+    html = html.replace("{{QUANT_ORDER}}", build_quant_order_js(config))
     html = html.replace("{{COMPARE_TAKEAWAYS}}", compare_takeaways_js)
     html = html.replace("{{SIZES_DATA}}", sizes_js)
     html = html.replace("{{MODEL_TABS}}", model_tabs_html)
