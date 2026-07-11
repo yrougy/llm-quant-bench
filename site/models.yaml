@@ -106,21 +106,6 @@ models:
       <strong>Q4_K_M or Q5_K_M</strong> (~49%). BF16 scores 47% —
       consistent with the quantization noise at this sample size.
 
-  qwen35_4b:
-    name: "Qwen 3.5 4B Dense"
-    results_dir: "Qwen3.5-4B"
-    provider: "Unsloth"
-    arch: "Dense"
-    hf_repo: "unsloth/Qwen3.5-4B-GGUF"
-    compare_color: "#ef5350"
-    compare_style: "solid"
-    takeaway: >
-      Results via inspect_ai (BigCodeBench, 100 samples).
-      IQ2_XXS completely collapses to <strong>0%</strong> — non-functional.
-      IQ2_M recovers to only 17%. The floor is around <strong>Q3_K_M (36%)</strong>.
-      The sweet spot is <strong>Q4_K_M at 43%</strong>; above Q4, scores plateau
-      in the 37–41% range with no consistent gain.
-
   qwen36_35b_mtp:
     name: "Qwen 3.6 A35B A3B MTP (MoE)"
     results_dir: "Qwen3.6-36B-A3B-MTP"
