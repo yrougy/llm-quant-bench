@@ -292,7 +292,7 @@ footer .links { display: flex; justify-content: center; gap: 2rem; margin-bottom
     </div>
   </div>
   <div class="callout">
-    <strong>Design principle:</strong> each benchmark covers a different capability axis, uses deterministic scoring (no LLM judge), completes in under an hour on a single consumer GPU, and discriminates between modern 9B–35B models without saturating.
+    <strong>Design principle:</strong> each benchmark covers a different capability axis, uses deterministic scoring (no LLM judge), fast enough to run systematically on consumer hardware, and discriminates between modern 9B–35B models without saturating.
   </div>
 </section>
 
@@ -374,11 +374,11 @@ footer .links { display: flex; justify-content: center; gap: 2rem; margin-bottom
     </div>
     <div class="method-item">
       <h4>BigCodeBench</h4>
-      <p>Practical code generation across real-world libraries. Scored by unit test execution (pass@1, <code>complete</code> split). Full benchmark — no limit. Runs in ~2–3 h on a 9B model with 3 parallel slots.</p>
+      <p>Practical code generation across real-world libraries. Scored by unit test execution (pass@1, <code>complete</code> split). Full benchmark — no limit.</p>
     </div>
     <div class="method-item">
       <h4>MUSR</h4>
-      <p>Multi-Step Soft Reasoning — narrative logic (mystery, object tracking, team allocation). MCQ format, accuracy scoring. Full dataset (~750 questions), runs in ~40 min. Not saturated: 9B models score ~60%.</p>
+      <p>Multi-Step Soft Reasoning — narrative logic (mystery, object tracking, team allocation). MCQ format, accuracy scoring. Full dataset (~750 questions). Not saturated: 9B models score ~60%.</p>
     </div>
     <div class="method-item">
       <h4>GPQA</h4>
