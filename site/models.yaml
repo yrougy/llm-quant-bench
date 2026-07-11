@@ -80,11 +80,10 @@ models:
     compare_color: "#ffcc80"
     compare_style: "dashed"
     takeaway: >
-      Results via inspect_ai (BigCodeBench, 100 samples).
+      BigCodeBench results (full run, inspect_ai).
       UD-Q8_K_XL and UD-Q6_K_XL both reach <strong>52%</strong>, while UD-IQ2_M
       drops to <strong>29%</strong>. The sweet spot is
-      <strong>Q4_K_M or Q5_K_M</strong> (~49%). BF16 scores 47% —
-      consistent with the quantization noise at this sample size.
+      <strong>Q4_K_M or Q5_K_M</strong> (~49%). MUSR, GPQA and BFCL pending.
 
   qwen36_35b_mtp:
     name: "Qwen 3.6 A35B A3B MTP (MoE)"
@@ -95,11 +94,9 @@ models:
     compare_color: "#80cbc4"
     compare_style: "dotted"
     takeaway: >
-      Results via inspect_ai (BBEH Mini, 100 samples).
-      The MoE architecture again shows strong resilience:
-      <strong>IQ4_NL reaches 54%</strong> while IQ1_M/IQ2_XXS/Q3_K_M
-      cluster around 40–41%. There is a clear step at Q4 — consistent
-      with the pattern observed on other benchmarks.
+      BigCodeBench results (full run, inspect_ai).
+      The MoE architecture shows strong resilience across the quant range.
+      MUSR, GPQA and BFCL pending.
 
   gemma4:
     name: "Gemma 4 26B A4B (MoE)"
@@ -110,18 +107,8 @@ models:
     compare_color: "#ce93d8"
     compare_style: "dashed"
     takeaway: >
-      <strong>HumanEval and HumanEval+ were not run</strong>: these
-      benchmarks use a code-completion format (complete the function stub)
-      that is fundamentally incompatible with instruct-tuned models, which
-      respond in chat mode rather than completing raw code — this reflects
-      a benchmark format mismatch, not the model's coding ability.
-      IFEval and GSM8K are exceptionally stable across the entire
-      quantization range (±2 points from IQ2 to Q5), consistent with
-      the MoE architecture's resilience. ARC shows the only real cliff
-      at IQ2 (<strong>~8–9 points below</strong> the Q4 range).
-      <strong>IQ3_XXS is the practical floor</strong>: it already matches
-      MXFP4 on IFEval and GSM8K, and recovers nearly all the ARC score —
-      going above Q4 offers diminishing returns.
+      v2 benchmarks (BigCodeBench, MUSR, GPQA, BFCL) not yet run for this model.
+      Results pending.
 
 # Comparison chart takeaways (section 3)
 compare_takeaways:
