@@ -1,0 +1,295 @@
+#!/usr/bin/env bash
+# start_bench — downloads and benchmarks GGUF quantizations from HuggingFace.
+#
+# Usage: start_bench [-c <config.json>] [-k] [-s <model_file>]
+#   -c FILE   JSON configuration file (default: bench_config.json in the same directory)
+#   -k        Keep downloaded model files after benchmarking (overrides config)
+#   -s FILE   Server-only mode: start llama-server with FILE and wait (no benchmark)
+#   -h        Show this help
+
+set -uo pipefail
+
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+DEFAULT_CONFIG="${SCRIPT_DIR}/bench_config.json"
+CONFIG_FILE="${DEFAULT_CONFIG}"
+
+# ── Help ──────────────────────────────────────────────────────────────────────
+
+usage() {
+    cat <<EOF
+Usage: $(basename "$0") [-c <config.json>] [-k] [-s <model_file>]
+
+  -c FILE   JSON configuration file (default: ${DEFAULT_CONFIG})
+  -k        Keep downloaded model files after benchmarking (overrides config)
+  -s FILE   Server-only mode: start llama-server with FILE and wait (no benchmark)
+  -h        Show this help
+
+EOF
+    exit 1
+}
+
+# ── Arguments ─────────────────────────────────────────────────────────────────
+
+KEEP_DOWNLOADS_OVERRIDE=""
+SERVER_ONLY_MODEL=""
+
+while getopts "c:ks:h" opt; do
+    case "$opt" in
+        c) CONFIG_FILE="$OPTARG" ;;
+        k) KEEP_DOWNLOADS_OVERRIDE="true" ;;
+        s) SERVER_ONLY_MODEL="$OPTARG" ;;
+        h) usage ;;
+        *) usage ;;
+    esac
+done
+
+[[ -f "$CONFIG_FILE" ]] || { echo "Error: configuration file not found: $CONFIG_FILE"; exit 1; }
+command -v jq >/dev/null 2>&1 || { echo "Error: 'jq' is required (apt install jq)."; exit 1; }
+
+# ── Configuration loading ─────────────────────────────────────────────────────
+
+cfg()      { jq -r "$1" "$CONFIG_FILE"; }
+cfg_bool() { jq -r "if ($1) then \"true\" else \"false\" end" "$CONFIG_FILE"; }
+
+HF_REPO=$(cfg      '.model.hf_repo')
+QUANT_EXCLUDE=$(cfg '.model.quant_exclude_pattern')
+
+LS_BINARY=$(cfg        '.llama_server.binary')
+LS_PORT=$(cfg          '.llama_server.port')
+LS_HOST=$(cfg          '.llama_server.host')
+LS_CTX=$(cfg           '.llama_server.context_size')
+LS_FLASH_ATTN=$(cfg_bool '.llama_server.flash_attn')
+LS_SPLIT_MODE=$(cfg      '.llama_server.split_mode')
+LS_BATCH=$(cfg         '.llama_server.batch_size')
+LS_UBATCH=$(cfg        '.llama_server.ubatch_size')
+LS_CACHE_K=$(cfg       '.llama_server.cache_type_k')
+LS_CACHE_V=$(cfg       '.llama_server.cache_type_v')
+LS_N_PARALLEL=$(cfg    '.llama_server.n_parallel // 1')
+LS_TEMP=$(cfg          '.llama_server.sampling.temp')
+LS_TOP_P=$(cfg         '.llama_server.sampling.top_p')
+LS_TOP_K=$(cfg         '.llama_server.sampling.top_k')
+LS_MIN_P=$(cfg         '.llama_server.sampling.min_p')
+LS_CHAT_TPLT=$(cfg     '.llama_server.chat_template_kwargs | tojson')
+MTP_ENABLED=$(cfg_bool '.llama_server.mtp.enabled')
+MTP_SPEC_TYPE=$(cfg    '.llama_server.mtp.spec_type')
+MTP_N_MAX=$(cfg        '.llama_server.mtp.spec_draft_n_max')
+MTP_P_MIN=$(cfg        '.llama_server.mtp.spec_draft_p_min')
+
+DOWNLOAD_DIR=$(cfg    '.benchmark.download_dir')
+STARTUP_WAIT=$(cfg    '.benchmark.startup_wait_seconds')
+DONE_MARKER_DIR=$(cfg '.inspect.done_marker_dir')
+KEEP_DOWNLOADS=$(cfg_bool '.benchmark.keep_downloads')
+
+# Command-line flag takes precedence over config value
+[[ -n "$KEEP_DOWNLOADS_OVERRIDE" ]] && KEEP_DOWNLOADS="$KEEP_DOWNLOADS_OVERRIDE"
+
+# ── llama-server version detection ────────────────────────────────────────────
+
+# Returns the llama-server version via git describe on the source repo.
+# We intentionally avoid calling the binary: llama-server opens /dev/tty directly
+# for its status display, which enables terminal mouse tracking as a side effect.
+get_llama_version() {
+    local bin_dir
+    bin_dir="$(dirname "$LS_BINARY")"
+    git -C "$bin_dir" describe --tags 2>/dev/null || echo "unknown"
+}
+
+# ── llama-server startup ──────────────────────────────────────────────────────
+
+start_llama_server() {
+    local model_path="$1"
+
+    local fa_args=()
+    [[ "$LS_FLASH_ATTN" == "true" ]] && fa_args=("-fa" "on")
+
+    local sm_args=()
+    [[ "$LS_SPLIT_MODE" != "null" && -n "$LS_SPLIT_MODE" ]] && sm_args=("-sm" "$LS_SPLIT_MODE")
+
+    local mtp_args=()
+    [[ "$MTP_ENABLED" == "true" ]] && mtp_args=(
+        "--spec-type"         "$MTP_SPEC_TYPE"
+        "--spec-draft-n-max"  "$MTP_N_MAX"
+        "--spec-draft-p-min"  "$MTP_P_MIN"
+    )
+
+    # Free-form extra flags defined in extra_args[]
+    local extra_args=()
+    while IFS= read -r arg; do
+        extra_args+=("$arg")
+    done < <(jq -r '.llama_server.extra_args[]?' "$CONFIG_FILE")
+
+    # setsid detaches llama-server from the controlling terminal so its TUI
+    # status display cannot open /dev/tty and enable mouse tracking.
+    setsid "$LS_BINARY" \
+        -m  "$model_path" \
+        -c  "$LS_CTX" \
+        -b  "$LS_BATCH" -ub "$LS_UBATCH" \
+        --cache-type-k "$LS_CACHE_K" \
+        --cache-type-v "$LS_CACHE_V" \
+        -np "$LS_N_PARALLEL" \
+        --port "$LS_PORT" \
+        --host "$LS_HOST" \
+        --temp  "$LS_TEMP" \
+        --top-p "$LS_TOP_P" \
+        --top-k "$LS_TOP_K" \
+        --min-p "$LS_MIN_P" \
+        --chat-template-kwargs "$LS_CHAT_TPLT" \
+        "${fa_args[@]+"${fa_args[@]}"}" \
+        "${sm_args[@]+"${sm_args[@]}"}" \
+        "${mtp_args[@]+"${mtp_args[@]}"}" \
+        "${extra_args[@]+"${extra_args[@]}"}" \
+        > ./llama-server.log 2>&1 &
+}
+
+# ── Run metadata ──────────────────────────────────────────────────────────────
+
+write_run_metadata() {
+    local model_file="$1"
+    local start_ts="$2"
+    local end_ts="$3"
+    local ls_version="$4"
+    local bench_exit_status="$5"
+    local meta_file="${DONE_MARKER_DIR}/${model_file}_meta.json"
+
+    local duration=$(( end_ts - start_ts ))
+    local date_iso
+    date_iso=$(date -d "@${start_ts}" --iso-8601=seconds 2>/dev/null \
+               || date -r "${start_ts}" +"%Y-%m-%dT%H:%M:%S%z")  # macOS fallback
+
+    local hostname
+    hostname=$(hostname)
+
+    # GPU info via nvidia-smi — one JSON object per GPU
+    local gpu_json="[]"
+    if command -v nvidia-smi &>/dev/null; then
+        gpu_json=$(nvidia-smi --query-gpu=index,name,memory.total \
+                       --format=csv,noheader 2>/dev/null \
+                   | jq -R -s '[
+                         split("\n") | .[] | select(length > 0)
+                         | split(", ") | {index: .[0], name: .[1], memory: .[2]}
+                     ]' || echo "[]")
+    fi
+
+    mkdir -p "$DONE_MARKER_DIR"
+
+    jq -n \
+        --arg  model_file      "$model_file" \
+        --arg  hf_repo         "$HF_REPO" \
+        --arg  date            "$date_iso" \
+        --argjson duration     "$duration" \
+        --argjson exit_status  "$bench_exit_status" \
+        --arg  hostname        "$hostname" \
+        --argjson gpu          "$gpu_json" \
+        --arg  config_file     "$(realpath "$CONFIG_FILE")" \
+        --arg  ls_version      "$ls_version" \
+        --argjson ls_params    "$(jq '.llama_server' "$CONFIG_FILE")" \
+        --argjson inspect_cfg  "$(jq '.inspect'      "$CONFIG_FILE")" \
+        '{
+            model_file:       $model_file,
+            hf_repo:          $hf_repo,
+            date:             $date,
+            duration_seconds: $duration,
+            exit_status:      $exit_status,
+            host: {
+                hostname: $hostname,
+                gpu:      $gpu
+            },
+            llama_server: ($ls_params + { version: $ls_version }),
+            inspect:      $inspect_cfg,
+            config_file:  $config_file
+        }' > "$meta_file"
+
+    echo "[INFO] Run metadata: $meta_file"
+}
+
+# ── Guaranteed cleanup on exit ────────────────────────────────────────────────
+
+cleanup() {
+    pkill llama-server 2>/dev/null || true
+    # Disable mouse tracking modes left enabled by inspect_ai's TUI
+    printf '\033[?1000l\033[?1002l\033[?1003l\033[?1006l\033[?1015l' 2>/dev/null || true
+}
+trap cleanup EXIT
+
+# ── Server-only mode (-s) ─────────────────────────────────────────────────────
+
+if [[ -n "$SERVER_ONLY_MODEL" ]]; then
+    [[ -f "$SERVER_ONLY_MODEL" ]] || { echo "Error: model file not found: $SERVER_ONLY_MODEL"; exit 1; }
+    LS_VERSION=$(get_llama_version)
+    echo "[INFO] Config       : $CONFIG_FILE"
+    echo "[INFO] llama-server : $LS_VERSION"
+    echo "[INFO] Model        : $SERVER_ONLY_MODEL"
+    echo "[INFO] Endpoint     : http://${LS_HOST}:${LS_PORT}"
+    echo "[INFO] Press Ctrl+C to stop the server."
+    echo ""
+    start_llama_server "$SERVER_ONLY_MODEL"
+    tail -f ./llama-server.log
+fi
+
+# ── Main loop ─────────────────────────────────────────────────────────────────
+
+echo "[INFO] Config       : $CONFIG_FILE"
+echo "[INFO] HF repo      : $HF_REPO"
+echo "[INFO] Done markers : $DONE_MARKER_DIR"
+echo ""
+
+MODELS=$("${SCRIPT_DIR}/list_quants.py" "$HF_REPO" | grep -Ev "$QUANT_EXCLUDE" || true)
+
+if [[ -z "$MODELS" ]]; then
+    echo "[WARN] No quantizations found for $HF_REPO (filter: $QUANT_EXCLUDE)."
+    exit 0
+fi
+
+for MODEL_FILE in $MODELS; do
+    echo "--- $MODEL_FILE ---"
+
+    # Skip if the done marker exists for this model
+    if [[ -f "${DONE_MARKER_DIR}/${MODEL_FILE}_done" ]]; then
+        echo "[SKIP] Already benchmarked."
+        echo ""
+        continue
+    fi
+
+    # Download (wget -c resumes interrupted downloads automatically)
+    HTTP_DL="https://huggingface.co/${HF_REPO}/resolve/main/${MODEL_FILE}"
+    LOCAL_PATH="${DOWNLOAD_DIR}/${HF_REPO}/${MODEL_FILE}"
+    echo "[DOWN] $HTTP_DL"
+    mkdir -p "${DOWNLOAD_DIR}/${HF_REPO}"
+    wget -c "$HTTP_DL" -O "$LOCAL_PATH"
+
+    # Detect llama-server version before starting it
+    LS_VERSION=$(get_llama_version)
+    echo "[SERV] llama-server: $LS_VERSION"
+
+    echo "[SERV] Starting llama-server..."
+    start_llama_server "$LOCAL_PATH"
+    echo "[SERV] Waiting ${STARTUP_WAIT}s before running benchmarks..."
+    sleep "$STARTUP_WAIT"
+
+    # Run benchmarks and capture timing + exit status
+    echo "[BENCH] Running benchmarks..."
+    START_TS=$(date +%s)
+    bench_status=0
+    "${SCRIPT_DIR}/run2.sh" "$MODEL_FILE" "$CONFIG_FILE" || bench_status=$?
+    END_TS=$(date +%s)
+
+    [[ "$bench_status" -ne 0 ]] && echo "[WARN] run2.sh exited with status $bench_status"
+
+    # Write reproducibility metadata
+    write_run_metadata "$MODEL_FILE" "$START_TS" "$END_TS" "$LS_VERSION" "$bench_status"
+
+    # Stop server and optionally delete the downloaded file
+    echo "[STOP] Stopping llama-server..."
+    pkill llama-server 2>/dev/null || true
+    if [[ "$KEEP_DOWNLOADS" == "true" ]]; then
+        echo "[DOWN] Keeping $LOCAL_PATH"
+    else
+        rm -f "$LOCAL_PATH"
+    fi
+    sleep 5
+
+    echo "[DONE] $MODEL_FILE finished (${duration:-?}s)."
+    echo ""
+done
+
+echo "[INFO] All benchmarks completed."
