@@ -98,17 +98,21 @@ models:
       The MoE architecture shows strong resilience across the quant range.
       MUSR, GPQA and BFCL pending.
 
-  gemma4:
-    name: "Gemma 4 26B A4B (MoE)"
-    results_dir: "gemma-4-26B-A4B-it"
-    provider: "Unsloth"
-    arch: "MoE"
-    hf_repo: "unsloth/gemma-4-26B-A4B-it-GGUF"
+  ornith_9b:
+    name: "Ornith 1.0 9B Dense"
+    results_dir: "Ornith-1.0-9B"
+    provider: "Ornith"
+    arch: "Dense"
+    hf_repo: "ornith-ai/Ornith-1.0-9B-GGUF"
     compare_color: "#ce93d8"
     compare_style: "dashed"
     takeaway: >
-      v2 benchmarks (BigCodeBench, MUSR, GPQA, BFCL) not yet run for this model.
-      Results pending.
+      BigCodeBench results (full run, inspect_ai).
+      Scores are remarkably stable across quants — Q4_K_M (<strong>49.2%</strong>)
+      and Q8_0 (<strong>49.0%</strong>) are essentially identical, with Q6_K slightly
+      lower at 47.9%. BF16 reaches <strong>50.8%</strong>, confirming the quantization
+      floor is reached as early as Q4_K_M for this model.
+      MUSR, GPQA and BFCL pending.
 
 # Comparison chart takeaways (section 3)
 compare_takeaways:
