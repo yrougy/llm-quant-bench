@@ -1,6 +1,14 @@
 [
   {
-    "model": "ornith-1.0-9b",
+    "model": "Ornith-1.0-9B",
+    "quant": "BF16",
+    "eval_time_seconds": 8151.0,
+    "total_samples": 1140,
+    "bigcodebench_mean": 0.507895,
+    "bigcodebench_std": 0.500157
+  },
+  {
+    "model": "Ornith-1.0-9B",
     "quant": "Q4_K_M",
     "eval_time_seconds": 4847.0,
     "total_samples": 1140,
@@ -8,7 +16,7 @@
     "bigcodebench_std": 0.500157
   },
   {
-    "model": "ornith-1.0-9b",
+    "model": "Ornith-1.0-9B",
     "quant": "Q5_K_M",
     "eval_time_seconds": 5150.0,
     "total_samples": 1140,
@@ -16,7 +24,7 @@
     "bigcodebench_std": 0.500046
   },
   {
-    "model": "ornith-1.0-9b",
+    "model": "Ornith-1.0-9B",
     "quant": "Q6_K",
     "eval_time_seconds": 5349.0,
     "total_samples": 1140,
@@ -24,19 +32,11 @@
     "bigcodebench_std": 0.499812
   },
   {
-    "model": "ornith-1.0-9b",
+    "model": "Ornith-1.0-9B",
     "quant": "Q8_0",
     "eval_time_seconds": 5548.0,
     "total_samples": 1140,
     "bigcodebench_mean": 0.490351,
     "bigcodebench_std": 0.500126
-  },
-  {
-    "model": "ornith-1.0-9b-bf16",
-    "quant": "unknown",
-    "eval_time_seconds": 8151.0,
-    "total_samples": 1140,
-    "bigcodebench_mean": 0.507895,
-    "bigcodebench_std": 0.500157
   }
 ]

@@ -44,8 +44,9 @@ except ImportError:
 
 # ---------------------------------------------------------------------------
 # Pattern de quantisation GGUF (même logique que extract_summary.py)
+# Insensible à la casse : certains repos nomment leurs fichiers "-bf16.gguf".
 # ---------------------------------------------------------------------------
-QUANT_RE = re.compile(r"^(.*?)[-_]((?:UD[-_])?(?:IQ|Q|MXFP|BF|FP)\S*)$")
+QUANT_RE = re.compile(r"^(.*?)[-_]((?:UD[-_])?(?:IQ|Q|MXFP|BF|FP)\S*)$", re.IGNORECASE)
 
 
 def parse_model_string(model_str: str) -> tuple[str, str]:
@@ -53,18 +54,20 @@ def parse_model_string(model_str: str) -> tuple[str, str]:
     Extrait (model_name, quant) depuis une chaîne de type :
         "openai-api/llamacpp/Qwen3.6-35B-A3B-UD-IQ1_M.gguf"
         "llamacpp/Qwen3.5-4B-Q4_0.gguf"
+        "llamacpp/ornith-1.0-9b-bf16.gguf"
 
     Retourne ("Qwen3.6-35B-A3B", "UD-IQ1_M") par exemple.
+    Le nom du quant est normalisé en majuscules ("bf16" → "BF16").
     """
     # Garder uniquement la dernière partie après le dernier "/"
     basename = model_str.split("/")[-1]
     # Retirer l'extension .gguf
-    if basename.endswith(".gguf"):
+    if basename.lower().endswith(".gguf"):
         basename = basename[:-5]
 
     m = QUANT_RE.match(basename)
     if m:
-        return m.group(1), m.group(2)
+        return m.group(1), m.group(2).upper().replace("UD_", "UD-")
     return basename, "unknown"
 
 
@@ -191,8 +194,11 @@ def write_outputs(summaries: dict, output_dir: Path):
 
         family_records = []
         for quant, entry in sorted(quants.items()):
+            # "model" = nom du dossier de la famille (unique dans results/),
+            # pas le nom parsé du .gguf — évite les collisions entre familles
+            # dont les fichiers GGUF partagent le même préfixe (ex. v1 vs v2 MTP).
             record: dict = {
-                "model": entry["model_name"],
+                "model": family,
                 "quant": quant,
                 "eval_time_seconds": entry["eval_time_seconds"],
                 "total_samples": entry["total_samples"],

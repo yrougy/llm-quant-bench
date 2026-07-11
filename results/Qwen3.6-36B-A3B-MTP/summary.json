@@ -1,6 +1,6 @@
 [
   {
-    "model": "Qwen3.6-35B-A3B",
+    "model": "Qwen3.6-36B-A3B-MTP",
     "quant": "MXFP4_MOE",
     "eval_time_seconds": 8308.0,
     "total_samples": 1140,
@@ -8,7 +8,7 @@
     "bigcodebench_std": 0.490988
   },
   {
-    "model": "Qwen3.6-35B-A3B",
+    "model": "Qwen3.6-36B-A3B-MTP",
     "quant": "UD-IQ2_M",
     "eval_time_seconds": 8463.0,
     "total_samples": 1140,
@@ -16,7 +16,7 @@
     "bigcodebench_std": 0.494758
   },
   {
-    "model": "Qwen3.6-35B-A3B",
+    "model": "Qwen3.6-36B-A3B-MTP",
     "quant": "UD-IQ2_XXS",
     "eval_time_seconds": 8512.0,
     "total_samples": 1140,
@@ -24,7 +24,7 @@
     "bigcodebench_std": 0.494493
   },
   {
-    "model": "Qwen3.6-35B-A3B",
+    "model": "Qwen3.6-36B-A3B-MTP",
     "quant": "UD-IQ3_S",
     "eval_time_seconds": 8664.0,
     "total_samples": 1140,
@@ -32,7 +32,7 @@
     "bigcodebench_std": 0.491158
   },
   {
-    "model": "Qwen3.6-35B-A3B",
+    "model": "Qwen3.6-36B-A3B-MTP",
     "quant": "UD-IQ3_XXS",
     "eval_time_seconds": 8811.0,
     "total_samples": 1140,
@@ -40,7 +40,7 @@
     "bigcodebench_std": 0.493074
   },
   {
-    "model": "Qwen3.6-35B-A3B",
+    "model": "Qwen3.6-36B-A3B-MTP",
     "quant": "UD-IQ4_NL",
     "eval_time_seconds": 8259.0,
     "total_samples": 1140,
@@ -48,7 +48,7 @@
     "bigcodebench_std": 0.491327
   },
   {
-    "model": "Qwen3.6-35B-A3B",
+    "model": "Qwen3.6-36B-A3B-MTP",
     "quant": "UD-IQ4_XS",
     "eval_time_seconds": 8434.0,
     "total_samples": 1140,
@@ -56,7 +56,7 @@
     "bigcodebench_std": 0.491823
   },
   {
-    "model": "Qwen3.6-35B-A3B",
+    "model": "Qwen3.6-36B-A3B-MTP",
     "quant": "UD-Q2_K_XL",
     "eval_time_seconds": 8618.0,
     "total_samples": 1140,
@@ -64,7 +64,7 @@
     "bigcodebench_std": 0.494888
   },
   {
-    "model": "Qwen3.6-35B-A3B",
+    "model": "Qwen3.6-36B-A3B-MTP",
     "quant": "UD-Q3_K_M",
     "eval_time_seconds": 8389.0,
     "total_samples": 1140,
@@ -72,7 +72,7 @@
     "bigcodebench_std": 0.490816
   },
   {
-    "model": "Qwen3.6-35B-A3B",
+    "model": "Qwen3.6-36B-A3B-MTP",
     "quant": "UD-Q3_K_XL",
     "eval_time_seconds": 8408.0,
     "total_samples": 1140,
@@ -80,7 +80,7 @@
     "bigcodebench_std": 0.491158
   },
   {
-    "model": "Qwen3.6-35B-A3B",
+    "model": "Qwen3.6-36B-A3B-MTP",
     "quant": "UD-Q4_K_S",
     "eval_time_seconds": 8398.0,
     "total_samples": 1140,

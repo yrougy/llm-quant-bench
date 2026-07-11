@@ -1,6 +1,6 @@
 [
   {
-    "model": "Qwen3.6-27B",
+    "model": "Qwen3.6-27B-MTP",
     "quant": "IQ4_XS",
     "eval_time_seconds": 14273.0,
     "total_samples": 1140,
@@ -8,7 +8,7 @@
     "bigcodebench_std": 0.485987
   },
   {
-    "model": "Qwen3.6-27B",
+    "model": "Qwen3.6-27B-MTP",
     "quant": "Q3_K_M",
     "eval_time_seconds": 16653.0,
     "total_samples": 1140,
@@ -16,7 +16,7 @@
     "bigcodebench_std": 0.487845
   },
   {
-    "model": "Qwen3.6-27B",
+    "model": "Qwen3.6-27B-MTP",
     "quant": "Q3_K_S",
     "eval_time_seconds": 17760.0,
     "total_samples": 1140,
@@ -24,7 +24,7 @@
     "bigcodebench_std": 0.490113
   },
   {
-    "model": "Qwen3.6-27B",
+    "model": "Qwen3.6-27B-MTP",
     "quant": "Q4_0",
     "eval_time_seconds": 13677.0,
     "total_samples": 1140,
@@ -32,7 +32,7 @@
     "bigcodebench_std": 0.492304
   },
   {
-    "model": "Qwen3.6-27B",
+    "model": "Qwen3.6-27B-MTP",
     "quant": "Q4_1",
     "eval_time_seconds": 14098.0,
     "total_samples": 1140,
@@ -40,7 +40,7 @@
     "bigcodebench_std": 0.488239
   },
   {
-    "model": "Qwen3.6-27B",
+    "model": "Qwen3.6-27B-MTP",
     "quant": "Q4_K_M",
     "eval_time_seconds": 16558.0,
     "total_samples": 1140,
@@ -48,7 +48,7 @@
     "bigcodebench_std": 0.489933
   },
   {
-    "model": "Qwen3.6-27B",
+    "model": "Qwen3.6-27B-MTP",
     "quant": "Q4_K_S",
     "eval_time_seconds": 16310.0,
     "total_samples": 1140,
@@ -56,7 +56,7 @@
     "bigcodebench_std": 0.48683
   },
   {
-    "model": "Qwen3.6-27B",
+    "model": "Qwen3.6-27B-MTP",
     "quant": "UD-IQ2_M",
     "eval_time_seconds": 14907.0,
     "total_samples": 1140,
@@ -64,7 +64,7 @@
     "bigcodebench_std": 0.495986
   },
   {
-    "model": "Qwen3.6-27B",
+    "model": "Qwen3.6-27B-MTP",
     "quant": "UD-IQ2_XXS",
     "eval_time_seconds": 20053.0,
     "total_samples": 1140,
@@ -72,7 +72,7 @@
     "bigcodebench_std": 0.500207
   },
   {
-    "model": "Qwen3.6-27B",
+    "model": "Qwen3.6-27B-MTP",
     "quant": "UD-IQ3_XXS",
     "eval_time_seconds": 16340.0,
     "total_samples": 1140,
@@ -80,7 +80,7 @@
     "bigcodebench_std": 0.492771
   },
   {
-    "model": "Qwen3.6-27B",
+    "model": "Qwen3.6-27B-MTP",
     "quant": "UD-Q2_K_XL",
     "eval_time_seconds": 16839.0,
     "total_samples": 1140,
@@ -88,7 +88,7 @@
     "bigcodebench_std": 0.492617
   },
   {
-    "model": "Qwen3.6-27B",
+    "model": "Qwen3.6-27B-MTP",
     "quant": "UD-Q3_K_XL",
     "eval_time_seconds": 16573.0,
     "total_samples": 1140,
@@ -96,7 +96,7 @@
     "bigcodebench_std": 0.489751
   },
   {
-    "model": "Qwen3.6-27B",
+    "model": "Qwen3.6-27B-MTP",
     "quant": "UD-Q4_K_XL",
     "eval_time_seconds": 16556.0,
     "total_samples": 1140,
