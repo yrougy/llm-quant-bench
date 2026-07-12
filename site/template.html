@@ -125,6 +125,10 @@ section > .intro { color: var(--text-dim); font-size: 1.05rem; max-width: 720px;
 .chart-container { background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; padding: 2rem; margin-bottom: 2rem; position: relative; }
 .chart-container canvas { max-height: 420px; }
 .chart-container h3 { font-family: var(--font-mono); font-size: 0.85rem; color: var(--text-dim); margin-bottom: 1rem; font-weight: 400; }
+.chart-note { font-family: var(--font-mono); font-size: 0.68rem; color: var(--text-muted); margin-top: 0.9rem; }
+.chart-note .dot-filled, .chart-note .dot-hollow { display: inline-block; width: 9px; height: 9px; border-radius: 50%; vertical-align: -1px; }
+.chart-note .dot-filled { background: var(--text-dim); }
+.chart-note .dot-hollow { background: var(--bg-card); border: 2px solid var(--text-dim); }
 
 .takeaway { background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; padding: 1.5rem 2rem; margin-bottom: 2rem; }
 .takeaway h4 { font-family: var(--font-mono); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--accent-3); margin-bottom: 0.8rem; }
@@ -310,6 +314,7 @@ footer .links { display: flex; justify-content: center; gap: 2rem; margin-bottom
   <div class="chart-container">
     <h3 id="chart-title"></h3>
     <canvas id="mainChart" role="img" aria-label="Benchmark accuracy chart"></canvas>
+    <p class="chart-note"><span class="dot-filled"></span> in the tunnel — largest group of quants within a shared error margin &nbsp;·&nbsp; <span class="dot-hollow"></span> outside it (95% confidence)</p>
   </div>
   <div class="chart-container" id="size-chart-container">
     <h3 id="size-chart-title">File size · sorted small → large</h3>
@@ -341,6 +346,7 @@ footer .links { display: flex; justify-content: center; gap: 2rem; margin-bottom
   <div class="chart-container">
     <h3 id="compare-chart-title"></h3>
     <canvas id="compareChart" role="img" aria-label="Model comparison chart"></canvas>
+    <p class="chart-note"><span class="dot-filled"></span> in the tunnel — largest group of quants within a shared error margin &nbsp;·&nbsp; <span class="dot-hollow"></span> outside it (95% confidence)</p>
   </div>
   <div class="takeaway" id="compare-takeaway-box">
     <h4>↳ Observation</h4>
@@ -481,6 +487,34 @@ function fmtScore(v, se) {
   return v + '%' + (m != null ? ' ±' + m : '');
 }
 
+// ── "Tunnel": the largest group of quants whose 95% CIs share a common value
+// (max interval stabbing). A point whose CI misses that value is out of the
+// tunnel — returns 'above' / 'below' per point, or null when inside.
+// Ties between equal-sized groups go to the higher-scoring one.
+function outOfTunnelFlags(data, stderr) {
+  const flags = data.map(() => null);
+  if (!stderr) return flags;
+  const iv = data.map((v, i) => {
+    if (v == null || stderr[i] == null) return null;
+    const m = CI_FACTOR * stderr[i];
+    return { lo: v - m, hi: v + m };
+  });
+  let bestY = null, bestCount = 0;
+  for (const c of iv) {
+    if (!c) continue;
+    const count = iv.filter(o => o && o.lo <= c.lo && c.lo <= o.hi).length;
+    if (count > bestCount || (count === bestCount && c.lo > bestY)) { bestCount = count; bestY = c.lo; }
+  }
+  if (bestY === null) return flags;
+  for (let i = 0; i < data.length; i++) {
+    if (!iv[i]) continue;
+    if (iv[i].hi < bestY) flags[i] = 'below';
+    else if (iv[i].lo > bestY) flags[i] = 'above';
+  }
+  return flags;
+}
+const HOLLOW_FILL = '#13161c'; /* --bg-card: hollow points read as "out of tunnel" */
+
 // ── Error bars Chart.js plugin (reads dataset._stderr) ──
 const errorBarsPlugin = {
   id: 'errorBars',
@@ -591,14 +625,20 @@ function buildDatasets(model) {
   for (const b of BENCH_KEYS) {
     const data = model[b];
     if (!data || data.length === 0 || data.every(v => v === null)) continue;
+    const se = model[b + '_stderr'] || null;
+    const flags = outOfTunnelFlags(data, se);
     datasets.push({
       label: BENCH_LABELS[b],
       data: data.map(v => v === null ? null : v),
-      _stderr: model[b + '_stderr'] || null,
+      _stderr: se,
+      _outFlags: flags,
       borderColor: BENCH_COLORS[b].border,
       backgroundColor: BENCH_COLORS[b].bg,
-      borderWidth: 2.5, pointRadius: 4, pointHoverRadius: 7,
-      pointBackgroundColor: BENCH_COLORS[b].border,
+      borderWidth: 2.5, pointHoverRadius: 7,
+      pointRadius: flags.map(f => f ? 5 : 4),
+      pointBackgroundColor: flags.map(f => f ? HOLLOW_FILL : BENCH_COLORS[b].border),
+      pointBorderColor: BENCH_COLORS[b].border,
+      pointBorderWidth: flags.map(f => f ? 2 : 1),
       tension: 0.3, spanGaps: true, fill: false
     });
   }
@@ -652,7 +692,8 @@ function renderChart(modelKey) {
     },
     label: (c) => {
       const se = c.dataset._stderr ? c.dataset._stderr[c.dataIndex] : null;
-      return c.dataset.label + ': ' + fmtScore(c.parsed.y, se);
+      const out = c.dataset._outFlags && c.dataset._outFlags[c.dataIndex];
+      return c.dataset.label + ': ' + fmtScore(c.parsed.y, se) + (out ? ' · ' + out + ' the tunnel' : '');
     }
   };
 
@@ -811,16 +852,23 @@ function renderCompareChart(benchKey) {
     if (!data || data.length === 0 || data.every(v => v === null)) continue;
     const points = compLabels.map(q => valAtQuant(modelKey, benchKey, q));
     if (points.every(p => p === null)) continue;
+    const se = compLabels.map(q => stderrAtQuant(modelKey, benchKey, q));
+    const flags = outOfTunnelFlags(points, se);
+    const color = model.compare_color || '#888';
+    const baseR = model.compare_style === 'dashed' ? 4 : 5;
     datasets.push({
       label: model.name,
       data: points,
-      _stderr: compLabels.map(q => stderrAtQuant(modelKey, benchKey, q)),
-      borderColor: model.compare_color || '#888',
-      backgroundColor: (model.compare_color || '#888') + '1a',
+      _stderr: se,
+      _outFlags: flags,
+      borderColor: color,
+      backgroundColor: color + '1a',
       borderWidth: model.compare_style === 'dashed' ? 2 : 2.5,
-      pointRadius: model.compare_style === 'dashed' ? 4 : 5,
+      pointRadius: flags.map(f => f ? baseR + 1 : baseR),
       borderDash: model.compare_style === 'dashed' ? [5,3] : [],
-      pointBackgroundColor: model.compare_color || '#888',
+      pointBackgroundColor: flags.map(f => f ? HOLLOW_FILL : color),
+      pointBorderColor: color,
+      pointBorderWidth: flags.map(f => f ? 2 : 1),
       tension: 0.3, spanGaps: true
     });
   }
@@ -835,7 +883,8 @@ function renderCompareChart(benchKey) {
   opts.plugins.tooltip.callbacks = {
     label: (c) => {
       const se = c.dataset._stderr ? c.dataset._stderr[c.dataIndex] : null;
-      return c.dataset.label + ': ' + fmtScore(c.parsed.y, se);
+      const out = c.dataset._outFlags && c.dataset._outFlags[c.dataIndex];
+      return c.dataset.label + ': ' + fmtScore(c.parsed.y, se) + (out ? ' · ' + out + ' the tunnel' : '');
     }
   };
 
