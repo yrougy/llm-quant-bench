@@ -54,10 +54,13 @@
     "bfcl_sql_acc": null,
     "bfcl_sql_sterr": null,
     "bfcl_stderr": null,
+    "bfcl_total_samples": null,
     "bigcodebench_mean": 0.507895,
     "bigcodebench_std": 0.500157,
+    "bigcodebench_total_samples": 1140,
     "musr_accuracy": 0.64,
-    "musr_stderr": 0.030419
+    "musr_stderr": 0.030419,
+    "musr_total_samples": 250
   },
   {
     "model": "Ornith-1.0-9B",
@@ -114,10 +117,13 @@
     "bfcl_sql_acc": 0.125,
     "bfcl_sql_sterr": 0.085391,
     "bfcl_stderr": 0.015304,
+    "bfcl_total_samples": 1000,
     "bigcodebench_mean": 0.492105,
     "bigcodebench_std": 0.500157,
+    "bigcodebench_total_samples": 1140,
     "musr_accuracy": 0.604,
-    "musr_stderr": 0.030993
+    "musr_stderr": 0.030993,
+    "musr_total_samples": 250
   },
   {
     "model": "Ornith-1.0-9B",
@@ -174,10 +180,13 @@
     "bfcl_sql_acc": 0.125,
     "bfcl_sql_sterr": 0.085391,
     "bfcl_stderr": 0.015233,
+    "bfcl_total_samples": 1000,
     "bigcodebench_mean": 0.486842,
     "bigcodebench_std": 0.500046,
+    "bigcodebench_total_samples": 1140,
     "musr_accuracy": 0.624,
-    "musr_stderr": 0.030696
+    "musr_stderr": 0.030696,
+    "musr_total_samples": 250
   },
   {
     "model": "Ornith-1.0-9B",
@@ -234,10 +243,13 @@
     "bfcl_sql_acc": null,
     "bfcl_sql_sterr": null,
     "bfcl_stderr": null,
+    "bfcl_total_samples": null,
     "bigcodebench_mean": 0.479825,
     "bigcodebench_std": 0.499812,
+    "bigcodebench_total_samples": 1140,
     "musr_accuracy": 0.576,
-    "musr_stderr": 0.031318
+    "musr_stderr": 0.031318,
+    "musr_total_samples": 250
   },
   {
     "model": "Ornith-1.0-9B",
@@ -294,10 +306,13 @@
     "bfcl_sql_acc": null,
     "bfcl_sql_sterr": null,
     "bfcl_stderr": null,
+    "bfcl_total_samples": null,
     "bigcodebench_mean": 0.490351,
     "bigcodebench_std": 0.500126,
+    "bigcodebench_total_samples": 1140,
     "musr_accuracy": 0.608,
-    "musr_stderr": 0.030938
+    "musr_stderr": 0.030938,
+    "musr_total_samples": 250
   },
   {
     "model": "Qwen3.5-4B",
@@ -530,10 +545,13 @@
     "bfcl_sql_acc": null,
     "bfcl_sql_sterr": null,
     "bfcl_stderr": null,
+    "bfcl_total_samples": null,
     "bigcodebench_mean": 0.485088,
     "bigcodebench_std": 0.499997,
+    "bigcodebench_total_samples": 1140,
     "musr_accuracy": null,
-    "musr_stderr": null
+    "musr_stderr": null,
+    "musr_total_samples": null
   },
   {
     "model": "Qwen3.5-9B",
@@ -590,10 +608,13 @@
     "bfcl_sql_acc": null,
     "bfcl_sql_sterr": null,
     "bfcl_stderr": null,
+    "bfcl_total_samples": null,
     "bigcodebench_mean": 0.457018,
     "bigcodebench_std": 0.498368,
+    "bigcodebench_total_samples": 1140,
     "musr_accuracy": null,
-    "musr_stderr": null
+    "musr_stderr": null,
+    "musr_total_samples": null
   },
   {
     "model": "Qwen3.5-9B",
@@ -650,10 +671,13 @@
     "bfcl_sql_acc": null,
     "bfcl_sql_sterr": null,
     "bfcl_stderr": null,
+    "bfcl_total_samples": null,
     "bigcodebench_mean": 0.434211,
     "bigcodebench_std": 0.49587,
+    "bigcodebench_total_samples": 1140,
     "musr_accuracy": null,
-    "musr_stderr": null
+    "musr_stderr": null,
+    "musr_total_samples": null
   },
   {
     "model": "Qwen3.5-9B",
@@ -710,10 +734,13 @@
     "bfcl_sql_acc": null,
     "bfcl_sql_sterr": null,
     "bfcl_stderr": null,
+    "bfcl_total_samples": null,
     "bigcodebench_mean": 0.37193,
     "bigcodebench_std": 0.483532,
+    "bigcodebench_total_samples": 1140,
     "musr_accuracy": null,
-    "musr_stderr": null
+    "musr_stderr": null,
+    "musr_total_samples": null
   },
   {
     "model": "Qwen3.5-9B",
@@ -770,10 +797,13 @@
     "bfcl_sql_acc": null,
     "bfcl_sql_sterr": null,
     "bfcl_stderr": null,
+    "bfcl_total_samples": null,
     "bigcodebench_mean": 0.451754,
     "bigcodebench_std": 0.497885,
+    "bigcodebench_total_samples": 1140,
     "musr_accuracy": null,
-    "musr_stderr": null
+    "musr_stderr": null,
+    "musr_total_samples": null
   },
   {
     "model": "Qwen3.5-9B",
@@ -830,10 +860,13 @@
     "bfcl_sql_acc": null,
     "bfcl_sql_sterr": null,
     "bfcl_stderr": null,
+    "bfcl_total_samples": null,
     "bigcodebench_mean": 0.485965,
     "bigcodebench_std": 0.500022,
+    "bigcodebench_total_samples": 1140,
     "musr_accuracy": null,
-    "musr_stderr": null
+    "musr_stderr": null,
+    "musr_total_samples": null
   },
   {
     "model": "Qwen3.5-9B",
@@ -890,10 +923,13 @@
     "bfcl_sql_acc": null,
     "bfcl_sql_sterr": null,
     "bfcl_stderr": null,
+    "bfcl_total_samples": null,
     "bigcodebench_mean": 0.478947,
     "bigcodebench_std": 0.499776,
+    "bigcodebench_total_samples": 1140,
     "musr_accuracy": null,
-    "musr_stderr": null
+    "musr_stderr": null,
+    "musr_total_samples": null
   },
   {
     "model": "Qwen3.5-9B",
@@ -950,10 +986,13 @@
     "bfcl_sql_acc": null,
     "bfcl_sql_sterr": null,
     "bfcl_stderr": null,
+    "bfcl_total_samples": null,
     "bigcodebench_mean": 0.488596,
     "bigcodebench_std": 0.500089,
+    "bigcodebench_total_samples": 1140,
     "musr_accuracy": null,
-    "musr_stderr": null
+    "musr_stderr": null,
+    "musr_total_samples": null
   },
   {
     "model": "Qwen3.5-9B",
@@ -1010,10 +1049,13 @@
     "bfcl_sql_acc": null,
     "bfcl_sql_sterr": null,
     "bfcl_stderr": null,
+    "bfcl_total_samples": null,
     "bigcodebench_mean": 0.480702,
     "bigcodebench_std": 0.499847,
+    "bigcodebench_total_samples": 1140,
     "musr_accuracy": null,
-    "musr_stderr": null
+    "musr_stderr": null,
+    "musr_total_samples": null
   },
   {
     "model": "Qwen3.5-9B",
@@ -1070,10 +1112,13 @@
     "bfcl_sql_acc": null,
     "bfcl_sql_sterr": null,
     "bfcl_stderr": null,
+    "bfcl_total_samples": null,
     "bigcodebench_mean": 0.483333,
     "bigcodebench_std": 0.499941,
+    "bigcodebench_total_samples": 1140,
     "musr_accuracy": null,
-    "musr_stderr": null
+    "musr_stderr": null,
+    "musr_total_samples": null
   },
   {
     "model": "Qwen3.5-9B",
@@ -1130,10 +1175,13 @@
     "bfcl_sql_acc": null,
     "bfcl_sql_sterr": null,
     "bfcl_stderr": null,
+    "bfcl_total_samples": null,
     "bigcodebench_mean": 0.482456,
     "bigcodebench_std": 0.499911,
+    "bigcodebench_total_samples": 1140,
     "musr_accuracy": null,
-    "musr_stderr": null
+    "musr_stderr": null,
+    "musr_total_samples": null
   },
   {
     "model": "Qwen3.5-9B",
@@ -1190,10 +1238,13 @@
     "bfcl_sql_acc": null,
     "bfcl_sql_sterr": null,
     "bfcl_stderr": null,
+    "bfcl_total_samples": null,
     "bigcodebench_mean": 0.494737,
     "bigcodebench_std": 0.500192,
+    "bigcodebench_total_samples": 1140,
     "musr_accuracy": null,
-    "musr_stderr": null
+    "musr_stderr": null,
+    "musr_total_samples": null
   },
   {
     "model": "Qwen3.5-9B",
@@ -1250,10 +1301,13 @@
     "bfcl_sql_acc": null,
     "bfcl_sql_sterr": null,
     "bfcl_stderr": null,
+    "bfcl_total_samples": null,
     "bigcodebench_mean": 0.314035,
     "bigcodebench_std": 0.464334,
+    "bigcodebench_total_samples": 1140,
     "musr_accuracy": null,
-    "musr_stderr": null
+    "musr_stderr": null,
+    "musr_total_samples": null
   },
   {
     "model": "Qwen3.5-9B",
@@ -1310,10 +1364,13 @@
     "bfcl_sql_acc": null,
     "bfcl_sql_sterr": null,
     "bfcl_stderr": null,
+    "bfcl_total_samples": null,
     "bigcodebench_mean": 0.071053,
     "bigcodebench_std": 0.257025,
+    "bigcodebench_total_samples": 1140,
     "musr_accuracy": null,
-    "musr_stderr": null
+    "musr_stderr": null,
+    "musr_total_samples": null
   },
   {
     "model": "Qwen3.5-9B",
@@ -1370,10 +1427,13 @@
     "bfcl_sql_acc": null,
     "bfcl_sql_sterr": null,
     "bfcl_stderr": null,
+    "bfcl_total_samples": null,
     "bigcodebench_mean": 0.389474,
     "bigcodebench_std": 0.487845,
+    "bigcodebench_total_samples": 1140,
     "musr_accuracy": null,
-    "musr_stderr": null
+    "musr_stderr": null,
+    "musr_total_samples": null
   },
   {
     "model": "Qwen3.5-9B",
@@ -1430,10 +1490,13 @@
     "bfcl_sql_acc": null,
     "bfcl_sql_sterr": null,
     "bfcl_stderr": null,
+    "bfcl_total_samples": null,
     "bigcodebench_mean": 0.296491,
     "bigcodebench_std": 0.456911,
+    "bigcodebench_total_samples": 1140,
     "musr_accuracy": null,
-    "musr_stderr": null
+    "musr_stderr": null,
+    "musr_total_samples": null
   },
   {
     "model": "Qwen3.5-9B",
@@ -1490,10 +1553,13 @@
     "bfcl_sql_acc": null,
     "bfcl_sql_sterr": null,
     "bfcl_stderr": null,
+    "bfcl_total_samples": null,
     "bigcodebench_mean": 0.470175,
     "bigcodebench_std": 0.499329,
+    "bigcodebench_total_samples": 1140,
     "musr_accuracy": null,
-    "musr_stderr": null
+    "musr_stderr": null,
+    "musr_total_samples": null
   },
   {
     "model": "Qwen3.5-9B",
@@ -1550,10 +1616,13 @@
     "bfcl_sql_acc": null,
     "bfcl_sql_sterr": null,
     "bfcl_stderr": null,
+    "bfcl_total_samples": null,
     "bigcodebench_mean": 0.495614,
     "bigcodebench_std": 0.5002,
+    "bigcodebench_total_samples": 1140,
     "musr_accuracy": null,
-    "musr_stderr": null
+    "musr_stderr": null,
+    "musr_total_samples": null
   },
   {
     "model": "Qwen3.5-9B",
@@ -1610,10 +1679,13 @@
     "bfcl_sql_acc": null,
     "bfcl_sql_sterr": null,
     "bfcl_stderr": null,
+    "bfcl_total_samples": null,
     "bigcodebench_mean": 0.476316,
     "bigcodebench_std": 0.499658,
+    "bigcodebench_total_samples": 1140,
     "musr_accuracy": null,
-    "musr_stderr": null
+    "musr_stderr": null,
+    "musr_total_samples": null
   },
   {
     "model": "Qwen3.5-9B",
@@ -1670,10 +1742,13 @@
     "bfcl_sql_acc": null,
     "bfcl_sql_sterr": null,
     "bfcl_stderr": null,
+    "bfcl_total_samples": null,
     "bigcodebench_mean": 0.484211,
     "bigcodebench_std": 0.49997,
+    "bigcodebench_total_samples": 1140,
     "musr_accuracy": null,
-    "musr_stderr": null
+    "musr_stderr": null,
+    "musr_total_samples": null
   },
   {
     "model": "Qwen3.5-9B",
@@ -1730,10 +1805,13 @@
     "bfcl_sql_acc": null,
     "bfcl_sql_sterr": null,
     "bfcl_stderr": null,
+    "bfcl_total_samples": null,
     "bigcodebench_mean": 0.480702,
     "bigcodebench_std": 0.499847,
+    "bigcodebench_total_samples": 1140,
     "musr_accuracy": null,
-    "musr_stderr": null
+    "musr_stderr": null,
+    "musr_total_samples": null
   },
   {
     "model": "Qwen3.6-27B",
@@ -2114,10 +2192,13 @@
     "bfcl_sql_acc": 0.125,
     "bfcl_sql_sterr": 0.085391,
     "bfcl_stderr": 0.014387,
+    "bfcl_total_samples": 1000,
     "bigcodebench_mean": null,
     "bigcodebench_std": null,
+    "bigcodebench_total_samples": null,
     "musr_accuracy": 0.672,
-    "musr_stderr": 0.029752
+    "musr_stderr": 0.029752,
+    "musr_total_samples": 250
   },
   {
     "model": "Qwen3.6-27B-MTP",
@@ -2174,10 +2255,13 @@
     "bfcl_sql_acc": 0.125,
     "bfcl_sql_sterr": 0.085391,
     "bfcl_stderr": 0.014298,
+    "bfcl_total_samples": 1000,
     "bigcodebench_mean": 0.618421,
     "bigcodebench_std": 0.485987,
+    "bigcodebench_total_samples": 1140,
     "musr_accuracy": 0.656,
-    "musr_stderr": 0.030105
+    "musr_stderr": 0.030105,
+    "musr_total_samples": 250
   },
   {
     "model": "Qwen3.6-27B-MTP",
@@ -2234,10 +2318,13 @@
     "bfcl_sql_acc": 0.125,
     "bfcl_sql_sterr": 0.085391,
     "bfcl_stderr": 0.014074,
+    "bfcl_total_samples": 1000,
     "bigcodebench_mean": 0.610526,
     "bigcodebench_std": 0.487845,
+    "bigcodebench_total_samples": 1140,
     "musr_accuracy": 0.636,
-    "musr_stderr": 0.030492
+    "musr_stderr": 0.030492,
+    "musr_total_samples": 250
   },
   {
     "model": "Qwen3.6-27B-MTP",
@@ -2294,10 +2381,13 @@
     "bfcl_sql_acc": 0.125,
     "bfcl_sql_sterr": 0.085391,
     "bfcl_stderr": 0.014398,
+    "bfcl_total_samples": 1000,
     "bigcodebench_mean": 0.6,
     "bigcodebench_std": 0.490113,
+    "bigcodebench_total_samples": 1140,
     "musr_accuracy": 0.68,
-    "musr_stderr": 0.029562
+    "musr_stderr": 0.029562,
+    "musr_total_samples": 250
   },
   {
     "model": "Qwen3.6-27B-MTP",
@@ -2354,10 +2444,13 @@
     "bfcl_sql_acc": 0.125,
     "bfcl_sql_sterr": 0.085391,
     "bfcl_stderr": 0.014515,
+    "bfcl_total_samples": 1000,
     "bigcodebench_mean": 0.588596,
     "bigcodebench_std": 0.492304,
+    "bigcodebench_total_samples": 1140,
     "musr_accuracy": 0.644,
-    "musr_stderr": 0.030344
+    "musr_stderr": 0.030344,
+    "musr_total_samples": 250
   },
   {
     "model": "Qwen3.6-27B-MTP",
@@ -2414,10 +2507,13 @@
     "bfcl_sql_acc": 0.125,
     "bfcl_sql_sterr": 0.085391,
     "bfcl_stderr": 0.01423,
+    "bfcl_total_samples": 1000,
     "bigcodebench_mean": 0.608772,
     "bigcodebench_std": 0.488239,
+    "bigcodebench_total_samples": 1140,
     "musr_accuracy": 0.704,
-    "musr_stderr": 0.028929
+    "musr_stderr": 0.028929,
+    "musr_total_samples": 250
   },
   {
     "model": "Qwen3.6-27B-MTP",
@@ -2474,10 +2570,13 @@
     "bfcl_sql_acc": 0.125,
     "bfcl_sql_sterr": 0.085391,
     "bfcl_stderr": 0.014235,
+    "bfcl_total_samples": 1000,
     "bigcodebench_mean": 0.600877,
     "bigcodebench_std": 0.489933,
+    "bigcodebench_total_samples": 1140,
     "musr_accuracy": 0.676,
-    "musr_stderr": 0.029658
+    "musr_stderr": 0.029658,
+    "musr_total_samples": 250
   },
   {
     "model": "Qwen3.6-27B-MTP",
@@ -2534,10 +2633,13 @@
     "bfcl_sql_acc": 0.125,
     "bfcl_sql_sterr": 0.085391,
     "bfcl_stderr": 0.01438,
+    "bfcl_total_samples": 1000,
     "bigcodebench_mean": 0.614912,
     "bigcodebench_std": 0.48683,
+    "bigcodebench_total_samples": 1140,
     "musr_accuracy": 0.668,
-    "musr_stderr": 0.029844
+    "musr_stderr": 0.029844,
+    "musr_total_samples": 250
   },
   {
     "model": "Qwen3.6-27B-MTP",
@@ -2594,10 +2696,76 @@
     "bfcl_sql_acc": 0.125,
     "bfcl_sql_sterr": 0.085391,
     "bfcl_stderr": 0.014264,
+    "bfcl_total_samples": 1000,
     "bigcodebench_mean": null,
     "bigcodebench_std": null,
+    "bigcodebench_total_samples": null,
     "musr_accuracy": 0.656,
-    "musr_stderr": 0.030105
+    "musr_stderr": 0.030105,
+    "musr_total_samples": 250
+  },
+  {
+    "model": "Qwen3.6-27B-MTP",
+    "quant": "Q5_K_S",
+    "eval_time_seconds": 6719.0,
+    "total_samples": 250,
+    "bfcl_accuracy": 0.72549,
+    "bfcl_all": 0.72549,
+    "bfcl_all2": 0.014344,
+    "bfcl_exec_multiple_acc": 0.8125,
+    "bfcl_exec_multiple_sterr": 0.100778,
+    "bfcl_exec_parallel_acc": 0.888889,
+    "bfcl_exec_parallel_multiple_acc": 0.333333,
+    "bfcl_exec_parallel_multiple_sterr": 0.210819,
+    "bfcl_exec_parallel_sterr": 0.076222,
+    "bfcl_exec_simple_acc": 0.904762,
+    "bfcl_exec_simple_sterr": 0.065638,
+    "bfcl_irrelevance_acc": 0.833333,
+    "bfcl_irrelevance_sterr": 0.054361,
+    "bfcl_live_irrelevance_acc": 0.698413,
+    "bfcl_live_irrelevance_sterr": 0.033472,
+    "bfcl_live_multiple_acc": 0.762376,
+    "bfcl_live_multiple_sterr": 0.030021,
+    "bfcl_live_parallel_acc": 0.75,
+    "bfcl_live_parallel_multiple_acc": 0.8,
+    "bfcl_live_parallel_multiple_sterr": 0.2,
+    "bfcl_live_parallel_sterr": 0.25,
+    "bfcl_live_relevance_acc": 1.0,
+    "bfcl_live_relevance_sterr": 0.0,
+    "bfcl_live_simple_acc": 0.795918,
+    "bfcl_live_simple_sterr": 0.058172,
+    "bfcl_multi_turn_base_acc": 0.608696,
+    "bfcl_multi_turn_base_sterr": 0.072753,
+    "bfcl_multi_turn_composite_acc": 0.037037,
+    "bfcl_multi_turn_composite_sterr": 0.037037,
+    "bfcl_multi_turn_long_context_acc": 0.558824,
+    "bfcl_multi_turn_long_context_sterr": 0.086434,
+    "bfcl_multi_turn_miss_func_acc": 0.513514,
+    "bfcl_multi_turn_miss_func_sterr": 0.083303,
+    "bfcl_multi_turn_miss_param_acc": 0.657895,
+    "bfcl_multi_turn_miss_param_sterr": 0.077993,
+    "bfcl_multiple_acc": 1.0,
+    "bfcl_multiple_sterr": 0.0,
+    "bfcl_parallel_acc": 0.821429,
+    "bfcl_parallel_multiple_acc": 0.866667,
+    "bfcl_parallel_multiple_sterr": 0.051247,
+    "bfcl_parallel_sterr": 0.073707,
+    "bfcl_simple_java_acc": 0.571429,
+    "bfcl_simple_java_sterr": 0.110657,
+    "bfcl_simple_javascript_acc": 0.375,
+    "bfcl_simple_javascript_sterr": 0.182981,
+    "bfcl_simple_python_acc": 0.985507,
+    "bfcl_simple_python_sterr": 0.014493,
+    "bfcl_sql_acc": 0.125,
+    "bfcl_sql_sterr": 0.085391,
+    "bfcl_stderr": 0.014344,
+    "bfcl_total_samples": 1000,
+    "bigcodebench_mean": null,
+    "bigcodebench_std": null,
+    "bigcodebench_total_samples": null,
+    "musr_accuracy": 0.68,
+    "musr_stderr": 0.029562,
+    "musr_total_samples": 250
   },
   {
     "model": "Qwen3.6-27B-MTP",
@@ -2654,10 +2822,13 @@
     "bfcl_sql_acc": null,
     "bfcl_sql_sterr": null,
     "bfcl_stderr": null,
+    "bfcl_total_samples": null,
     "bigcodebench_mean": 0.564912,
     "bigcodebench_std": 0.495986,
+    "bigcodebench_total_samples": 1140,
     "musr_accuracy": null,
-    "musr_stderr": null
+    "musr_stderr": null,
+    "musr_total_samples": null
   },
   {
     "model": "Qwen3.6-27B-MTP",
@@ -2714,10 +2885,13 @@
     "bfcl_sql_acc": null,
     "bfcl_sql_sterr": null,
     "bfcl_stderr": null,
+    "bfcl_total_samples": null,
     "bigcodebench_mean": 0.496491,
     "bigcodebench_std": 0.500207,
+    "bigcodebench_total_samples": 1140,
     "musr_accuracy": null,
-    "musr_stderr": null
+    "musr_stderr": null,
+    "musr_total_samples": null
   },
   {
     "model": "Qwen3.6-27B-MTP",
@@ -2774,10 +2948,13 @@
     "bfcl_sql_acc": null,
     "bfcl_sql_sterr": null,
     "bfcl_stderr": null,
+    "bfcl_total_samples": null,
     "bigcodebench_mean": 0.585965,
     "bigcodebench_std": 0.492771,
+    "bigcodebench_total_samples": 1140,
     "musr_accuracy": null,
-    "musr_stderr": null
+    "musr_stderr": null,
+    "musr_total_samples": null
   },
   {
     "model": "Qwen3.6-27B-MTP",
@@ -2834,10 +3011,13 @@
     "bfcl_sql_acc": null,
     "bfcl_sql_sterr": null,
     "bfcl_stderr": null,
+    "bfcl_total_samples": null,
     "bigcodebench_mean": 0.586842,
     "bigcodebench_std": 0.492617,
+    "bigcodebench_total_samples": 1140,
     "musr_accuracy": null,
-    "musr_stderr": null
+    "musr_stderr": null,
+    "musr_total_samples": null
   },
   {
     "model": "Qwen3.6-27B-MTP",
@@ -2894,10 +3074,13 @@
     "bfcl_sql_acc": null,
     "bfcl_sql_sterr": null,
     "bfcl_stderr": null,
+    "bfcl_total_samples": null,
     "bigcodebench_mean": 0.601754,
     "bigcodebench_std": 0.489751,
+    "bigcodebench_total_samples": 1140,
     "musr_accuracy": null,
-    "musr_stderr": null
+    "musr_stderr": null,
+    "musr_total_samples": null
   },
   {
     "model": "Qwen3.6-27B-MTP",
@@ -2954,10 +3137,13 @@
     "bfcl_sql_acc": null,
     "bfcl_sql_sterr": null,
     "bfcl_stderr": null,
+    "bfcl_total_samples": null,
     "bigcodebench_mean": 0.597368,
     "bigcodebench_std": 0.490643,
+    "bigcodebench_total_samples": 1140,
     "musr_accuracy": null,
-    "musr_stderr": null
+    "musr_stderr": null,
+    "musr_total_samples": null
   },
   {
     "model": "Qwen3.6-35B-A3B",
@@ -3334,10 +3520,13 @@
     "bfcl_sql_acc": null,
     "bfcl_sql_sterr": null,
     "bfcl_stderr": null,
+    "bfcl_total_samples": null,
     "bigcodebench_mean": 0.595614,
     "bigcodebench_std": 0.490988,
+    "bigcodebench_total_samples": 1140,
     "musr_accuracy": null,
-    "musr_stderr": null
+    "musr_stderr": null,
+    "musr_total_samples": null
   },
   {
     "model": "Qwen3.6-36B-A3B-MTP",
@@ -3394,10 +3583,13 @@
     "bfcl_sql_acc": null,
     "bfcl_sql_sterr": null,
     "bfcl_stderr": null,
+    "bfcl_total_samples": null,
     "bigcodebench_mean": 0.573684,
     "bigcodebench_std": 0.494758,
+    "bigcodebench_total_samples": 1140,
     "musr_accuracy": null,
-    "musr_stderr": null
+    "musr_stderr": null,
+    "musr_total_samples": null
   },
   {
     "model": "Qwen3.6-36B-A3B-MTP",
@@ -3454,10 +3646,13 @@
     "bfcl_sql_acc": null,
     "bfcl_sql_sterr": null,
     "bfcl_stderr": null,
+    "bfcl_total_samples": null,
     "bigcodebench_mean": 0.575439,
     "bigcodebench_std": 0.494493,
+    "bigcodebench_total_samples": 1140,
     "musr_accuracy": null,
-    "musr_stderr": null
+    "musr_stderr": null,
+    "musr_total_samples": null
   },
   {
     "model": "Qwen3.6-36B-A3B-MTP",
@@ -3514,10 +3709,13 @@
     "bfcl_sql_acc": null,
     "bfcl_sql_sterr": null,
     "bfcl_stderr": null,
+    "bfcl_total_samples": null,
     "bigcodebench_mean": 0.594737,
     "bigcodebench_std": 0.491158,
+    "bigcodebench_total_samples": 1140,
     "musr_accuracy": null,
-    "musr_stderr": null
+    "musr_stderr": null,
+    "musr_total_samples": null
   },
   {
     "model": "Qwen3.6-36B-A3B-MTP",
@@ -3574,10 +3772,13 @@
     "bfcl_sql_acc": null,
     "bfcl_sql_sterr": null,
     "bfcl_stderr": null,
+    "bfcl_total_samples": null,
     "bigcodebench_mean": 0.584211,
     "bigcodebench_std": 0.493074,
+    "bigcodebench_total_samples": 1140,
     "musr_accuracy": null,
-    "musr_stderr": null
+    "musr_stderr": null,
+    "musr_total_samples": null
   },
   {
     "model": "Qwen3.6-36B-A3B-MTP",
@@ -3634,10 +3835,13 @@
     "bfcl_sql_acc": null,
     "bfcl_sql_sterr": null,
     "bfcl_stderr": null,
+    "bfcl_total_samples": null,
     "bigcodebench_mean": 0.59386,
     "bigcodebench_std": 0.491327,
+    "bigcodebench_total_samples": 1140,
     "musr_accuracy": null,
-    "musr_stderr": null
+    "musr_stderr": null,
+    "musr_total_samples": null
   },
   {
     "model": "Qwen3.6-36B-A3B-MTP",
@@ -3694,10 +3898,13 @@
     "bfcl_sql_acc": null,
     "bfcl_sql_sterr": null,
     "bfcl_stderr": null,
+    "bfcl_total_samples": null,
     "bigcodebench_mean": 0.591228,
     "bigcodebench_std": 0.491823,
+    "bigcodebench_total_samples": 1140,
     "musr_accuracy": null,
-    "musr_stderr": null
+    "musr_stderr": null,
+    "musr_total_samples": null
   },
   {
     "model": "Qwen3.6-36B-A3B-MTP",
@@ -3754,10 +3961,13 @@
     "bfcl_sql_acc": null,
     "bfcl_sql_sterr": null,
     "bfcl_stderr": null,
+    "bfcl_total_samples": null,
     "bigcodebench_mean": 0.572807,
     "bigcodebench_std": 0.494888,
+    "bigcodebench_total_samples": 1140,
     "musr_accuracy": null,
-    "musr_stderr": null
+    "musr_stderr": null,
+    "musr_total_samples": null
   },
   {
     "model": "Qwen3.6-36B-A3B-MTP",
@@ -3814,10 +4024,13 @@
     "bfcl_sql_acc": null,
     "bfcl_sql_sterr": null,
     "bfcl_stderr": null,
+    "bfcl_total_samples": null,
     "bigcodebench_mean": 0.596491,
     "bigcodebench_std": 0.490816,
+    "bigcodebench_total_samples": 1140,
     "musr_accuracy": null,
-    "musr_stderr": null
+    "musr_stderr": null,
+    "musr_total_samples": null
   },
   {
     "model": "Qwen3.6-36B-A3B-MTP",
@@ -3874,10 +4087,13 @@
     "bfcl_sql_acc": null,
     "bfcl_sql_sterr": null,
     "bfcl_stderr": null,
+    "bfcl_total_samples": null,
     "bigcodebench_mean": 0.594737,
     "bigcodebench_std": 0.491158,
+    "bigcodebench_total_samples": 1140,
     "musr_accuracy": null,
-    "musr_stderr": null
+    "musr_stderr": null,
+    "musr_total_samples": null
   },
   {
     "model": "Qwen3.6-36B-A3B-MTP",
@@ -3934,10 +4150,13 @@
     "bfcl_sql_acc": null,
     "bfcl_sql_sterr": null,
     "bfcl_stderr": null,
+    "bfcl_total_samples": null,
     "bigcodebench_mean": 0.591228,
     "bigcodebench_std": 0.491823,
+    "bigcodebench_total_samples": 1140,
     "musr_accuracy": null,
-    "musr_stderr": null
+    "musr_stderr": null,
+    "musr_total_samples": null
   },
   {
     "model": "gemma-4-26B-A4B-it",

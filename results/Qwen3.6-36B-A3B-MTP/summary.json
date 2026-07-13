@@ -54,10 +54,13 @@
     "bfcl_sql_acc": null,
     "bfcl_sql_sterr": null,
     "bfcl_stderr": null,
+    "bfcl_total_samples": null,
     "bigcodebench_mean": 0.595614,
     "bigcodebench_std": 0.490988,
+    "bigcodebench_total_samples": 1140,
     "musr_accuracy": null,
-    "musr_stderr": null
+    "musr_stderr": null,
+    "musr_total_samples": null
   },
   {
     "model": "Qwen3.6-36B-A3B-MTP",
@@ -114,10 +117,13 @@
     "bfcl_sql_acc": null,
     "bfcl_sql_sterr": null,
     "bfcl_stderr": null,
+    "bfcl_total_samples": null,
     "bigcodebench_mean": 0.573684,
     "bigcodebench_std": 0.494758,
+    "bigcodebench_total_samples": 1140,
     "musr_accuracy": null,
-    "musr_stderr": null
+    "musr_stderr": null,
+    "musr_total_samples": null
   },
   {
     "model": "Qwen3.6-36B-A3B-MTP",
@@ -174,10 +180,13 @@
     "bfcl_sql_acc": null,
     "bfcl_sql_sterr": null,
     "bfcl_stderr": null,
+    "bfcl_total_samples": null,
     "bigcodebench_mean": 0.575439,
     "bigcodebench_std": 0.494493,
+    "bigcodebench_total_samples": 1140,
     "musr_accuracy": null,
-    "musr_stderr": null
+    "musr_stderr": null,
+    "musr_total_samples": null
   },
   {
     "model": "Qwen3.6-36B-A3B-MTP",
@@ -234,10 +243,13 @@
     "bfcl_sql_acc": null,
     "bfcl_sql_sterr": null,
     "bfcl_stderr": null,
+    "bfcl_total_samples": null,
     "bigcodebench_mean": 0.594737,
     "bigcodebench_std": 0.491158,
+    "bigcodebench_total_samples": 1140,
     "musr_accuracy": null,
-    "musr_stderr": null
+    "musr_stderr": null,
+    "musr_total_samples": null
   },
   {
     "model": "Qwen3.6-36B-A3B-MTP",
@@ -294,10 +306,13 @@
     "bfcl_sql_acc": null,
     "bfcl_sql_sterr": null,
     "bfcl_stderr": null,
+    "bfcl_total_samples": null,
     "bigcodebench_mean": 0.584211,
     "bigcodebench_std": 0.493074,
+    "bigcodebench_total_samples": 1140,
     "musr_accuracy": null,
-    "musr_stderr": null
+    "musr_stderr": null,
+    "musr_total_samples": null
   },
   {
     "model": "Qwen3.6-36B-A3B-MTP",
@@ -354,10 +369,13 @@
     "bfcl_sql_acc": null,
     "bfcl_sql_sterr": null,
     "bfcl_stderr": null,
+    "bfcl_total_samples": null,
     "bigcodebench_mean": 0.59386,
     "bigcodebench_std": 0.491327,
+    "bigcodebench_total_samples": 1140,
     "musr_accuracy": null,
-    "musr_stderr": null
+    "musr_stderr": null,
+    "musr_total_samples": null
   },
   {
     "model": "Qwen3.6-36B-A3B-MTP",
@@ -414,10 +432,13 @@
     "bfcl_sql_acc": null,
     "bfcl_sql_sterr": null,
     "bfcl_stderr": null,
+    "bfcl_total_samples": null,
     "bigcodebench_mean": 0.591228,
     "bigcodebench_std": 0.491823,
+    "bigcodebench_total_samples": 1140,
     "musr_accuracy": null,
-    "musr_stderr": null
+    "musr_stderr": null,
+    "musr_total_samples": null
   },
   {
     "model": "Qwen3.6-36B-A3B-MTP",
@@ -474,10 +495,13 @@
     "bfcl_sql_acc": null,
     "bfcl_sql_sterr": null,
     "bfcl_stderr": null,
+    "bfcl_total_samples": null,
     "bigcodebench_mean": 0.572807,
     "bigcodebench_std": 0.494888,
+    "bigcodebench_total_samples": 1140,
     "musr_accuracy": null,
-    "musr_stderr": null
+    "musr_stderr": null,
+    "musr_total_samples": null
   },
   {
     "model": "Qwen3.6-36B-A3B-MTP",
@@ -534,10 +558,13 @@
     "bfcl_sql_acc": null,
     "bfcl_sql_sterr": null,
     "bfcl_stderr": null,
+    "bfcl_total_samples": null,
     "bigcodebench_mean": 0.596491,
     "bigcodebench_std": 0.490816,
+    "bigcodebench_total_samples": 1140,
     "musr_accuracy": null,
-    "musr_stderr": null
+    "musr_stderr": null,
+    "musr_total_samples": null
   },
   {
     "model": "Qwen3.6-36B-A3B-MTP",
@@ -594,10 +621,13 @@
     "bfcl_sql_acc": null,
     "bfcl_sql_sterr": null,
     "bfcl_stderr": null,
+    "bfcl_total_samples": null,
     "bigcodebench_mean": 0.594737,
     "bigcodebench_std": 0.491158,
+    "bigcodebench_total_samples": 1140,
     "musr_accuracy": null,
-    "musr_stderr": null
+    "musr_stderr": null,
+    "musr_total_samples": null
   },
   {
     "model": "Qwen3.6-36B-A3B-MTP",
@@ -654,9 +684,12 @@
     "bfcl_sql_acc": null,
     "bfcl_sql_sterr": null,
     "bfcl_stderr": null,
+    "bfcl_total_samples": null,
     "bigcodebench_mean": 0.591228,
     "bigcodebench_std": 0.491823,
+    "bigcodebench_total_samples": 1140,
     "musr_accuracy": null,
-    "musr_stderr": null
+    "musr_stderr": null,
+    "musr_total_samples": null
   }
 ]

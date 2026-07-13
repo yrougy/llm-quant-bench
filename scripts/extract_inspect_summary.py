@@ -167,6 +167,11 @@ def build_summaries(eval_files: list[tuple[Path, str]]) -> dict:
             scores = extract_scores(header)
             entry["scores"].update(scores)
 
+            # Nombre d'échantillons propre à cette task — nécessaire pour
+            # convertir un std par échantillon en erreur-type (cf. build.py).
+            n_task = header.get("results", {}).get("total_samples", 0)
+            entry["scores"][f"{task}_total_samples"] = n_task
+
             stats = header.get("stats", {})
             started = stats.get("started_at", "")
             completed = stats.get("completed_at", "")

@@ -200,8 +200,12 @@ def extract_model_data(summary: list, bench_keys: list, quant_order: list) -> di
                 elif val is not None and canonical.endswith("_stderr"):
                     # Per-sample std (e.g. bigcodebench_std) must be converted
                     # to a standard error; inspect_ai *_stderr metrics already are.
-                    if json_field.endswith("_std") and n_samples > 1:
-                        val = val / math.sqrt(n_samples)
+                    # Use the sample count of the task itself — top-level
+                    # total_samples belongs to whichever task ran last.
+                    if json_field.endswith("_std"):
+                        task_n = entry.get(json_field[:-len("_std")] + "_total_samples") or n_samples
+                        if task_n > 1:
+                            val = val / math.sqrt(task_n)
                     val = round(val * 100, 2)
                 row[canonical] = val
 

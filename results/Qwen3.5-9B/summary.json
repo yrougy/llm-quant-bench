@@ -54,10 +54,13 @@
     "bfcl_sql_acc": null,
     "bfcl_sql_sterr": null,
     "bfcl_stderr": null,
+    "bfcl_total_samples": null,
     "bigcodebench_mean": 0.485088,
     "bigcodebench_std": 0.499997,
+    "bigcodebench_total_samples": 1140,
     "musr_accuracy": null,
-    "musr_stderr": null
+    "musr_stderr": null,
+    "musr_total_samples": null
   },
   {
     "model": "Qwen3.5-9B",
@@ -114,10 +117,13 @@
     "bfcl_sql_acc": null,
     "bfcl_sql_sterr": null,
     "bfcl_stderr": null,
+    "bfcl_total_samples": null,
     "bigcodebench_mean": 0.457018,
     "bigcodebench_std": 0.498368,
+    "bigcodebench_total_samples": 1140,
     "musr_accuracy": null,
-    "musr_stderr": null
+    "musr_stderr": null,
+    "musr_total_samples": null
   },
   {
     "model": "Qwen3.5-9B",
@@ -174,10 +180,13 @@
     "bfcl_sql_acc": null,
     "bfcl_sql_sterr": null,
     "bfcl_stderr": null,
+    "bfcl_total_samples": null,
     "bigcodebench_mean": 0.434211,
     "bigcodebench_std": 0.49587,
+    "bigcodebench_total_samples": 1140,
     "musr_accuracy": null,
-    "musr_stderr": null
+    "musr_stderr": null,
+    "musr_total_samples": null
   },
   {
     "model": "Qwen3.5-9B",
@@ -234,10 +243,13 @@
     "bfcl_sql_acc": null,
     "bfcl_sql_sterr": null,
     "bfcl_stderr": null,
+    "bfcl_total_samples": null,
     "bigcodebench_mean": 0.37193,
     "bigcodebench_std": 0.483532,
+    "bigcodebench_total_samples": 1140,
     "musr_accuracy": null,
-    "musr_stderr": null
+    "musr_stderr": null,
+    "musr_total_samples": null
   },
   {
     "model": "Qwen3.5-9B",
@@ -294,10 +306,13 @@
     "bfcl_sql_acc": null,
     "bfcl_sql_sterr": null,
     "bfcl_stderr": null,
+    "bfcl_total_samples": null,
     "bigcodebench_mean": 0.451754,
     "bigcodebench_std": 0.497885,
+    "bigcodebench_total_samples": 1140,
     "musr_accuracy": null,
-    "musr_stderr": null
+    "musr_stderr": null,
+    "musr_total_samples": null
   },
   {
     "model": "Qwen3.5-9B",
@@ -354,10 +369,13 @@
     "bfcl_sql_acc": null,
     "bfcl_sql_sterr": null,
     "bfcl_stderr": null,
+    "bfcl_total_samples": null,
     "bigcodebench_mean": 0.485965,
     "bigcodebench_std": 0.500022,
+    "bigcodebench_total_samples": 1140,
     "musr_accuracy": null,
-    "musr_stderr": null
+    "musr_stderr": null,
+    "musr_total_samples": null
   },
   {
     "model": "Qwen3.5-9B",
@@ -414,10 +432,13 @@
     "bfcl_sql_acc": null,
     "bfcl_sql_sterr": null,
     "bfcl_stderr": null,
+    "bfcl_total_samples": null,
     "bigcodebench_mean": 0.478947,
     "bigcodebench_std": 0.499776,
+    "bigcodebench_total_samples": 1140,
     "musr_accuracy": null,
-    "musr_stderr": null
+    "musr_stderr": null,
+    "musr_total_samples": null
   },
   {
     "model": "Qwen3.5-9B",
@@ -474,10 +495,13 @@
     "bfcl_sql_acc": null,
     "bfcl_sql_sterr": null,
     "bfcl_stderr": null,
+    "bfcl_total_samples": null,
     "bigcodebench_mean": 0.488596,
     "bigcodebench_std": 0.500089,
+    "bigcodebench_total_samples": 1140,
     "musr_accuracy": null,
-    "musr_stderr": null
+    "musr_stderr": null,
+    "musr_total_samples": null
   },
   {
     "model": "Qwen3.5-9B",
@@ -534,10 +558,13 @@
     "bfcl_sql_acc": null,
     "bfcl_sql_sterr": null,
     "bfcl_stderr": null,
+    "bfcl_total_samples": null,
     "bigcodebench_mean": 0.480702,
     "bigcodebench_std": 0.499847,
+    "bigcodebench_total_samples": 1140,
     "musr_accuracy": null,
-    "musr_stderr": null
+    "musr_stderr": null,
+    "musr_total_samples": null
   },
   {
     "model": "Qwen3.5-9B",
@@ -594,10 +621,13 @@
     "bfcl_sql_acc": null,
     "bfcl_sql_sterr": null,
     "bfcl_stderr": null,
+    "bfcl_total_samples": null,
     "bigcodebench_mean": 0.483333,
     "bigcodebench_std": 0.499941,
+    "bigcodebench_total_samples": 1140,
     "musr_accuracy": null,
-    "musr_stderr": null
+    "musr_stderr": null,
+    "musr_total_samples": null
   },
   {
     "model": "Qwen3.5-9B",
@@ -654,10 +684,13 @@
     "bfcl_sql_acc": null,
     "bfcl_sql_sterr": null,
     "bfcl_stderr": null,
+    "bfcl_total_samples": null,
     "bigcodebench_mean": 0.482456,
     "bigcodebench_std": 0.499911,
+    "bigcodebench_total_samples": 1140,
     "musr_accuracy": null,
-    "musr_stderr": null
+    "musr_stderr": null,
+    "musr_total_samples": null
   },
   {
     "model": "Qwen3.5-9B",
@@ -714,10 +747,13 @@
     "bfcl_sql_acc": null,
     "bfcl_sql_sterr": null,
     "bfcl_stderr": null,
+    "bfcl_total_samples": null,
     "bigcodebench_mean": 0.494737,
     "bigcodebench_std": 0.500192,
+    "bigcodebench_total_samples": 1140,
     "musr_accuracy": null,
-    "musr_stderr": null
+    "musr_stderr": null,
+    "musr_total_samples": null
   },
   {
     "model": "Qwen3.5-9B",
@@ -774,10 +810,13 @@
     "bfcl_sql_acc": null,
     "bfcl_sql_sterr": null,
     "bfcl_stderr": null,
+    "bfcl_total_samples": null,
     "bigcodebench_mean": 0.314035,
     "bigcodebench_std": 0.464334,
+    "bigcodebench_total_samples": 1140,
     "musr_accuracy": null,
-    "musr_stderr": null
+    "musr_stderr": null,
+    "musr_total_samples": null
   },
   {
     "model": "Qwen3.5-9B",
@@ -834,10 +873,13 @@
     "bfcl_sql_acc": null,
     "bfcl_sql_sterr": null,
     "bfcl_stderr": null,
+    "bfcl_total_samples": null,
     "bigcodebench_mean": 0.071053,
     "bigcodebench_std": 0.257025,
+    "bigcodebench_total_samples": 1140,
     "musr_accuracy": null,
-    "musr_stderr": null
+    "musr_stderr": null,
+    "musr_total_samples": null
   },
   {
     "model": "Qwen3.5-9B",
@@ -894,10 +936,13 @@
     "bfcl_sql_acc": null,
     "bfcl_sql_sterr": null,
     "bfcl_stderr": null,
+    "bfcl_total_samples": null,
     "bigcodebench_mean": 0.389474,
     "bigcodebench_std": 0.487845,
+    "bigcodebench_total_samples": 1140,
     "musr_accuracy": null,
-    "musr_stderr": null
+    "musr_stderr": null,
+    "musr_total_samples": null
   },
   {
     "model": "Qwen3.5-9B",
@@ -954,10 +999,13 @@
     "bfcl_sql_acc": null,
     "bfcl_sql_sterr": null,
     "bfcl_stderr": null,
+    "bfcl_total_samples": null,
     "bigcodebench_mean": 0.296491,
     "bigcodebench_std": 0.456911,
+    "bigcodebench_total_samples": 1140,
     "musr_accuracy": null,
-    "musr_stderr": null
+    "musr_stderr": null,
+    "musr_total_samples": null
   },
   {
     "model": "Qwen3.5-9B",
@@ -1014,10 +1062,13 @@
     "bfcl_sql_acc": null,
     "bfcl_sql_sterr": null,
     "bfcl_stderr": null,
+    "bfcl_total_samples": null,
     "bigcodebench_mean": 0.470175,
     "bigcodebench_std": 0.499329,
+    "bigcodebench_total_samples": 1140,
     "musr_accuracy": null,
-    "musr_stderr": null
+    "musr_stderr": null,
+    "musr_total_samples": null
   },
   {
     "model": "Qwen3.5-9B",
@@ -1074,10 +1125,13 @@
     "bfcl_sql_acc": null,
     "bfcl_sql_sterr": null,
     "bfcl_stderr": null,
+    "bfcl_total_samples": null,
     "bigcodebench_mean": 0.495614,
     "bigcodebench_std": 0.5002,
+    "bigcodebench_total_samples": 1140,
     "musr_accuracy": null,
-    "musr_stderr": null
+    "musr_stderr": null,
+    "musr_total_samples": null
   },
   {
     "model": "Qwen3.5-9B",
@@ -1134,10 +1188,13 @@
     "bfcl_sql_acc": null,
     "bfcl_sql_sterr": null,
     "bfcl_stderr": null,
+    "bfcl_total_samples": null,
     "bigcodebench_mean": 0.476316,
     "bigcodebench_std": 0.499658,
+    "bigcodebench_total_samples": 1140,
     "musr_accuracy": null,
-    "musr_stderr": null
+    "musr_stderr": null,
+    "musr_total_samples": null
   },
   {
     "model": "Qwen3.5-9B",
@@ -1194,10 +1251,13 @@
     "bfcl_sql_acc": null,
     "bfcl_sql_sterr": null,
     "bfcl_stderr": null,
+    "bfcl_total_samples": null,
     "bigcodebench_mean": 0.484211,
     "bigcodebench_std": 0.49997,
+    "bigcodebench_total_samples": 1140,
     "musr_accuracy": null,
-    "musr_stderr": null
+    "musr_stderr": null,
+    "musr_total_samples": null
   },
   {
     "model": "Qwen3.5-9B",
@@ -1254,9 +1314,12 @@
     "bfcl_sql_acc": null,
     "bfcl_sql_sterr": null,
     "bfcl_stderr": null,
+    "bfcl_total_samples": null,
     "bigcodebench_mean": 0.480702,
     "bigcodebench_std": 0.499847,
+    "bigcodebench_total_samples": 1140,
     "musr_accuracy": null,
-    "musr_stderr": null
+    "musr_stderr": null,
+    "musr_total_samples": null
   }
 ]

@@ -54,10 +54,13 @@
     "bfcl_sql_acc": 0.125,
     "bfcl_sql_sterr": 0.085391,
     "bfcl_stderr": 0.014387,
+    "bfcl_total_samples": 1000,
     "bigcodebench_mean": null,
     "bigcodebench_std": null,
+    "bigcodebench_total_samples": null,
     "musr_accuracy": 0.672,
-    "musr_stderr": 0.029752
+    "musr_stderr": 0.029752,
+    "musr_total_samples": 250
   },
   {
     "model": "Qwen3.6-27B-MTP",
@@ -114,10 +117,13 @@
     "bfcl_sql_acc": 0.125,
     "bfcl_sql_sterr": 0.085391,
     "bfcl_stderr": 0.014298,
+    "bfcl_total_samples": 1000,
     "bigcodebench_mean": 0.618421,
     "bigcodebench_std": 0.485987,
+    "bigcodebench_total_samples": 1140,
     "musr_accuracy": 0.656,
-    "musr_stderr": 0.030105
+    "musr_stderr": 0.030105,
+    "musr_total_samples": 250
   },
   {
     "model": "Qwen3.6-27B-MTP",
@@ -174,10 +180,13 @@
     "bfcl_sql_acc": 0.125,
     "bfcl_sql_sterr": 0.085391,
     "bfcl_stderr": 0.014074,
+    "bfcl_total_samples": 1000,
     "bigcodebench_mean": 0.610526,
     "bigcodebench_std": 0.487845,
+    "bigcodebench_total_samples": 1140,
     "musr_accuracy": 0.636,
-    "musr_stderr": 0.030492
+    "musr_stderr": 0.030492,
+    "musr_total_samples": 250
   },
   {
     "model": "Qwen3.6-27B-MTP",
@@ -234,10 +243,13 @@
     "bfcl_sql_acc": 0.125,
     "bfcl_sql_sterr": 0.085391,
     "bfcl_stderr": 0.014398,
+    "bfcl_total_samples": 1000,
     "bigcodebench_mean": 0.6,
     "bigcodebench_std": 0.490113,
+    "bigcodebench_total_samples": 1140,
     "musr_accuracy": 0.68,
-    "musr_stderr": 0.029562
+    "musr_stderr": 0.029562,
+    "musr_total_samples": 250
   },
   {
     "model": "Qwen3.6-27B-MTP",
@@ -294,10 +306,13 @@
     "bfcl_sql_acc": 0.125,
     "bfcl_sql_sterr": 0.085391,
     "bfcl_stderr": 0.014515,
+    "bfcl_total_samples": 1000,
     "bigcodebench_mean": 0.588596,
     "bigcodebench_std": 0.492304,
+    "bigcodebench_total_samples": 1140,
     "musr_accuracy": 0.644,
-    "musr_stderr": 0.030344
+    "musr_stderr": 0.030344,
+    "musr_total_samples": 250
   },
   {
     "model": "Qwen3.6-27B-MTP",
@@ -354,10 +369,13 @@
     "bfcl_sql_acc": 0.125,
     "bfcl_sql_sterr": 0.085391,
     "bfcl_stderr": 0.01423,
+    "bfcl_total_samples": 1000,
     "bigcodebench_mean": 0.608772,
     "bigcodebench_std": 0.488239,
+    "bigcodebench_total_samples": 1140,
     "musr_accuracy": 0.704,
-    "musr_stderr": 0.028929
+    "musr_stderr": 0.028929,
+    "musr_total_samples": 250
   },
   {
     "model": "Qwen3.6-27B-MTP",
@@ -414,10 +432,13 @@
     "bfcl_sql_acc": 0.125,
     "bfcl_sql_sterr": 0.085391,
     "bfcl_stderr": 0.014235,
+    "bfcl_total_samples": 1000,
     "bigcodebench_mean": 0.600877,
     "bigcodebench_std": 0.489933,
+    "bigcodebench_total_samples": 1140,
     "musr_accuracy": 0.676,
-    "musr_stderr": 0.029658
+    "musr_stderr": 0.029658,
+    "musr_total_samples": 250
   },
   {
     "model": "Qwen3.6-27B-MTP",
@@ -474,10 +495,13 @@
     "bfcl_sql_acc": 0.125,
     "bfcl_sql_sterr": 0.085391,
     "bfcl_stderr": 0.01438,
+    "bfcl_total_samples": 1000,
     "bigcodebench_mean": 0.614912,
     "bigcodebench_std": 0.48683,
+    "bigcodebench_total_samples": 1140,
     "musr_accuracy": 0.668,
-    "musr_stderr": 0.029844
+    "musr_stderr": 0.029844,
+    "musr_total_samples": 250
   },
   {
     "model": "Qwen3.6-27B-MTP",
@@ -534,10 +558,76 @@
     "bfcl_sql_acc": 0.125,
     "bfcl_sql_sterr": 0.085391,
     "bfcl_stderr": 0.014264,
+    "bfcl_total_samples": 1000,
     "bigcodebench_mean": null,
     "bigcodebench_std": null,
+    "bigcodebench_total_samples": null,
     "musr_accuracy": 0.656,
-    "musr_stderr": 0.030105
+    "musr_stderr": 0.030105,
+    "musr_total_samples": 250
+  },
+  {
+    "model": "Qwen3.6-27B-MTP",
+    "quant": "Q5_K_S",
+    "eval_time_seconds": 6719.0,
+    "total_samples": 250,
+    "bfcl_accuracy": 0.72549,
+    "bfcl_all": 0.72549,
+    "bfcl_all2": 0.014344,
+    "bfcl_exec_multiple_acc": 0.8125,
+    "bfcl_exec_multiple_sterr": 0.100778,
+    "bfcl_exec_parallel_acc": 0.888889,
+    "bfcl_exec_parallel_multiple_acc": 0.333333,
+    "bfcl_exec_parallel_multiple_sterr": 0.210819,
+    "bfcl_exec_parallel_sterr": 0.076222,
+    "bfcl_exec_simple_acc": 0.904762,
+    "bfcl_exec_simple_sterr": 0.065638,
+    "bfcl_irrelevance_acc": 0.833333,
+    "bfcl_irrelevance_sterr": 0.054361,
+    "bfcl_live_irrelevance_acc": 0.698413,
+    "bfcl_live_irrelevance_sterr": 0.033472,
+    "bfcl_live_multiple_acc": 0.762376,
+    "bfcl_live_multiple_sterr": 0.030021,
+    "bfcl_live_parallel_acc": 0.75,
+    "bfcl_live_parallel_multiple_acc": 0.8,
+    "bfcl_live_parallel_multiple_sterr": 0.2,
+    "bfcl_live_parallel_sterr": 0.25,
+    "bfcl_live_relevance_acc": 1.0,
+    "bfcl_live_relevance_sterr": 0.0,
+    "bfcl_live_simple_acc": 0.795918,
+    "bfcl_live_simple_sterr": 0.058172,
+    "bfcl_multi_turn_base_acc": 0.608696,
+    "bfcl_multi_turn_base_sterr": 0.072753,
+    "bfcl_multi_turn_composite_acc": 0.037037,
+    "bfcl_multi_turn_composite_sterr": 0.037037,
+    "bfcl_multi_turn_long_context_acc": 0.558824,
+    "bfcl_multi_turn_long_context_sterr": 0.086434,
+    "bfcl_multi_turn_miss_func_acc": 0.513514,
+    "bfcl_multi_turn_miss_func_sterr": 0.083303,
+    "bfcl_multi_turn_miss_param_acc": 0.657895,
+    "bfcl_multi_turn_miss_param_sterr": 0.077993,
+    "bfcl_multiple_acc": 1.0,
+    "bfcl_multiple_sterr": 0.0,
+    "bfcl_parallel_acc": 0.821429,
+    "bfcl_parallel_multiple_acc": 0.866667,
+    "bfcl_parallel_multiple_sterr": 0.051247,
+    "bfcl_parallel_sterr": 0.073707,
+    "bfcl_simple_java_acc": 0.571429,
+    "bfcl_simple_java_sterr": 0.110657,
+    "bfcl_simple_javascript_acc": 0.375,
+    "bfcl_simple_javascript_sterr": 0.182981,
+    "bfcl_simple_python_acc": 0.985507,
+    "bfcl_simple_python_sterr": 0.014493,
+    "bfcl_sql_acc": 0.125,
+    "bfcl_sql_sterr": 0.085391,
+    "bfcl_stderr": 0.014344,
+    "bfcl_total_samples": 1000,
+    "bigcodebench_mean": null,
+    "bigcodebench_std": null,
+    "bigcodebench_total_samples": null,
+    "musr_accuracy": 0.68,
+    "musr_stderr": 0.029562,
+    "musr_total_samples": 250
   },
   {
     "model": "Qwen3.6-27B-MTP",
@@ -594,10 +684,13 @@
     "bfcl_sql_acc": null,
     "bfcl_sql_sterr": null,
     "bfcl_stderr": null,
+    "bfcl_total_samples": null,
     "bigcodebench_mean": 0.564912,
     "bigcodebench_std": 0.495986,
+    "bigcodebench_total_samples": 1140,
     "musr_accuracy": null,
-    "musr_stderr": null
+    "musr_stderr": null,
+    "musr_total_samples": null
   },
   {
     "model": "Qwen3.6-27B-MTP",
@@ -654,10 +747,13 @@
     "bfcl_sql_acc": null,
     "bfcl_sql_sterr": null,
     "bfcl_stderr": null,
+    "bfcl_total_samples": null,
     "bigcodebench_mean": 0.496491,
     "bigcodebench_std": 0.500207,
+    "bigcodebench_total_samples": 1140,
     "musr_accuracy": null,
-    "musr_stderr": null
+    "musr_stderr": null,
+    "musr_total_samples": null
   },
   {
     "model": "Qwen3.6-27B-MTP",
@@ -714,10 +810,13 @@
     "bfcl_sql_acc": null,
     "bfcl_sql_sterr": null,
     "bfcl_stderr": null,
+    "bfcl_total_samples": null,
     "bigcodebench_mean": 0.585965,
     "bigcodebench_std": 0.492771,
+    "bigcodebench_total_samples": 1140,
     "musr_accuracy": null,
-    "musr_stderr": null
+    "musr_stderr": null,
+    "musr_total_samples": null
   },
   {
     "model": "Qwen3.6-27B-MTP",
@@ -774,10 +873,13 @@
     "bfcl_sql_acc": null,
     "bfcl_sql_sterr": null,
     "bfcl_stderr": null,
+    "bfcl_total_samples": null,
     "bigcodebench_mean": 0.586842,
     "bigcodebench_std": 0.492617,
+    "bigcodebench_total_samples": 1140,
     "musr_accuracy": null,
-    "musr_stderr": null
+    "musr_stderr": null,
+    "musr_total_samples": null
   },
   {
     "model": "Qwen3.6-27B-MTP",
@@ -834,10 +936,13 @@
     "bfcl_sql_acc": null,
     "bfcl_sql_sterr": null,
     "bfcl_stderr": null,
+    "bfcl_total_samples": null,
     "bigcodebench_mean": 0.601754,
     "bigcodebench_std": 0.489751,
+    "bigcodebench_total_samples": 1140,
     "musr_accuracy": null,
-    "musr_stderr": null
+    "musr_stderr": null,
+    "musr_total_samples": null
   },
   {
     "model": "Qwen3.6-27B-MTP",
@@ -894,9 +999,12 @@
     "bfcl_sql_acc": null,
     "bfcl_sql_sterr": null,
     "bfcl_stderr": null,
+    "bfcl_total_samples": null,
     "bigcodebench_mean": 0.597368,
     "bigcodebench_std": 0.490643,
+    "bigcodebench_total_samples": 1140,
     "musr_accuracy": null,
-    "musr_stderr": null
+    "musr_stderr": null,
+    "musr_total_samples": null
   }
 ]
