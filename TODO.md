@@ -3,9 +3,8 @@
 ## Nouveaux benchmarks inspect_evals
 
 - [x] race_h → abandonné (saturé à 89% sur Ornith 9B)
-- [ ] MUSR (run Ornith Q4/Q5/Q8 en cours)
-- [ ] GPQA
-- [ ] BFCL (à tester)
+- [ ] MUSR (en cours — ok pour Qwen 3.6 27B)
+- [ ] BFCL (en cours — ok pour Qwen 3.6 27B)
 
 ## Scripts / run.sh
 
@@ -19,3 +18,7 @@
 ## Nouveaux modèles à benchmarker
 
 ### Priorité haute
+
+## Reporté
+
+- [ ] GPQA — très long à exécuter, retiré du site pour le moment (entrée commentée dans site/models.yaml)

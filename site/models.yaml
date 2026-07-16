@@ -16,10 +16,11 @@ benchmarks:
     label: "MUSR"
     color: "#ab47bc"
     color_bg: "rgba(171,71,188,0.15)"
-  gpqa:
-    label: "GPQA"
-    color: "#ffa726"
-    color_bg: "rgba(255,167,38,0.15)"
+  # gpqa désactivé pour le moment — trop long à exécuter sur le hardware actuel
+  # gpqa:
+  #   label: "GPQA"
+  #   color: "#ffa726"
+  #   color_bg: "rgba(255,167,38,0.15)"
   bfcl:
     label: "BFCL"
     color: "#66bb6a"
@@ -71,7 +72,7 @@ models:
       Remarkably flat from Q3_K_S upward: everything sits between
       <strong>59% and 62%</strong>, with IQ4_XS on top (<strong>61.8%</strong>).
       Only the 2-bit quants pay a real price — UD-IQ2_M drops to 56.5% and
-      UD-IQ2_XXS to <strong>49.6%</strong>. MUSR, GPQA and BFCL pending.
+      UD-IQ2_XXS to <strong>49.6%</strong>. MUSR and BFCL pending.
 
   qwen35_9b:
     name: "Qwen 3.5 9B Dense"
@@ -87,7 +88,7 @@ models:
       (best: UD-Q4_K_XL at <strong>49.6%</strong>, Q8_0 at 49.5%).
       Below Q3 the model collapses: UD-Q2_K_XL falls to 29.6% and UD-IQ2_XXS
       to a catastrophic <strong>7.1%</strong>. The sweet spot is
-      <strong>Q4_K_S / Q4_K_M</strong>. MUSR, GPQA and BFCL pending.
+      <strong>Q4_K_S / Q4_K_M</strong>. MUSR and BFCL pending.
 
   qwen36_35b_mtp:
     name: "Qwen 3.6 35B A3B MTP (MoE)"
@@ -100,7 +101,7 @@ models:
     takeaway: >
       BigCodeBench results (full run, inspect_ai).
       The MoE architecture shows strong resilience across the quant range.
-      MUSR, GPQA and BFCL pending.
+      MUSR and BFCL pending.
 
   ornith_9b:
     name: "Ornith 1.0 9B Dense"
@@ -116,7 +117,7 @@ models:
       and Q8_0 (<strong>49.0%</strong>) are essentially identical, with Q6_K slightly
       lower at 48.0%. BF16 reaches <strong>50.8%</strong>, confirming the quantization
       floor is reached as early as Q4_K_M for this model.
-      MUSR, GPQA and BFCL pending.
+      MUSR and BFCL pending.
 
 # Comparison chart takeaways (section 3)
 compare_takeaways:
@@ -130,10 +131,11 @@ compare_takeaways:
     <strong>MUSR</strong> (multi-step narrative reasoning) was chosen because it stays
     well away from saturation on modern models while remaining fast to run.
     Results pending — first runs in progress.
-  gpqa: >
-    <strong>GPQA</strong> (graduate-level science Q&amp;A) is the hardest benchmark in the suite —
-    even frontier models are far from the ceiling, which should make it a strong discriminator
-    for the combined cost of size reduction and quantization. Results pending.
+  # gpqa désactivé pour le moment (voir benchmarks: plus haut)
+  # gpqa: >
+  #   <strong>GPQA</strong> (graduate-level science Q&amp;A) is the hardest benchmark in the suite —
+  #   even frontier models are far from the ceiling, which should make it a strong discriminator
+  #   for the combined cost of size reduction and quantization. Results pending.
   bfcl: >
     <strong>BFCL</strong> (function calling, AST-matched) measures the practical agentic
     capability most sensitive to quantization noise: generating well-formed structured tool calls.

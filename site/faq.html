@@ -132,11 +132,10 @@ footer .links { display: flex; justify-content: center; gap: 2rem; margin-bottom
   <details>
     <summary>Why these specific benchmarks?</summary>
     <div class="inner">
-      <p>The v2 suite uses four benchmarks chosen for three criteria: <strong>non-saturated</strong> on modern models, <strong>deterministic scoring</strong> (no LLM judge), and <strong>fast enough to run systematically</strong> on consumer hardware.</p>
+      <p>The v2 suite uses three benchmarks chosen for three criteria: <strong>non-saturated</strong> on modern models, <strong>deterministic scoring</strong> (no LLM judge), and <strong>fast enough to run systematically</strong> on consumer hardware.</p>
       <p>
         <strong>BigCodeBench</strong> — diverse code generation across real-world libraries; scored by unit test execution. Much harder than HumanEval.<br>
         <strong>MUSR</strong> — multi-step soft reasoning on long narratives (mystery, object tracking, team allocation). MCQ format. 9B models score ~60% — not saturated.<br>
-        <strong>GPQA</strong> — graduate-level science Q&amp;A (chemistry, physics, biology). Hard enough that even frontier models are far from the ceiling.<br>
         <strong>BFCL</strong> — Berkeley Function-Calling Leaderboard; tests structured tool-call generation, scored by AST matching.
       </p>
       <p>Earlier benchmarks (ARC-Challenge, IFEval, GSM8K, HumanEval) were dropped because they <strong>saturate on current models</strong> — scores cluster so close to the ceiling that no meaningful conclusion can be drawn about quantization impact. BBEH-mini was also tried but takes too long per model on consumer hardware to be practical for systematic quant comparisons.</p>
