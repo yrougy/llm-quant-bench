@@ -3,8 +3,8 @@
 ## Nouveaux benchmarks inspect_evals
 
 - [x] race_h → abandonné (saturé à 89% sur Ornith 9B)
-- [ ] MUSR (en cours — ok pour Qwen 3.6 27B)
-- [ ] BFCL (en cours — ok pour Qwen 3.6 27B)
+- [x] MUSR 
+- [x] BFCL 
 
 ## Scripts / run.sh
 
