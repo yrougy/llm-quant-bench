@@ -68,8 +68,11 @@ models:
     compare_color: "#42a5f5"
     compare_style: "dashed"
     takeaway: >
-      Full run across all three benchmarks (inspect_ai).
-      BigCodeBench is remarkably flat from Q3_K_S upward: everything sits between
+      MUSR and BFCL cover the full quant range (inspect_ai). BigCodeBench is
+      missing for IQ4_NL, Q5_K_M, Q5_K_S and UD-Q5_K_XL — these higher-precision
+      quants didn't fit in VRAM alongside BigCodeBench's sandboxed execution on
+      this hardware (see the FAQ).
+      Where it was run, BigCodeBench is remarkably flat from Q3_K_S upward: everything sits between
       <strong>59% and 62%</strong>, with IQ4_XS on top (<strong>61.8%</strong>).
       Only the 2-bit quants pay a real price on code — UD-IQ2_M drops to 56.5% and
       UD-IQ2_XXS to <strong>49.6%</strong>. MUSR (63.6–70.4%) and BFCL (68.2–74.3%)
@@ -105,7 +108,7 @@ models:
     compare_color: "#80cbc4"
     compare_style: "dotted"
     takeaway: >
-      Full run across all three benchmarks (inspect_ai) confirms the MoE
+      Across most of this quant range (inspect_ai), results confirm the MoE
       architecture's resilience. BigCodeBench barely moves — <strong>57.3% to
       59.6%</strong> across the entire range, including the most aggressive
       UD-IQ2_XXS. MUSR stays in a <strong>67.6–74.4%</strong> band with no clear

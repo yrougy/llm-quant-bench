@@ -148,6 +148,7 @@ footer .links { display: flex; justify-content: center; gap: 2rem; margin-bottom
       <p>The horizontal axis represents the quantization level, from most compressed (left) to least compressed (right). The vertical axis shows the benchmark score as a percentage.</p>
       <p>A steep drop towards the left means the model handles aggressive quantization poorly. A flat line indicates strong resilience.</p>
       <p><strong>Watch out for sawtooth patterns</strong> — a quant scoring a couple of points above or below its neighbors is often just noise, not a real effect of that specific quantization scheme. Each benchmark has a margin of error (95% confidence interval, shown as ± in the data table); differences smaller than the overlap between two quants' intervals shouldn't be read as meaningful. The filled vs. hollow dots on the charts mark whether a point falls inside or outside this "tunnel" of quants that are statistically indistinguishable from each other.</p>
+      <p>A benchmark is occasionally missing for a quant near the top of the range (Q5_K and up) — most often BigCodeBench, whose sandboxed code execution needs extra VRAM headroom alongside the model itself, which this consumer hardware doesn't always have at the highest precisions. The line chart connects across these gaps, so a missing point isn't visually obvious; check the data table for the full picture.</p>
       <p>The table below each chart shows exact scores and the GGUF file size fetched from Hugging Face at build time.</p>
     </div>
   </details>
