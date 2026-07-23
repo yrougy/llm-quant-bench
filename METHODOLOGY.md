@@ -84,7 +84,7 @@ The four benchmarks were chosen on three criteria: **non-saturated** on modern m
 
 ### Current status
 
-BigCodeBench runs are complete for the published models; MUSR, GPQA and BFCL runs are in progress and will be added as they complete.
+BigCodeBench, MUSR and BFCL runs are complete for the published models. GPQA has been dropped from the current rotation — it takes too long to run on this hardware — and its entry is commented out in `site/models.yaml`; see [TODO.md](TODO.md).
 
 ## Why the v1 suite was dropped
 

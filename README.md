@@ -16,8 +16,9 @@ All evaluations run through [inspect_ai](https://github.com/UKGovernmentBEIS/ins
 |-----------|-----------------|---------|
 | **BigCodeBench** | Code generation across realistic programming tasks | Unit tests |
 | **MUSR** | Multi-step soft reasoning on narratives | MCQ accuracy |
-| **GPQA** | Graduate-level scientific reasoning | MCQ accuracy |
 | **BFCL** | Function calling / tool use | AST matching |
+
+GPQA was tried and dropped for now — too slow to run systematically across quants on this hardware (see [TODO.md](TODO.md)).
 
 ## Hardware
 

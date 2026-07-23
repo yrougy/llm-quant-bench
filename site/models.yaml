@@ -68,11 +68,13 @@ models:
     compare_color: "#42a5f5"
     compare_style: "dashed"
     takeaway: >
-      BigCodeBench results (full run, inspect_ai).
-      Remarkably flat from Q3_K_S upward: everything sits between
+      Full run across all three benchmarks (inspect_ai).
+      BigCodeBench is remarkably flat from Q3_K_S upward: everything sits between
       <strong>59% and 62%</strong>, with IQ4_XS on top (<strong>61.8%</strong>).
-      Only the 2-bit quants pay a real price — UD-IQ2_M drops to 56.5% and
-      UD-IQ2_XXS to <strong>49.6%</strong>. MUSR and BFCL pending.
+      Only the 2-bit quants pay a real price on code — UD-IQ2_M drops to 56.5% and
+      UD-IQ2_XXS to <strong>49.6%</strong>. MUSR (63.6–70.4%) and BFCL (68.2–74.3%)
+      stay essentially flat across the <em>whole</em> range, including the
+      2-bit quants — differences there are within noise on 250 samples.
 
   qwen35_9b:
     name: "Qwen 3.5 9B Dense"
@@ -83,12 +85,16 @@ models:
     compare_color: "#ffcc80"
     compare_style: "dashed"
     takeaway: >
-      BigCodeBench results (full run, inspect_ai).
-      Scores plateau around <strong>48–50%</strong> from Q4 upward
-      (best: UD-Q4_K_XL at <strong>49.6%</strong>, Q8_0 at 49.5%).
-      Below Q3 the model collapses: UD-Q2_K_XL falls to 29.6% and UD-IQ2_XXS
-      to a catastrophic <strong>7.1%</strong>. The sweet spot is
-      <strong>Q4_K_S / Q4_K_M</strong>. MUSR and BFCL pending.
+      Full run across all three benchmarks (inspect_ai).
+      BigCodeBench plateaus around <strong>48–50%</strong> from Q4 upward
+      (best: UD-Q4_K_XL at <strong>49.6%</strong>, Q8_0 at 49.5%) then collapses
+      below Q3: UD-Q2_K_XL falls to 29.6% and UD-IQ2_XXS to a catastrophic
+      <strong>7.1%</strong>. MUSR and BFCL degrade far more gently at the same
+      quant levels — both only fall to <strong>~50–55%</strong> at UD-IQ2_XXS,
+      nowhere near BigCodeBench's collapse. This is the clearest case in the
+      dataset for <strong>code generation being much more fragile to aggressive
+      quantization</strong> than MCQ reasoning or tool calling. The sweet spot
+      for coding remains <strong>Q4_K_S / Q4_K_M</strong>.
 
   qwen36_35b_mtp:
     name: "Qwen 3.6 35B A3B MTP (MoE)"
@@ -99,9 +105,14 @@ models:
     compare_color: "#80cbc4"
     compare_style: "dotted"
     takeaway: >
-      BigCodeBench results (full run, inspect_ai).
-      The MoE architecture shows strong resilience across the quant range.
-      MUSR and BFCL pending.
+      Full run across all three benchmarks (inspect_ai) confirms the MoE
+      architecture's resilience. BigCodeBench barely moves — <strong>57.3% to
+      59.6%</strong> across the entire range, including the most aggressive
+      UD-IQ2_XXS. MUSR stays in a <strong>67.6–74.4%</strong> band with no clear
+      trend by quant level. BFCL is the only benchmark showing a real dip at the
+      bottom of the range — UD-IQ1_M drops to <strong>58.9%</strong> versus
+      ~65–70% everywhere else — but even that is far milder than the dense
+      models' BigCodeBench cliff.
 
   ornith_9b:
     name: "Ornith 1.0 9B Dense"
@@ -112,12 +123,14 @@ models:
     compare_color: "#ce93d8"
     compare_style: "dashed"
     takeaway: >
-      BigCodeBench results (full run, inspect_ai).
-      Scores are remarkably stable across quants — Q4_K_M (<strong>49.2%</strong>)
-      and Q8_0 (<strong>49.0%</strong>) are essentially identical, with Q6_K slightly
-      lower at 48.0%. BF16 reaches <strong>50.8%</strong>, confirming the quantization
-      floor is reached as early as Q4_K_M for this model.
-      MUSR and BFCL pending.
+      Only Q4_K_M through BF16 have been benchmarked for this model so far —
+      no Q3-and-below quants are available yet, so this does not locate a
+      quantization floor. Within that range, all three benchmarks sit flat
+      within noise: BigCodeBench <strong>48.0–50.8%</strong>, MUSR
+      <strong>59.2–65.6%</strong>, BFCL <strong>66.3–67.7%</strong>. Q4_K_M
+      already performs indistinguishably from BF16 here, but whether lower
+      quants hold up as well as they do for the other three models is still
+      untested.
 
 # Comparison chart takeaways (section 3)
 compare_takeaways:
@@ -129,8 +142,11 @@ compare_takeaways:
     significant drops on coding tasks.
   musr: >
     <strong>MUSR</strong> (multi-step narrative reasoning) was chosen because it stays
-    well away from saturation on modern models while remaining fast to run.
-    Results pending — first runs in progress.
+    well away from saturation on modern models while remaining fast to run. It turns out
+    to be far more forgiving of quantization than BigCodeBench — even at 2-bit (and 1-bit
+    for the MoE model), scores stay within a few points of the high-precision baseline.
+    Useful for confirming a model still reasons coherently, but it won't catch the kind
+    of collapse that shows up in code generation.
   # gpqa désactivé pour le moment (voir benchmarks: plus haut)
   # gpqa: >
   #   <strong>GPQA</strong> (graduate-level science Q&amp;A) is the hardest benchmark in the suite —
@@ -138,5 +154,8 @@ compare_takeaways:
   #   for the combined cost of size reduction and quantization. Results pending.
   bfcl: >
     <strong>BFCL</strong> (function calling, AST-matched) measures the practical agentic
-    capability most sensitive to quantization noise: generating well-formed structured tool calls.
-    Results pending — first runs in progress.
+    capability of generating well-formed structured tool calls. It sits between the two
+    extremes: mostly resilient, with a real but moderate drop only at the most aggressive
+    quants (e.g. UD-IQ2_XXS on Qwen 3.5 9B falls to ~50%, UD-IQ1_M on the MoE model to ~59%).
+    Structured tool-call generation degrades more than MCQ reasoning but far less than
+    executable code.
