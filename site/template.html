@@ -796,19 +796,25 @@ function getCompLabels(benchKey) {
     if (!data || data.length === 0) continue;
     for (let i = 0; i < model.quants.length; i++) {
       if (data[i] !== null && data[i] !== undefined) {
-        labelSet.add(model.quants[i].replace(/^UD-/, ''));
+        labelSet.add(model.quants[i]);
       }
     }
   }
-  const known = QUANT_ORDER.filter(q => labelSet.has(q));
-  const unknown = [...labelSet].filter(q => !QUANT_ORDER.includes(q)).sort();
+  // Plain and UD- quants at the same nominal level are kept as separate
+  // x-axis entries (adjacent) rather than merged — Unsloth Dynamic quants
+  // can score meaningfully differently from a standard quant of the same name.
+  const known = [];
+  for (const q of QUANT_ORDER) {
+    if (labelSet.has(q)) known.push(q);
+    if (labelSet.has('UD-' + q)) known.push('UD-' + q);
+  }
+  const knownSet = new Set(known);
+  const unknown = [...labelSet].filter(q => !knownSet.has(q)).sort();
   return [...known, ...unknown];
 }
 
 function idxAtQuant(m, quant) {
-  let idx = m.quants.indexOf(quant);
-  if (idx < 0) idx = m.quants.indexOf('UD-' + quant);
-  return idx;
+  return m.quants.indexOf(quant);
 }
 
 function valAtQuant(modelKey, benchKey, quant) {
