@@ -172,9 +172,12 @@ write_run_metadata() {
 
     mkdir -p "$DONE_MARKER_DIR"
 
-    jq -n \
-        --arg  model_file      "$model_file" \
-        --arg  hf_repo         "$HF_REPO" \
+    # Each call to write_run_metadata is one benchmark invocation (e.g. one
+    # run2.sh pass). The same model_file gets benchmarked again later when new
+    # tasks are enabled in the config (e.g. BigCodeBench first, MUSR/BFCL
+    # added weeks after) — so run history is *appended*, never overwritten.
+    local new_entry
+    new_entry=$(jq -n \
         --arg  date            "$date_iso" \
         --argjson duration     "$duration" \
         --argjson exit_status  "$bench_exit_status" \
@@ -185,8 +188,6 @@ write_run_metadata() {
         --argjson ls_params    "$(jq '.llama_server' "$CONFIG_FILE")" \
         --argjson inspect_cfg  "$(jq '.inspect'      "$CONFIG_FILE")" \
         '{
-            model_file:       $model_file,
-            hf_repo:          $hf_repo,
             date:             $date,
             duration_seconds: $duration,
             exit_status:      $exit_status,
@@ -197,7 +198,26 @@ write_run_metadata() {
             llama_server: ($ls_params + { version: $ls_version }),
             inspect:      $inspect_cfg,
             config_file:  $config_file
-        }' > "$meta_file"
+        }')
+
+    if [[ -f "$meta_file" ]] && jq -e '.runs' "$meta_file" >/dev/null 2>&1; then
+        # Existing history file: append this run.
+        jq --argjson entry "$new_entry" '.runs += [$entry]' "$meta_file" \
+            > "${meta_file}.tmp" && mv "${meta_file}.tmp" "$meta_file"
+    elif [[ -f "$meta_file" ]]; then
+        # Legacy flat-format file from before history tracking: migrate its
+        # single run into runs[0], then append the new one.
+        jq --argjson entry "$new_entry" \
+            '{model_file, hf_repo, runs: [(del(.model_file, .hf_repo)), $entry]}' \
+            "$meta_file" > "${meta_file}.tmp" && mv "${meta_file}.tmp" "$meta_file"
+    else
+        jq -n \
+            --arg model_file "$model_file" \
+            --arg hf_repo    "$HF_REPO" \
+            --argjson entry  "$new_entry" \
+            '{model_file: $model_file, hf_repo: $hf_repo, runs: [$entry]}' \
+            > "$meta_file"
+    fi
 
     echo "[INFO] Run metadata: $meta_file"
 }
