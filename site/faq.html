@@ -136,7 +136,7 @@ footer .links { display: flex; justify-content: center; gap: 2rem; margin-bottom
       <p>
         <strong>BigCodeBench</strong> — diverse code generation across real-world libraries; scored by unit test execution. Much harder than HumanEval.<br>
         <strong>MUSR</strong> — multi-step soft reasoning on long narratives (mystery, object tracking, team allocation). MCQ format. 9B models score ~60% — not saturated.<br>
-        <strong>BFCL</strong> — Berkeley Function-Calling Leaderboard; tests structured tool-call generation, scored by AST matching.
+        <strong>BFCL</strong> — Berkeley Function-Calling Leaderboard; tests structured tool-call generation, scored by AST matching. Run on a fixed 1000-sample subset (seed 42), not the full benchmark.
       </p>
       <p>Earlier benchmarks (ARC-Challenge, IFEval, GSM8K, HumanEval) were dropped because they <strong>saturate on current models</strong> — scores cluster so close to the ceiling that no meaningful conclusion can be drawn about quantization impact. BBEH-mini was also tried but takes too long per model on consumer hardware to be practical for systematic quant comparisons.</p>
     </div>

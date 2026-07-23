@@ -18,6 +18,8 @@ All evaluations run through [inspect_ai](https://github.com/UKGovernmentBEIS/ins
 | **MUSR** | Multi-step soft reasoning on narratives | MCQ accuracy |
 | **BFCL** | Function calling / tool use | AST matching |
 
+BFCL runs on a fixed 1000-sample subset (seed 42), not the full benchmark — see [METHODOLOGY.md](METHODOLOGY.md).
+
 GPQA was tried and dropped for now — too slow to run systematically across quants on this hardware (see [TODO.md](TODO.md)).
 
 ## Hardware
@@ -102,11 +104,20 @@ Copy `scripts/bench_config.json` and adapt it to your setup:
         "max_sandboxes": 1,
         "max_connections": 1,
         "time_limit": 300
+      },
+      "bfcl": {
+        "enabled": true,
+        "limit": 1000,
+        "max_sandboxes": 1,
+        "max_connections": 1,
+        "time_limit": 300
       }
     }
   }
 }
 ```
+
+`bench_config.json` also has entries for `gpqa_diamond`, `bbeh_mini`, `tau2_telecom` and `swe_bench` — disabled (`"enabled": false`) since they're not part of the current published suite. Set `enabled: true` to opt in.
 
 Key fields:
 
@@ -162,11 +173,17 @@ python scripts/extract_inspect_summary.py
 │   ├── start_bench                # Entry point: iterates over quants
 │   ├── run2.sh                    # Runs inspect_ai tasks for one model
 │   ├── extract_inspect_summary.py # .eval → results/{model}/summary.json
-│   ├── bench2md.py                # Markdown table generator
-│   └── list_quants.py             # Lists available quants from HuggingFace
+│   ├── list_quants.py             # Lists available quants from HuggingFace
+│   └── bench2md.py                # Unused — v1 (lm-evaluation-harness) leftover
 ├── results/
 │   ├── {model}/summary.json
 │   └── inspect_evals/{model}/     # Raw .eval files
+├── site/
+│   ├── models.yaml                # Editorial metadata: which models/benchmarks to show, and how
+│   ├── build.py                   # Reads results/*/summary.json + models.yaml → docs/
+│   ├── template.html              # Site page template
+│   └── faq.html                   # Standalone FAQ page
+├── docs/                          # Generated site (output of site/build.py)
 ├── METHODOLOGY.md
 ├── REPRODUCE.md
 ├── CAVEATS.md

@@ -158,4 +158,5 @@ compare_takeaways:
     extremes: mostly resilient, with a real but moderate drop only at the most aggressive
     quants (e.g. UD-IQ2_XXS on Qwen 3.5 9B falls to ~50%, UD-IQ1_M on the MoE model to ~59%).
     Structured tool-call generation degrades more than MCQ reasoning but far less than
-    executable code.
+    executable code. Scores are computed on a fixed 1000-sample subset of BFCL (seed 42),
+    not the full benchmark.

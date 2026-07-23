@@ -69,11 +69,13 @@ The two harnesses differ in:
 
 **What this means in practice:** Do not compare ARC or other overlapping scores between the MTP model (inspect_ai) and the other models (lm-eval). The comparison charts in section 3 of the site only include benchmarks where the same harness was used, or where the difference is clearly labeled.
 
-## BBEH Mini: growing sample count
+## BBEH Mini: growing sample count (currently paused)
 
-The BBEH Mini results currently reflect 100 samples. This is not a fixed limit — inspect_ai supports **incremental evaluation**, meaning a run can be paused and resumed later without discarding prior work. New samples are appended to existing results as machine time becomes available.
+**Status:** `bbeh_mini` is disabled in `bench_config.json` and not part of the current published suite (see [METHODOLOGY.md](METHODOLOGY.md)) — the notes below describe an earlier experiment, not an ongoing benchmark.
 
-At the current 100-sample count:
+The BBEH Mini results reflected 100 samples when this was last run. This is not a fixed limit — inspect_ai supports **incremental evaluation**, meaning a run can be paused and resumed later without discarding prior work. New samples could be appended to existing results if this benchmark is picked back up.
+
+At the 100-sample count reached so far:
 
 - Standard error is approximately ±5%
 - Differences smaller than ~8 points should be treated as noise
