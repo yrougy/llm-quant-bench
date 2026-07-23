@@ -147,14 +147,11 @@ Already-benchmarked quants are skipped via a `<model>_done` marker file.
 
 ## Extracting results
 
-After a run, extract and aggregate:
+After a run, extract:
 
 ```bash
 # inspect_ai .eval files → results/{model}/summary.json
 python scripts/extract_inspect_summary.py
-
-# Merge all summary.json → results/all_results.{json,csv}
-python scripts/aggregate.py
 ```
 
 ## Repository structure
@@ -165,12 +162,9 @@ python scripts/aggregate.py
 │   ├── start_bench                # Entry point: iterates over quants
 │   ├── run2.sh                    # Runs inspect_ai tasks for one model
 │   ├── extract_inspect_summary.py # .eval → results/{model}/summary.json
-│   ├── aggregate.py               # Merges summaries → all_results.{json,csv}
 │   ├── bench2md.py                # Markdown table generator
 │   └── list_quants.py             # Lists available quants from HuggingFace
 ├── results/
-│   ├── all_results.csv
-│   ├── all_results.json
 │   ├── {model}/summary.json
 │   └── inspect_evals/{model}/     # Raw .eval files
 ├── METHODOLOGY.md

@@ -90,16 +90,13 @@ For each quant that hasn't been benchmarked yet, `start_bench` downloads the GGU
 
 Expect long runtimes on consumer hardware: a full BigCodeBench pass takes roughly 1.5–5 hours per quant depending on model size and GPU.
 
-## Step 6: Extract and aggregate the results
+## Step 6: Extract the results
 
 Place (or symlink) the produced `.eval` files under `results/inspect_evals/{model_family}/`, then:
 
 ```bash
 # .eval files → results/{model_family}/summary.json
 python scripts/extract_inspect_summary.py
-
-# Merge all summary.json → results/all_results.{json,csv}
-python scripts/aggregate.py
 ```
 
 ## Step 7 (optional): Rebuild the site

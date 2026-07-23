@@ -14,8 +14,6 @@ Chaque fichier .eval est un ZIP (compression Zstd) contenant header.json avec :
 
 Produit :
     - results/{model_family}/summary.json
-    - results/all_results.csv  (fusionné avec l'existant si présent)
-    - results/all_results.json (fusionné avec l'existant si présent)
 
 Usage :
     python extract_inspect_summary.py
@@ -184,7 +182,7 @@ def build_summaries(eval_files: list[tuple[Path, str]]) -> dict:
 
 
 def write_outputs(summaries: dict, output_dir: Path):
-    """Écrit les summary.json par modèle (les fichiers globaux sont gérés par aggregate.py)."""
+    """Écrit les summary.json par modèle."""
     output_dir.mkdir(parents=True, exist_ok=True)
 
     all_inspect_metrics: set = set()
@@ -223,7 +221,7 @@ def write_outputs(summaries: dict, output_dir: Path):
 
 def main():
     parser = argparse.ArgumentParser(
-        description="Extrait les résultats inspect_ai (.eval) en summary JSON/CSV."
+        description="Extrait les résultats inspect_ai (.eval) en summary.json par modèle."
     )
     parser.add_argument(
         "--inspect-dir", "-i",
