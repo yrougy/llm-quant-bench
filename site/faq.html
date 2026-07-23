@@ -135,7 +135,7 @@ footer .links { display: flex; justify-content: center; gap: 2rem; margin-bottom
       <p>The v2 suite uses three benchmarks chosen for three criteria: <strong>non-saturated</strong> on modern models, <strong>deterministic scoring</strong> (no LLM judge), and <strong>fast enough to run systematically</strong> on consumer hardware.</p>
       <p>
         <strong>BigCodeBench</strong> — diverse code generation across real-world libraries; scored by unit test execution. Much harder than HumanEval.<br>
-        <strong>MUSR</strong> — multi-step soft reasoning on long narratives (mystery, object tracking, team allocation). MCQ format. 9B models score ~60% — not saturated.<br>
+        <strong>MUSR</strong> — multi-step reasoning over long narrative context (mystery, object tracking, team allocation); mirrors what a chatbot or support assistant needs to do to track clues/entities across a conversation. MCQ format. 9B models score ~60% — not saturated.<br>
         <strong>BFCL</strong> — Berkeley Function-Calling Leaderboard; tests structured tool-call generation, scored by AST matching. Run on a fixed 1000-sample subset (seed 42), not the full benchmark.
       </p>
       <p>Earlier benchmarks (ARC-Challenge, IFEval, GSM8K, HumanEval) were dropped because they <strong>saturate on current models</strong> — scores cluster so close to the ceiling that no meaningful conclusion can be drawn about quantization impact. BBEH-mini was also tried but takes too long per model on consumer hardware to be practical for systematic quant comparisons.</p>
@@ -147,6 +147,7 @@ footer .links { display: flex; justify-content: center; gap: 2rem; margin-bottom
     <div class="inner">
       <p>The horizontal axis represents the quantization level, from most compressed (left) to least compressed (right). The vertical axis shows the benchmark score as a percentage.</p>
       <p>A steep drop towards the left means the model handles aggressive quantization poorly. A flat line indicates strong resilience.</p>
+      <p><strong>Watch out for sawtooth patterns</strong> — a quant scoring a couple of points above or below its neighbors is often just noise, not a real effect of that specific quantization scheme. Each benchmark has a margin of error (95% confidence interval, shown as ± in the data table); differences smaller than the overlap between two quants' intervals shouldn't be read as meaningful. The filled vs. hollow dots on the charts mark whether a point falls inside or outside this "tunnel" of quants that are statistically indistinguishable from each other.</p>
       <p>The table below each chart shows exact scores and the GGUF file size fetched from Hugging Face at build time.</p>
     </div>
   </details>
