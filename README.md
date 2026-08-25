@@ -158,11 +158,17 @@ Already-benchmarked quants are skipped via a `<model>_done` marker file.
 
 ## Extracting results
 
-After a run, extract:
+Drop raw `.eval` uploads (any folder structure — including re-uploads of runs already filed) into `results/inbox/`, then:
 
 ```bash
+# results/inbox/** → results/inspect_evals/{model}/ (sorted by reading the model name from each .eval)
+python scripts/import_inspect_uploads.py
+
 # inspect_ai .eval files → results/{model}/summary.json
 python scripts/extract_inspect_summary.py
+
+# or both in one step:
+python scripts/import_inspect_uploads.py --extract
 ```
 
 ## Repository structure
@@ -173,11 +179,13 @@ python scripts/extract_inspect_summary.py
 │   ├── start_bench                # Entry point: iterates over quants
 │   ├── run2.sh                    # Runs inspect_ai tasks for one model
 │   ├── extract_inspect_summary.py # .eval → results/{model}/summary.json
+│   ├── import_inspect_uploads.py  # results/inbox/** → results/inspect_evals/{model}/ (sorted, deduped)
 │   ├── list_quants.py             # Lists available quants from HuggingFace
 │   └── bench2md.py                # Unused — v1 (lm-evaluation-harness) leftover
 ├── results/
 │   ├── {model}/summary.json
-│   └── inspect_evals/{model}/     # Raw .eval files
+│   ├── inbox/                     # Dropzone for raw .eval uploads (gitignored)
+│   └── inspect_evals/{model}/     # Raw .eval files, filed flat by import_inspect_uploads.py
 ├── site/
 │   ├── models.yaml                # Editorial metadata: which models/benchmarks to show, and how
 │   ├── build.py                   # Reads results/*/summary.json + models.yaml → docs/

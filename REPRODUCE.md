@@ -92,11 +92,17 @@ Expect long runtimes on consumer hardware: a full BigCodeBench pass takes roughl
 
 ## Step 6: Extract the results
 
-Place (or symlink) the produced `.eval` files under `results/inspect_evals/{model_family}/`, then:
+If you're running on the same machine, place (or symlink) the produced `.eval` files directly under `results/inspect_evals/{model_family}/`. If you're copying results over from a remote bench machine — where `run2.sh` logs to `./logs/{model}-{quant}.gguf/`, so uploads arrive with a per-quant folder nesting, and re-uploads of already-processed runs are common — drop the raw upload (whatever its folder structure) into `results/inbox/` instead and run the importer first; it sorts each `.eval` into the right `results/inspect_evals/{model_family}/` folder by reading the model name out of the file itself, and silently drops re-uploads that are byte-identical to what's already filed:
 
 ```bash
+# results/inbox/** (any nesting) → results/inspect_evals/{model_family}/ (flat)
+python scripts/import_inspect_uploads.py
+
 # .eval files → results/{model_family}/summary.json
 python scripts/extract_inspect_summary.py
+
+# or both in one step:
+python scripts/import_inspect_uploads.py --extract
 ```
 
 ## Step 7 (optional): Rebuild the site

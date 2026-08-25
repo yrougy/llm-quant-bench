@@ -22,3 +22,8 @@ env/
 tmp/
 docs/
 docs/*
+
+# inspect_ai upload dropzone — raw drops, filed by scripts/import_inspect_uploads.py
+results/inbox/*
+!results/inbox/.gitkeep
+analysis/
