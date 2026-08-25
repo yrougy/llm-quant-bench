@@ -32,6 +32,20 @@ A more robust fix would be to strip `<think>...</think>` blocks before scoring, 
 
 **Impact:** IFEval scores with thinking enabled are systematically lower than they "should" be. If you compare our numbers to benchmarks that strip thinking tags, expect a gap.
 
+## `enable_thinking` silently ignored on Qwen3.5/3.6/3.8
+
+**The problem:** `bench_config.json` disables thinking via `--chat-template-kwargs '{"enable_thinking":false}'`, which worked for Qwen 3.6 and earlier. Qwen3.8's chat template moved to a graded `reasoning_effort` parameter (`low` / `medium` / `xhigh`, default `xhigh`) instead of the old boolean switch, and does not honor `enable_thinking` at all — it silently stays at its default. This is a known issue in llama.cpp for this model family, not something specific to our setup: [#20182](https://github.com/ggml-org/llama.cpp/issues/20182), [#20409](https://github.com/ggml-org/llama.cpp/issues/20409), [#22255](https://github.com/ggml-org/llama.cpp/issues/22255).
+
+The result was a full Qwen3.8-27B benchmark run (all quants, ~8 days of GPU time) that ran at `xhigh` reasoning effort instead of the intended off/low setting, without erroring or warning.
+
+**How we caught it:** the BFCL scores looked off compared to Qwen3.6-27B-MTP — not just noisy, but *systematically* lower on every single quant (16/16, mean −6.1pp). Checking the raw `.eval` transcripts for matched samples confirmed a real behavioral difference, not just score noise: no literal `<think>` tags leak into the visible output in either run, but Qwen3.8 generates ~41% more output tokens on average across BFCL samples, and on one matched multi-turn sample it produced 4.3x more tokens and asked clarifying questions instead of executing the tool calls that Qwen3.6 completed cleanly. This lines up with `multi_turn_composite_acc` sitting near 0 across every quant in the xhigh run. MUSR moved the *opposite* direction (better on Qwen3.8, 14/16 quants) — consistent with extra reasoning effort helping free-form narrative reasoning while hurting strict tool-call formatting, rather than a genuine model regression.
+
+Two quants (`UD-Q4_K_XL`, `UD-Q6_K_XL`) OOM'd/were cancelled mid-run and produced no data — plausibly because xhigh's longer generations push harder on VRAM/KV-cache, and these two happened to be the largest quants in the batch.
+
+**The fix:** pass `reasoning_effort` explicitly instead of `enable_thinking` — either `--reasoning-effort medium` as a llama-server startup flag, or `--chat-template-kwargs '{"reasoning_effort":"medium"}'`. Only `low` / `medium` / `xhigh` are valid for this model's template (`high` is not).
+
+**Impact:** the affected run is kept as `Qwen3.8-27B-xhigh` under `results/` and `results/inspect_evals/` for historical reference (see the README there), but is excluded from the site — the corresponding entry in `site/models.yaml` is commented out. A medium-effort rerun will replace it under the unsuffixed `Qwen3.8-27B` name once it's done. If you're benchmarking any Qwen3.5/3.6/3.8 model, verify `reasoning_effort` actually took effect (check output token counts or response latency) rather than trusting `enable_thinking`.
+
 ## MMLU evaluation time
 
 **The problem:** MMLU consists of 57 subcategories and ~14,000 questions. At batch_size=1 through a local completions endpoint, a single full MMLU run takes 6–8 hours per quant on our hardware. Testing 10+ quants means 60–80 hours of GPU time for a single model.

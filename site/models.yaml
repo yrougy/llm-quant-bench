@@ -117,22 +117,21 @@ models:
       ~65–70% everywhere else — but even that is far milder than the dense
       models' BigCodeBench cliff.
 
-  qwen38_27b:
-    name: "Qwen 3.8 27B Dense"
-    results_dir: "Qwen3.8-27B"
-    provider: "Unsloth"
-    arch: "Dense"
-    hf_repo: "unsloth/Qwen3.8-27B-GGUF"
-    compare_color: "#ef5350"
-    compare_style: "solid"
-    takeaway: >
-      Benchmarking is still in progress — only IQ4_NL, IQ4_XS and Q3_K_M have
-      been run so far, and Q3_K_M is missing BigCodeBench and MUSR (still
-      queued). Across what's available, BFCL sits between <strong>65.0% and
-      67.5%</strong> and looks essentially flat over this narrow range. The two
-      complete quants agree closely on BigCodeBench (<strong>59.1–61.0%</strong>)
-      and MUSR (<strong>73.2–74.4%</strong>). No conclusions about the
-      quantization floor yet — check back once the lower quants land.
+  # qwen38_27b_xhigh désactivé — run affecté par un bug de reasoning effort
+  # (enable_thinking non honoré, thinking resté à xhigh par défaut, voir
+  # CAVEATS.md). Données conservées dans results/ pour l'historique, mais
+  # exclues du site le temps du rerun en medium.
+  # qwen38_27b_xhigh:
+  #   name: "Qwen 3.8 27B Dense (xhigh)"
+  #   results_dir: "Qwen3.8-27B-xhigh"
+  #   provider: "Unsloth"
+  #   arch: "Dense"
+  #   hf_repo: "unsloth/Qwen3.8-27B-GGUF"
+  #   compare_color: "#ef5350"
+  #   compare_style: "solid"
+  #   takeaway: >
+  #     Excluded from the site — this run defaulted to xhigh reasoning effort
+  #     instead of the project's usual off/medium setting. See CAVEATS.md.
 
   ornith_9b:
     name: "Ornith 1.0 9B Dense"
