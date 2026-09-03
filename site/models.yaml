@@ -144,14 +144,18 @@ models:
     compare_style: "solid"
     takeaway: >
       Rerun in progress with `reasoning_effort` correctly set to medium this
-      time (the earlier xhigh run is quarantined — see CAVEATS.md). Only the
-      four most aggressive quants have landed so far: UD-IQ1_M, UD-IQ2_S,
-      UD-IQ2_XXS and UD-Q2_K_XL. BFCL is already in a reasonable
-      <strong>59.3–71.6%</strong> band. BigCodeBench and MUSR are notably
-      non-monotonic in this early batch — UD-IQ2_S actually scores lower than
-      the more aggressive UD-IQ2_XXS on both (BigCodeBench 39.7% vs 50.9%,
-      MUSR 48.8% vs 64.4%). Too early to draw conclusions; check back as more
-      quants complete.
+      time (the earlier xhigh run is quarantined — see CAVEATS.md). Seven
+      quants have landed so far, spread unevenly across the range: UD-IQ1_M,
+      UD-IQ2_XXS, UD-IQ2_S, UD-Q2_K_XL, UD-IQ3_S, Q4_0 and Q4_1. BFCL flattens
+      out fast — everything from UD-IQ2_XXS upward sits in a tight
+      <strong>67.4–72.6%</strong> band, with only UD-IQ1_M pulling down to
+      59.3%. BigCodeBench and MUSR both bottom out at UD-IQ1_M (41.8% / 36.4%)
+      and climb toward a plateau around <strong>63–65%</strong> /
+      <strong>72–74%</strong> at Q4_0/Q4_1 — but UD-IQ2_S remains a stubborn
+      outlier on both, scoring below the more aggressive UD-IQ2_XXS
+      (BigCodeBench 39.7% vs 50.9%, MUSR 48.8% vs 64.4%). Gaps remain in the
+      middle of the range (IQ2_M, IQ3_XXS, Q3_K_*, IQ4_*) and nothing above
+      Q4_1 has landed yet.
 
   ornith_9b:
     name: "Ornith 1.0 9B Dense"
