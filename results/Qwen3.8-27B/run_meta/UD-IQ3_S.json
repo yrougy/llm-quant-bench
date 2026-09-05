@@ -1,0 +1,116 @@
+{
+  "model_file": "Qwen3.8-27B-UD-IQ3_S.gguf",
+  "hf_repo": "unsloth/Qwen3.8-27B-GGUF",
+  "runs": [
+    {
+      "date": "2026-09-02T18:44:12+02:00",
+      "duration_seconds": 71919,
+      "exit_status": 0,
+      "host": {
+        "hostname": "desk",
+        "gpu": [
+          {
+            "index": "0",
+            "name": "NVIDIA GeForce RTX 3060",
+            "memory": "12288 MiB"
+          },
+          {
+            "index": "1",
+            "name": "NVIDIA GeForce RTX 3060",
+            "memory": "12288 MiB"
+          }
+        ]
+      },
+      "llama_server": {
+        "binary": "/data/tensor2/llama.cpp/build/bin/llama-server",
+        "port": 8050,
+        "host": "0.0.0.0",
+        "context_size": 32768,
+        "flash_attn": true,
+        "split_mode": "tensor",
+        "batch_size": 1024,
+        "ubatch_size": 1024,
+        "cache_type_k": "q4_0",
+        "cache_type_v": "q4_0",
+        "n_parallel": 1,
+        "sampling": {
+          "temp": 1,
+          "top_p": 0.95,
+          "top_k": 64,
+          "min_p": 0
+        },
+        "chat_template_kwargs": {
+          "reasoning_effort": "medium"
+        },
+        "mtp": {
+          "enabled": true,
+          "spec_type": "draft-mtp",
+          "spec_draft_n_max": 2,
+          "spec_draft_p_min": 0
+        },
+        "extra_args": [
+          "-lv",
+          "4"
+        ],
+        "version": "b10362-6-g8d274dd7c"
+      },
+      "inspect": {
+        "working_dir": "/data/benches/scripts/inspect_evals",
+        "done_marker_dir": "/data/benches/scripts",
+        "base_url": "http://localhost:8050/v1/",
+        "api_key": "sk1",
+        "sample_shuffle": 42,
+        "seed": 42,
+        "max_retries": 5,
+        "tasks": {
+          "bbeh_mini": {
+            "enabled": false,
+            "limit": 100,
+            "max_sandboxes": 1,
+            "max_connections": 1,
+            "time_limit": 600
+          },
+          "bigcodebench": {
+            "enabled": true,
+            "limit": 0,
+            "max_sandboxes": 2,
+            "max_connections": 2,
+            "time_limit": 300,
+            "task_args": {
+              "score_display": true
+            }
+          },
+          "musr": {
+            "enabled": true,
+            "limit": 0,
+            "max_sandboxes": 2,
+            "max_connections": 2,
+            "time_limit": 300
+          },
+          "bfcl": {
+            "enabled": true,
+            "limit": 1000,
+            "max_sandboxes": 2,
+            "max_connections": 2,
+            "time_limit": 300
+          },
+          "gpqa_diamond": {
+            "enabled": false,
+            "limit": 0,
+            "max_sandboxes": 1,
+            "max_connections": 1,
+            "time_limit": 300
+          },
+          "swe_bench": {
+            "enabled": false,
+            "limit": 100,
+            "max_sandboxes": 1,
+            "max_connections": 1,
+            "time_limit": 600
+          }
+        }
+      },
+      "config_file": "/data/benches/scripts/bench_config.json"
+    }
+  ]
+}
