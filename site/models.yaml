@@ -143,19 +143,21 @@ models:
     compare_color: "#ef5350"
     compare_style: "solid"
     takeaway: >
-      Rerun in progress with `reasoning_effort` correctly set to medium this
-      time (the earlier xhigh run is quarantined — see CAVEATS.md). Seven
-      quants have landed so far, spread unevenly across the range: UD-IQ1_M,
-      UD-IQ2_XXS, UD-IQ2_S, UD-Q2_K_XL, UD-IQ3_S, Q4_0 and Q4_1. BFCL flattens
-      out fast — everything from UD-IQ2_XXS upward sits in a tight
-      <strong>67.4–72.6%</strong> band, with only UD-IQ1_M pulling down to
-      59.3%. BigCodeBench and MUSR both bottom out at UD-IQ1_M (41.8% / 36.4%)
-      and climb toward a plateau around <strong>63–65%</strong> /
-      <strong>72–74%</strong> at Q4_0/Q4_1 — but UD-IQ2_S remains a stubborn
-      outlier on both, scoring below the more aggressive UD-IQ2_XXS
-      (BigCodeBench 39.7% vs 50.9%, MUSR 48.8% vs 64.4%). Gaps remain in the
-      middle of the range (IQ2_M, IQ3_XXS, Q3_K_*, IQ4_*) and nothing above
-      Q4_1 has landed yet.
+      Rerun complete with `reasoning_effort` correctly set to medium (the
+      earlier xhigh run is quarantined — see CAVEATS.md), with one exception:
+      UD-IQ1_S never produced a valid run — every attempt was cancelled,
+      likely too degraded at ~1.6 bpw to hold the tool-call format together.
+      BFCL flattens out fast — everything from UD-IQ2_XXS upward sits in a
+      tight <strong>67.4–72.6%</strong> band, with only UD-IQ1_M pulling down
+      to 59.3%. BigCodeBench and MUSR both bottom out hard at UD-IQ1_M
+      (41.8% / 36.4%) and plateau from UD-IQ3_XXS onward at roughly
+      <strong>61–65%</strong> / <strong>70–76%</strong> — past ~3 bpw, extra
+      bits buy almost nothing on either benchmark. Two quants break that
+      trend: UD-IQ2_S scores well below the more aggressive UD-IQ2_XXS on
+      both BigCodeBench (39.7% vs 50.9%) and MUSR (48.8% vs 64.4%), and
+      UD-Q2_K_XL dips to 61.2% on MUSR versus ~70–76% for its neighbors —
+      both look like single-run outliers rather than a real quant effect, and
+      are candidates for a rerun to confirm.
 
   ornith_9b:
     name: "Ornith 1.0 9B Dense"
