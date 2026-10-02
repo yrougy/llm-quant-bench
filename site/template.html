@@ -384,7 +384,7 @@ footer .links { display: flex; justify-content: center; gap: 2rem; margin-bottom
     </div>
     <div class="method-item">
       <h4>KV cache &amp; hardware</h4>
-      <p>All models tested with <code>q4_0</code> KV cache (K and V), reflecting real consumer usage. Hardware: <strong>2× RTX 3060 12 GB</strong> for larger models, <strong>GTX 1070 8 GB</strong> for small quants. Context: up to 32k tokens depending on model.</p>
+      <p>All models tested with <code>q4_0</code> KV cache (K and V), reflecting real consumer usage. Hardware: <strong>2× RTX 3060 12 GB</strong> for larger models, <strong>GTX 1070 8 GB</strong> for small quants. Context: up to 32k tokens depending on model. <strong>Coming next:</strong> a dedicated sweep varying KV cache quantization itself (fp16 → q4_0) across a handful of quants, to isolate its accuracy cost from weight quantization.</p>
     </div>
   </div>
   <div class="callout" style="margin-top: 2rem;">

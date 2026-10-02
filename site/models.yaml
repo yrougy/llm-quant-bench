@@ -31,6 +31,7 @@ benchmarks:
 quant_order:
   - IQ1_M
   - IQ2_XXS
+  - IQ2_S
   - IQ2_M
   - Q2_K_XL
   - IQ3_XXS
@@ -132,6 +133,31 @@ models:
   #   takeaway: >
   #     Excluded from the site — this run defaulted to xhigh reasoning effort
   #     instead of the project's usual off/medium setting. See CAVEATS.md.
+
+  qwen38_27b:
+    name: "Qwen 3.8 27B Dense"
+    results_dir: "Qwen3.8-27B"
+    provider: "Unsloth"
+    arch: "Dense"
+    hf_repo: "unsloth/Qwen3.8-27B-GGUF"
+    compare_color: "#ef5350"
+    compare_style: "solid"
+    takeaway: >
+      Rerun complete with `reasoning_effort` correctly set to medium (the
+      earlier xhigh run is quarantined — see CAVEATS.md), with one exception:
+      UD-IQ1_S never produced a valid run — every attempt was cancelled,
+      likely too degraded at ~1.6 bpw to hold the tool-call format together.
+      BFCL flattens out fast — everything from UD-IQ2_XXS upward sits in a
+      tight <strong>67.4–72.6%</strong> band, with only UD-IQ1_M pulling down
+      to 59.3%. BigCodeBench and MUSR both bottom out hard at UD-IQ1_M
+      (41.8% / 36.4%) and plateau from UD-IQ3_XXS onward at roughly
+      <strong>61–65%</strong> / <strong>70–76%</strong> — past ~3 bpw, extra
+      bits buy almost nothing on either benchmark. Two quants break that
+      trend: UD-IQ2_S scores well below the more aggressive UD-IQ2_XXS on
+      both BigCodeBench (39.7% vs 50.9%) and MUSR (48.8% vs 64.4%), and
+      UD-Q2_K_XL dips to 61.2% on MUSR versus ~70–76% for its neighbors —
+      both look like single-run outliers rather than a real quant effect, and
+      are candidates for a rerun to confirm.
 
   ornith_9b:
     name: "Ornith 1.0 9B Dense"
